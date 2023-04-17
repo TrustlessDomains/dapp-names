@@ -1,0 +1,52 @@
+{
+  "name": "dapp-names",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:js": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
+    "lint:css": "stylelint --fix **/*.{scss,css}",
+    "lint:json": "prettier --write \"./**/*.json\""
+  },
+  "dependencies": {
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.35",
+    "@types/react-dom": "18.0.11",
+    "eslint": "8.38.0",
+    "eslint-config-next": "13.3.0",
+    "next": "13.3.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-conventional": "^17.6.1",
+    "@typescript-eslint/eslint-plugin": "^5.58.0",
+    "eslint-config-prettier": "^8.8.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.1",
+    "prettier": "^2.8.7",
+    "stylelint": "^15.5.0",
+    "stylelint-a11y": "^1.2.3",
+    "stylelint-checkstyle-formatter": "^0.1.2",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-standard": "^33.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.10.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "yarn lint:js"
+    ],
+    "*.{css,scss}": [
+      "yarn lint:css"
+    ],
+    "*.json": [
+      "yarn lint:json"
+    ]
+  }
+}
