@@ -3,6 +3,7 @@ const nextConfig = {
   swcMinify: true,
   output: 'standalone',
   reactStrictMode: true,
+  productionBrowserSourceMaps: true,
   images: {
     dangerouslyAllowSVG: true,
     remotePatterns: [
