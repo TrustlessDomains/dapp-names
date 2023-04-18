@@ -11,6 +11,7 @@ import store from '@/state';
 import { Toaster } from 'react-hot-toast';
 import '@/styles/index.scss';
 import ClientOnly from '@/components/Utils/ClientOnly';
+import { CDN_URL } from '@/configs';
 
 export default function App({ Component, pageProps }: AppProps) {
   const { seoInfo = {} } = pageProps;
@@ -38,93 +39,19 @@ export default function App({ Component, pageProps }: AppProps) {
           name="viewport"
           content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
         />
-
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#fff" />
         <meta name="theme-color" content="#ffffff"></meta>
-
-        <link rel="shortcut icon" href="/images/favicon.ico" />
-        <link rel="icon" sizes="16x16 32x32 64x64" href="/images/favicon.ico" />
         <link
           rel="icon"
-          type="image/png"
-          sizes="196x196"
-          href="/images/favicon-192.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="160x160"
-          href="/images/favicon-160.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="96x96"
-          href="/images/favicon-96.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="64x64"
-          href="/images/favicon-64.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/images/favicon-32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/images/favicon-16.png"
-        />
-        <link rel="apple-touch-icon" href="/images/favicon-57.png" />
-        <link
-          rel="apple-touch-icon"
-          sizes="114x114"
-          href="/images/favicon-114.png"
+          type="image/svg"
+          sizes="16x16 32x32"
+          href={`${CDN_URL}/images/names-logo.svg`}
         />
         <link
           rel="apple-touch-icon"
-          sizes="72x72"
-          href="/images/favicon-72.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="144x144"
-          href="/images/favicon-144.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="60x60"
-          href="/images/favicon-60.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="120x120"
-          href="/images/favicon-120.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="76x76"
-          href="/images/favicon-76.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="152x152"
-          href="/images/favicon-152.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/images/favicon-180.png"
+          sizes="16x16 32x32"
+          href={`${CDN_URL}/images/names-logo.svg`}
         />
         <meta name="msapplication-TileColor" content="#FFFFFF" />
-        <meta name="msapplication-TileImage" content="images/favicon-144.png" />
-        <meta name="msapplication-config" content="/browserconfig.xml" />
       </Head>
 
       <ClientOnly>
