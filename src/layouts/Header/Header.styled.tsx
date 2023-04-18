@@ -63,10 +63,17 @@ const Wrapper = styled.div`
 
     .btnMenuMobile {
       display: none;
+
       img {
         width: 24px;
         height: 24px;
       }
+    }
+  }
+
+  .hideMobile {
+    @media screen and (max-width: 768px) {
+      display: none;
     }
   }
 
@@ -101,6 +108,26 @@ const Wrapper = styled.div`
       :last-child {
         border-bottom-left-radius: 2px;
         border-bottom-right-radius: 2px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    .rowLink {
+      display: none;
+    }
+
+    .wallet{
+      display: none;
+
+      &.mobile{
+        display: flex;
+      }
+    }
+
+    .rightContainer {
+      .btnMenuMobile {
+        display: flex;
       }
     }
   }

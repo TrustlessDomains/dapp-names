@@ -24,6 +24,8 @@ const ContentWrapper = styled.div`
   min-height: calc(100vh - 140px);
   display: flex;
   align-self: center;
+  flex-direction: column;
+  justify-content: center;
   width: 100%;
 
   > div {

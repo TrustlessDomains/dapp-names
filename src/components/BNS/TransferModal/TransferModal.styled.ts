@@ -1,6 +1,6 @@
 import { MainModal } from '@/components/Modal/MainModal.styled';
 import px2rem from '@/utils/px2rem';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
 export const StyledTransferModal = styled(MainModal)`
   * {
@@ -43,5 +43,44 @@ export const StyledTransferModal = styled(MainModal)`
       padding-top: ${px2rem(11)};
       padding-bottom: ${px2rem(11)};
     }
+  }
+`;
+
+export const WrapInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: ${px2rem(16)};
+
+  .title-input {
+    font-weight: 500;
+    font-size: ${px2rem(12)};
+    line-height: ${px2rem(20)};
+    text-transform: uppercase;
+    color: ${({ theme }: { theme: DefaultTheme }) => theme.primary['5b']};
+    margin-bottom: ${px2rem(4)};
+  }
+
+  .input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: ${px2rem(12)};
+    gap: ${px2rem(16)};
+    font-weight: 400;
+    font-size: ${px2rem(16)};
+    line-height: ${px2rem(26)};
+
+    border: 1px solid ${({ theme }: { theme: DefaultTheme }) => theme.border3};
+
+    :hover {
+      border: 1px solid ${({ theme }: { theme: DefaultTheme }) => theme.primary.brand};
+    }
+  }
+
+  .error {
+    font-weight: 400;
+    font-size: ${px2rem(14)};
+    line-height: ${px2rem(24)};
+    color: ${({ theme }: { theme: DefaultTheme }) => theme.text6};
   }
 `;

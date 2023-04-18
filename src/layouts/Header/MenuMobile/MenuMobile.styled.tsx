@@ -16,8 +16,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    padding-top: ${px2rem(24)};
-    padding-right: 11%;
+    padding: ${px2rem(24)};
   }
 
   .btnMenuMobile {

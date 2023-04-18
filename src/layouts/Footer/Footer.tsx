@@ -1,11 +1,5 @@
 import styled, { DefaultTheme } from 'styled-components';
 import px2rem from '@/utils/px2rem';
-// import IcDiscord from '@/assets/icons/ic_discord.svg';
-// import IcTwitter from '@/assets/icons/ic_twitter.svg';
-// import IcGithub from '@/assets/icons/ic_github.svg';
-import { StyledLink } from '../Header/Header.styled';
-import { ROUTE_PATH } from '@/constants/route-path';
-import { CDN_URL } from '@/configs';
 
 const Wrapper = styled.div`
   display: flex;
@@ -89,27 +83,6 @@ const Footer = ({ height }: { height: number }) => {
   return (
     <Wrapper style={{ height }}>
       <p className="text">Open-source software. Made with ❤️ on Bitcoin.</p>
-      <div className="footer-right">
-        <StyledLink active={false} href={ROUTE_PATH.FAUCET}>
-          Faucet
-          <img className="arrow-icon" src={`${CDN_URL}/icons/ic-arrow-outward.svg`} />
-        </StyledLink>
-        <a href={'https://explorer.trustless.computer'} target="_blank">
-          Explorer
-          <img className="arrow-icon" src={`${CDN_URL}/icons/ic-arrow-outward.svg`} />
-        </a>
-        <div className="buttonContainer">
-          <a href="https://github.com/trustlesscomputer" target="_blank">
-            <img alt="icon" className="icon" src={`${CDN_URL}/icons/ic_github.svg`} />
-          </a>
-          <a href="https://trustless.computer/discord" target="_blank">
-            <img alt="icon" className="icon" src={`${CDN_URL}/icons/ic_discord.svg`} />
-          </a>
-          <a href="https://twitter.com/DappsOnBitcoin" target="_blank">
-            <img alt="icon" className="icon" src={`${CDN_URL}/icons/ic_twitter.svg`} />
-          </a>
-        </div>
-      </div>
     </Wrapper>
   );
 };

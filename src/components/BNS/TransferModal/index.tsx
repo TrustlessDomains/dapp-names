@@ -1,8 +1,6 @@
 import { Modal } from 'react-bootstrap';
-import { StyledTransferModal } from './TransferModal.styled';
+import { StyledTransferModal, WrapInput } from './TransferModal.styled';
 import IconSVG from '@/components/IconSVG';
-// import IcCloseModal from '@/assets/icons/ic-close.svg';
-import { WrapInput } from '@/containers/collection/ModalEdit/ModalMint.styled';
 import { Formik } from 'formik';
 import Text from '@/components/Text';
 import { useState } from 'react';
