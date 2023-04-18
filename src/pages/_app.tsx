@@ -1,6 +1,15 @@
 import Head from 'next/head';
 import type { AppProps } from 'next/app'
 import { SEO_TITLE, SEO_DESCRIPTION, SEO_IMAGE } from '@/constants/seo';
+import Web3Provider from '@/components/Web3Provider';
+import { Provider } from 'react-redux';
+import { WalletProvider } from '@/contexts/wallet-context';
+import { AssetsProvider } from '@/contexts/assets-context';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ThemeProvider, { ThemedGlobalStyle } from '@/theme/theme';
+import store from '@/state';
+import { Toaster } from 'react-hot-toast';
+import '@/styles/index.scss';
 
 export default function App({ Component, pageProps }: AppProps) {
   const { seoInfo = {} } = pageProps;
@@ -116,7 +125,20 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="msapplication-TileImage" content="images/favicon-144.png" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
       </Head>
-      <Component {...pageProps} />
+
+      <Provider store={store}>
+        <ThemeProvider>
+          <ThemedGlobalStyle />
+          <Web3Provider>
+            <WalletProvider>
+              <AssetsProvider>
+                <Component {...pageProps} />
+              </AssetsProvider>
+              <Toaster position="top-center" reverseOrder={false} />
+            </WalletProvider>
+          </Web3Provider>
+        </ThemeProvider>
+      </Provider>
     </>
   )
 }
