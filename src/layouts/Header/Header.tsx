@@ -63,7 +63,12 @@ const Header = ({ height }: { height: number }) => {
             </div>
           </>
         ) : (
-          <ConnectWalletButton className='hideMobile' onClick={goToConnectWalletPage}>Connect wallet</ConnectWalletButton>
+          <ConnectWalletButton
+            className="hideMobile"
+            onClick={goToConnectWalletPage}
+          >
+            Connect wallet
+          </ConnectWalletButton>
         )}
         <button className="btnMenuMobile" onClick={() => setIsOpenMenu(true)}>
           <img src={`${CDN_URL}/icons/ic_hambuger.svg`} />

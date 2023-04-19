@@ -16,7 +16,10 @@ export interface IRegisterNameParams {
   name: string;
 }
 
-const useRegister: ContractOperationHook<IRegisterNameParams, Transaction | null> = () => {
+const useRegister: ContractOperationHook<
+  IRegisterNameParams,
+  Transaction | null
+> = () => {
   const { account, provider } = useWeb3React();
   const contract = useContract(BNS_CONTRACT, BNSABIJson.abi, true);
   const { btcBalance, feeRate } = useContext(AssetsContext);
@@ -43,7 +46,17 @@ const useRegister: ContractOperationHook<IRegisterNameParams, Transaction | null
             )} BTC to pay network fee.`,
           );
         }
-        const transaction = await contract.connect(provider.getSigner()).register(account, byteCode);
+        const transaction = await contract
+          .connect(provider.getSigner())
+          .register(account, byteCode);
+
+        await TC_SDK.signTransaction({
+          method: 'register',
+          hash: transaction.hash,
+          dappURL: window.location.origin,
+          isRedirect: false,
+        });
+
         return transaction;
       }
 

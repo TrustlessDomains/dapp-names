@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import px2rem from '@/utils/px2rem';
+import { DefaultTheme } from 'styled-components';
 
 export const Wrapper = styled.div`
   .header {
@@ -41,7 +42,9 @@ export const Wrapper = styled.div`
 `;
 
 export const ConnectWalletButton = styled.button`
-  background: linear-gradient(90deg, #ff8008 0%, #ffc837 100%);
+  background: ${({ theme }) => theme.btnBg};
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.text1};
+
   padding: ${px2rem(15)} ${px2rem(24)};
   /* color: #fff; */
   font-size: ${px2rem(16)};

@@ -117,10 +117,10 @@ const Wrapper = styled.div`
       display: none;
     }
 
-    .wallet{
+    .wallet {
       display: none;
 
-      &.mobile{
+      &.mobile {
         display: flex;
       }
     }
@@ -133,14 +133,21 @@ const Wrapper = styled.div`
   }
 `;
 
-const StyledLink = styled(Link) <{ active: boolean; activeColor?: string }>`
+const StyledLink = styled(Link)<{ active: boolean; activeColor?: string }>`
   cursor: pointer;
   font-weight: 400;
   font-size: ${px2rem(16)};
   line-height: ${px2rem(28)};
   text-decoration: none !important;
-  color: ${({ theme, active, activeColor }: { theme: DefaultTheme; active: boolean; activeColor?: string }) =>
-    active ? activeColor || theme.white : theme.text2};
+  color: ${({
+    theme,
+    active,
+    activeColor,
+  }: {
+    theme: DefaultTheme;
+    active: boolean;
+    activeColor?: string;
+  }) => (active ? activeColor || theme.white : theme.text2)};
   font-family: 'IBMPlexMono';
   letter-spacing: -0.02em;
 
@@ -156,7 +163,8 @@ const Anchor = styled.a<{ active: boolean }>`
   font-size: ${px2rem(16)};
   line-height: ${px2rem(28)};
   text-decoration: none !important;
-  color: ${({ theme, active }: { theme: DefaultTheme; active: boolean }) => (active ? theme.white : theme.text2)};
+  color: ${({ theme, active }: { theme: DefaultTheme; active: boolean }) =>
+    active ? theme.white : theme.text2};
   font-family: 'IBMPlexMono';
   letter-spacing: -0.02em;
 
@@ -190,7 +198,8 @@ const WalletBalance = styled.div`
     .divider {
       width: 1px;
       height: 16px;
-      background-color: ${({ theme }: { theme: DefaultTheme }) => theme.primary['5b']};
+      background-color: ${({ theme }: { theme: DefaultTheme }) =>
+        theme.primary['5b']};
     }
   }
 
@@ -222,11 +231,18 @@ const ConnectWalletButton = styled(Button)`
   font-size: ${px2rem(14)};
   line-height: ${px2rem(24)};
   font-weight: 400;
-  background: linear-gradient(90deg, #ff8008 0%, #ffc837 100%);
-
+  background: ${({ theme }: { theme: DefaultTheme }) => theme.btnBg};
+  color: ${({ theme }: { theme: DefaultTheme }) => theme.text1};
   :disabled {
     opacity: 0.8;
   }
 `;
 
-export { ConnectWalletButton, Wrapper, StyledLink, WalletBalance, WalletAdress, Anchor };
+export {
+  ConnectWalletButton,
+  Wrapper,
+  StyledLink,
+  WalletBalance,
+  WalletAdress,
+  Anchor,
+};
