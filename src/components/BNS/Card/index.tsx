@@ -1,6 +1,6 @@
 import Button from '@/components/Button';
 import { getUserSelector } from '@/state/user/selector';
-import { shortenAddress } from '@/utils';
+import { shortenAddress } from '@trustless-computer/dapp-core';
 import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import BNSTransferModal from '../TransferModal';

@@ -4,7 +4,7 @@ import { IInscription } from '@/interfaces/api/inscription';
 import { IPagingParams } from '@/interfaces/api/query';
 import { swrFetcher } from '@/utils/swr';
 import { apiClient } from '..';
-import { camelCaseKeys } from '@/utils/helpers';
+import { camelCaseKeys } from '@trustless-computer/dapp-core';
 
 const API_PATH = API_URL + '/nft-explorer';
 

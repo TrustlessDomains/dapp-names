@@ -6,7 +6,7 @@ import { ContractFactory } from 'ethers';
 import { AssetsContext } from '@/contexts/assets-context';
 import * as TC_SDK from 'trustless-computer-sdk';
 import BigNumber from 'bignumber.js';
-import { formatBTCPrice } from '@/utils/format';
+import { formatBTCPrice } from '@trustless-computer/dapp-core';
 import { TransactionEventType } from '@/enums/transaction';
 
 export interface ICreateTokenParams {

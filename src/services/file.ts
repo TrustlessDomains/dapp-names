@@ -1,5 +1,5 @@
 import { IUploadFilePayload, IUploadFileResponse } from '@/interfaces/api/files';
-import { camelCaseKeys } from '@/utils';
+import { camelCaseKeys } from '@trustless-computer/dapp-core';
 import { apiClient } from '.';
 
 const API_PATH = '/upload';

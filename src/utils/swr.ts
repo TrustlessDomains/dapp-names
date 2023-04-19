@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { BareFetcher, unstable_serialize } from 'swr';
-import { camelCaseKeys } from './helpers';
+import { camelCaseKeys } from '@trustless-computer/dapp-core';
 
 export const reorderKeys = (obj = {} as any) => {
   const newObj = {} as any;

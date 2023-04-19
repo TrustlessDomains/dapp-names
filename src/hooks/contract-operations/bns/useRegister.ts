@@ -4,12 +4,11 @@ import BNSABIJson from '@/abis/bns.json';
 import { BNS_CONTRACT } from '@/configs';
 import { useWeb3React } from '@web3-react/core';
 import { useCallback, useContext } from 'react';
-import { stringToBuffer } from '@/utils';
+import { stringToBuffer, formatBTCPrice } from '@trustless-computer/dapp-core';
 import { Transaction } from 'ethers';
 import * as TC_SDK from 'trustless-computer-sdk';
 import { AssetsContext } from '@/contexts/assets-context';
 import BigNumber from 'bignumber.js';
-import { formatBTCPrice } from '@/utils/format';
 import { TransactionEventType } from '@/enums/transaction';
 
 export interface IRegisterNameParams {

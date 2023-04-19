@@ -1,5 +1,6 @@
 import { AssetsContext } from '@/contexts/assets-context';
-import { formatBTCPrice, formatEthPrice } from '@/utils/format';
+import { formatBTCPrice } from '@trustless-computer/dapp-core';
+import { formatEthPrice } from '@/utils/format'
 import { useWeb3React } from '@web3-react/core';
 import { gsap } from 'gsap';
 import { useContext, useEffect, useRef, useState } from 'react';
