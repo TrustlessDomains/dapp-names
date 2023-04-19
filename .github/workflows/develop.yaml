@@ -15,10 +15,6 @@ jobs:
       group: build_develop
       cancel-in-progress: false
     steps:
-      - name: Add mask
-        run: |
-          echo "::add-mask::${{ secrets.GCLOUD_PROJECT_NAME }}"
-
       - uses: actions/checkout@v3
       - name: Get the tag name
         id: get_tag_name
