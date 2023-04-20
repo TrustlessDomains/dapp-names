@@ -49,13 +49,6 @@ const useRegister: ContractOperationHook<
           .connect(provider.getSigner())
           .register(account, byteCode);
 
-        await TC_SDK.signTransaction({
-          method: 'register',
-          hash: transaction.hash,
-          dappURL: window.location.origin,
-          isRedirect: false,
-        });
-
         return transaction;
       }
 
