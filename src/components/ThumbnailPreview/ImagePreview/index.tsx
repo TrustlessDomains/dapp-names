@@ -1,4 +1,4 @@
-import { convertIpfsToHttp } from '@/utils/image';
+import { convertIpfsToHttp } from '@trustless-computer/dapp-core';
 import React, { useRef } from 'react';
 import { StyledImagePreview } from './ImagePreview.styled';
 

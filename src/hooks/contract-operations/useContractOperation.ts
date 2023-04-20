@@ -1,6 +1,7 @@
 import { SupportedChainId } from '@/constants/chains';
 import { ContractOperationHook } from '@/interfaces/contract-operation';
-import { capitalizeFirstLetter, switchChain } from '@/utils';
+import { switchChain } from '@/utils';
+import { capitalizeFirstLetter } from '@trustless-computer/dapp-core';
 import { useWeb3React } from '@web3-react/core';
 import { useContext } from 'react';
 import useBitcoin from '../useBitcoin';

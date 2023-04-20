@@ -8,8 +8,7 @@ import { Transaction } from 'ethers';
 import * as TC_SDK from 'trustless-computer-sdk';
 import { AssetsContext } from '@/contexts/assets-context';
 import BigNumber from 'bignumber.js';
-import { formatBTCPrice } from '@/utils/format';
-import { stringToBuffer } from '@/utils';
+import { formatBTCPrice, stringToBuffer } from '@trustless-computer/dapp-core';
 import { TransactionEventType } from '@/enums/transaction';
 
 export interface ITransferNameParams {

@@ -2,7 +2,8 @@
 // import IcMenuClose from '@/assets/icons/ic_close_menu.svg';
 import { MENU_HEADER } from '@/constants/header';
 import { AssetsContext } from '@/contexts/assets-context';
-import { formatBTCPrice, formatEthPrice } from '@/utils/format';
+import { formatBTCPrice } from '@trustless-computer/dapp-core';
+import { formatEthPrice } from '@/utils/format'
 import React, { ForwardedRef, useContext } from 'react';
 import { ConnectWalletButton, StyledLink, WalletBalance } from '../Header.styled';
 import { Wrapper } from './MenuMobile.styled';

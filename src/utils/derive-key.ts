@@ -3,12 +3,12 @@ import { Buffer } from 'buffer';
 import * as bitcoin from 'bitcoinjs-lib';
 import BIP32Factory from 'bip32';
 import ecc from '@bitcoinerlab/secp256k1';
+import { stringToBuffer } from '@trustless-computer/dapp-core';
 import bitcoinStorage from '@/utils/bitcoin-storage';
-import { clearAccessTokenStorage } from './auth-storage';
 import { resetUser } from '@/state/user/reducer';
 import store from '@/state';
 import { ROUTE_PATH } from '@/constants/route-path';
-import { stringToBuffer } from './string';
+import { clearAccessTokenStorage } from '@/utils/auth-storage';
 
 bitcoin.initEccLib(ecc);
 const bip32 = BIP32Factory(ecc);

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getCollectionsBns } from '@/services/bns-explorer';
-import { shortenAddress } from '@/utils';
+import { shortenAddress } from '@trustless-computer/dapp-core';
 import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { Spinner } from 'react-bootstrap';

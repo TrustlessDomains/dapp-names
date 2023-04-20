@@ -5,7 +5,7 @@ import { useCallback, useContext } from 'react';
 import { AssetsContext } from '@/contexts/assets-context';
 import * as TC_SDK from 'trustless-computer-sdk';
 import BigNumber from 'bignumber.js';
-import { formatBTCPrice } from '@/utils/format';
+import { formatBTCPrice } from '@trustless-computer/dapp-core';
 import { getContract } from '@/utils';
 import { TRANSFER_TX_SIZE } from '@/configs';
 import Web3 from 'web3';

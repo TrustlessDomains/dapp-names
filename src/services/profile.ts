@@ -1,6 +1,6 @@
 import { IProfileResponse } from '@/interfaces/api/profile';
 import { apiClient } from '.';
-import { camelCaseKeys } from '@/utils/helpers';
+import { camelCaseKeys } from '@trustless-computer/dapp-core';
 import { IPagingParams } from '@/interfaces/api/query';
 import { ICreateTransactionPayload, ITransaction, IUpdateStatusTxPayload } from '@/interfaces/transaction';
 
