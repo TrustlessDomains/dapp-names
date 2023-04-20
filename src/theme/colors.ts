@@ -44,6 +44,7 @@ const commonTheme = {
     b: '#F9D03F',
   },
   red: '#FF4747',
+  btnBg: '#8759F2',
 };
 
 export const darkTheme = {

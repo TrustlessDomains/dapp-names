@@ -6,10 +6,8 @@ import { getConnection } from '@/connection';
 import { generateBitcoinTaprootKey } from '@/utils/derive-key';
 import { useSelector } from 'react-redux';
 import { getUserSelector } from '@/state/user/selector';
-import bitcoinStorage from '@/utils/bitcoin-storage';
 import { generateNonceMessage, verifyNonceMessage } from '@/services/auth';
-import { getAccessToken, setAccessToken } from '@/utils/auth-storage';
-import { clearAuthStorage } from '@/utils/auth-storage';
+import { getAccessToken, clearAccessTokenStorage, setAccessToken } from '@/utils/auth-storage';
 import Web3 from 'web3';
 import { provider } from 'web3-core';
 import { switchChain } from '@/utils';
@@ -18,6 +16,7 @@ import { getCurrentProfile } from '@/services/profile';
 import useAsyncEffect from 'use-async-effect';
 import { useRouter } from 'next/router';
 import { ROUTE_PATH } from '@/constants/route-path';
+import bitcoinStorage from '@/utils/bitcoin-storage';
 
 export interface IWalletContext {
   onDisconnect: () => Promise<void>;
@@ -49,7 +48,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
       await connector.deactivate();
     }
     await connector.resetState();
-    clearAuthStorage();
+    clearAccessTokenStorage();
     dispatch(resetUser());
   }, [connector, dispatch, user]);
 
@@ -131,7 +130,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
         dispatch(updateSelectedWallet({ wallet: 'METAMASK' }));
         await generateBitcoinKey(walletAddress);
       } catch (err: unknown) {
-        clearAuthStorage();
+        clearAccessTokenStorage();
         console.log(err);
       }
     }

@@ -92,6 +92,7 @@ export const SubmitButton = styled(Button)`
 
   p {
     padding: unset !important;
+    color: ${({ theme }: { theme: DefaultTheme }) => theme.text1};
   }
 
   :disabled {

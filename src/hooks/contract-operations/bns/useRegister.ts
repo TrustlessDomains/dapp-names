@@ -4,19 +4,21 @@ import BNSABIJson from '@/abis/bns.json';
 import { BNS_CONTRACT } from '@/configs';
 import { useWeb3React } from '@web3-react/core';
 import { useCallback, useContext } from 'react';
-import { stringToBuffer } from '@/utils';
+import { stringToBuffer, formatBTCPrice } from '@trustless-computer/dapp-core';
 import { Transaction } from 'ethers';
 import * as TC_SDK from 'trustless-computer-sdk';
 import { AssetsContext } from '@/contexts/assets-context';
 import BigNumber from 'bignumber.js';
-import { formatBTCPrice } from '@/utils/format';
 import { TransactionEventType } from '@/enums/transaction';
 
 export interface IRegisterNameParams {
   name: string;
 }
 
-const useRegister: ContractOperationHook<IRegisterNameParams, Transaction | null> = () => {
+const useRegister: ContractOperationHook<
+  IRegisterNameParams,
+  Transaction | null
+> = () => {
   const { account, provider } = useWeb3React();
   const contract = useContract(BNS_CONTRACT, BNSABIJson.abi, true);
   const { btcBalance, feeRate } = useContext(AssetsContext);
@@ -43,7 +45,10 @@ const useRegister: ContractOperationHook<IRegisterNameParams, Transaction | null
             )} BTC to pay network fee.`,
           );
         }
-        const transaction = await contract.connect(provider.getSigner()).register(account, byteCode);
+        const transaction = await contract
+          .connect(provider.getSigner())
+          .register(account, byteCode);
+
         return transaction;
       }
 

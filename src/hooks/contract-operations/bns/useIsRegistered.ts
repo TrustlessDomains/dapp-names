@@ -4,7 +4,7 @@ import BNSABIJson from '@/abis/bns.json';
 import { BNS_CONTRACT } from '@/configs';
 import { useWeb3React } from '@web3-react/core';
 import { useCallback } from 'react';
-import { stringToBuffer } from '@/utils';
+import { stringToBuffer } from '@trustless-computer/dapp-core';
 import { TransactionEventType } from '@/enums/transaction';
 
 export interface ICheckIfRegisteredNameParams {

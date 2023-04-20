@@ -6,7 +6,7 @@ import { Transaction } from 'ethers';
 import { AssetsContext } from '@/contexts/assets-context';
 import BigNumber from 'bignumber.js';
 import * as TC_SDK from 'trustless-computer-sdk';
-import { formatBTCPrice } from '@/utils/format';
+import { formatBTCPrice } from '@trustless-computer/dapp-core';
 import { getContract } from '@/utils';
 import { TransactionEventType } from '@/enums/transaction';
 

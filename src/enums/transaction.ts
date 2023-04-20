@@ -5,8 +5,8 @@ export enum TransactionStatus {
 }
 
 export enum TransactionEventType {
-  CREATE = 'create',
-  TRANSFER = 'transfer',
-  MINT = 'mint',
-  NONE = 'none',
+  CREATE = 'Create',
+  TRANSFER = 'Transfer',
+  MINT = 'Mint',
+  NONE = 'None',
 }

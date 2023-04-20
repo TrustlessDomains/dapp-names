@@ -1,5 +1,6 @@
 import { AssetsContext } from '@/contexts/assets-context';
-import { formatBTCPrice, formatEthPrice } from '@/utils/format';
+import { formatBTCPrice } from '@trustless-computer/dapp-core';
+import { formatEthPrice } from '@/utils/format'
 import { useWeb3React } from '@web3-react/core';
 import { gsap } from 'gsap';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -63,7 +64,12 @@ const Header = ({ height }: { height: number }) => {
             </div>
           </>
         ) : (
-          <ConnectWalletButton className='hideMobile' onClick={goToConnectWalletPage}>Connect wallet</ConnectWalletButton>
+          <ConnectWalletButton
+            className="hideMobile"
+            onClick={goToConnectWalletPage}
+          >
+            Connect wallet
+          </ConnectWalletButton>
         )}
         <button className="btnMenuMobile" onClick={() => setIsOpenMenu(true)}>
           <img src={`${CDN_URL}/icons/ic_hambuger.svg`} />
