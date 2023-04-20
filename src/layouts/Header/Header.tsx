@@ -13,6 +13,7 @@ import { getIsAuthenticatedSelector } from '@/state/user/selector';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { CDN_URL } from '@/configs';
 import { useRouter } from 'next/router';
+import { TC_WEB_URL } from '@/configs';
 
 const Header = ({ height }: { height: number }) => {
   const { account } = useWeb3React();
@@ -50,7 +51,7 @@ const Header = ({ height }: { height: number }) => {
       <div className="rightContainer">
         {account && isAuthenticated ? (
           <>
-            <div className="wallet" onClick={() => router.push(ROUTE_PATH.WALLET)}>
+            <div className="wallet" onClick={() => window.open(TC_WEB_URL)}>
               <WalletBalance>
                 <div className="balance">
                   <p>{formatBTCPrice(btcBalance)} BTC</p>
