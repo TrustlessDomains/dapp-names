@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import Text from '@/components/Text';
 import NamesList from './NamesList';
-import { NamesContainer, FormContainer, SubmitButton } from './Names.styled';
+import {
+  NamesContainer,
+  FormContainer,
+  SubmitButton,
+  ToastPending,
+} from './Names.styled';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
 import useIsRegistered, {
   ICheckIfRegisteredNameParams,
@@ -11,6 +16,8 @@ import useRegister, {
 } from '@/hooks/contract-operations/bns/useRegister';
 import { Transaction } from 'ethers';
 import toast from 'react-hot-toast';
+import { CDN_URL, TC_WEB_URL } from '@/configs';
+import IconSVG from '@/components/IconSVG';
 
 const Names: React.FC = () => {
   const [nameValidate, setNameValidate] = useState(false);
@@ -62,7 +69,54 @@ const Names: React.FC = () => {
       toast.success('Transaction has been created. Please wait for few minutes.');
       setValueInput('');
     } catch (err) {
-      toast.error((err as Error).message);
+      if ((err as Error).message === 'pending') {
+        toast.error(
+          (t) => (
+            <ToastPending>
+              <div>
+                You have some pending transactions. Please complete all of them
+                before moving on.
+                <br />
+                <a
+                  href={TC_WEB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="wallet-link"
+                >
+                  Go to Wallet
+                  <IconSVG
+                    src={`${CDN_URL}/icons/arrow-right.svg`}
+                    maxHeight="16"
+                    maxWidth="16"
+                    color="#898989"
+                    type="stroke"
+                  />
+                </a>
+              </div>
+              <div className="cursor-pointer" onClick={() => toast.dismiss(t.id)}>
+                <IconSVG
+                  src={`${CDN_URL}/icons/ic-close-1.svg`}
+                  maxWidth="16"
+                  maxHeight="16"
+                  color="black"
+                  type="fill"
+                />
+              </div>
+            </ToastPending>
+          ),
+          {
+            duration: 50000,
+            position: 'top-right',
+            style: {
+              maxWidth: '900px',
+              borderLeft: '4px solid #FF4747',
+            },
+          },
+        );
+      } else {
+        toast.error((err as Error).message);
+      }
+
       console.log(err);
     } finally {
       setIsProcessing(false);
