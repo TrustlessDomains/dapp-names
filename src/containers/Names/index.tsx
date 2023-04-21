@@ -66,6 +66,7 @@ const Names: React.FC = () => {
       });
       toast.success('Transaction has been created. Please wait for few minutes.');
       setValueInput('');
+      setNameValidate(false);
     } catch (err) {
       if ((err as Error).message === 'pending') {
         showError({

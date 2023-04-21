@@ -100,7 +100,7 @@ const useContractOperation = <P, R>(
         hash: Object(tx).hash,
         dappURL: window.location.origin,
         isRedirect: true,
-        target: '_self',
+        target: '_blank',
       });
 
       return tx;
