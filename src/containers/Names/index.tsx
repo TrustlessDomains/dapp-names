@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import Text from '@/components/Text';
 import NamesList from './NamesList';
-import {
-  NamesContainer,
-  FormContainer,
-  SubmitButton,
-} from './Names.styled';
+import { NamesContainer, FormContainer, SubmitButton } from './Names.styled';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
 import useIsRegistered, {
   ICheckIfRegisteredNameParams,
@@ -17,6 +13,7 @@ import { Transaction } from 'ethers';
 import toast from 'react-hot-toast';
 import { TC_WEB_URL } from '@/configs';
 import { showError } from '@/utils/toast';
+import { DappsTabs } from '@/enums/tabs';
 
 const Names: React.FC = () => {
   const [nameValidate, setNameValidate] = useState(false);
@@ -54,7 +51,7 @@ const Names: React.FC = () => {
     if (isRegistered) {
       showError({
         message: `${valueInput} has already been taken. Please choose another one.`,
-      })
+      });
       setIsProcessing(false);
       return;
     }
@@ -70,14 +67,15 @@ const Names: React.FC = () => {
     } catch (err) {
       if ((err as Error).message === 'pending') {
         showError({
-          message: 'You have some pending transactions. Please complete all of them before moving on.',
-          url: TC_WEB_URL,
-          linkText: 'Go to Wallet'
-        })
+          message:
+            'You have some pending transactions. Please complete all of them before moving on.',
+          url: `${TC_WEB_URL}/?tab=${DappsTabs.TRANSACTION}`,
+          linkText: 'Go to Wallet',
+        });
       } else {
         showError({
-          message: (err as Error).message
-        })
+          message: (err as Error).message,
+        });
       }
 
       console.log(err);
