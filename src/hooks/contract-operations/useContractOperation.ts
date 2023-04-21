@@ -121,7 +121,7 @@ const useContractOperation = <P, R>(
         hash: Object(tx).hash,
         dappURL: window.location.origin,
         isRedirect: true,
-        target: 'parent',
+        target: '_self',
       });
 
       return tx;
