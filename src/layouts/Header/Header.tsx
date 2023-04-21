@@ -6,10 +6,12 @@ import { useEffect, useRef, useState } from 'react';
 import { Wrapper } from './Header.styled';
 import MenuMobile from './MenuMobile';
 import WalletHeader from './Wallet';
+import { useWindowSize } from '@trustless-computer/dapp-core';
 
 const Header = ({ height }: { height: number }) => {
   const refMenu = useRef<HTMLDivElement | null>(null);
   const [isOpenMenu, setIsOpenMenu] = useState<boolean>(false);
+  const { mobileScreen } = useWindowSize();
 
   useEffect(() => {
     if (refMenu.current) {
@@ -29,7 +31,17 @@ const Header = ({ height }: { height: number }) => {
     <Wrapper style={{ height }}>
       <div className="indicator" />
       <Link className="logo" href={ROUTE_PATH.HOME}>
-        <img alt="logo" src={`${CDN_URL}/images/names-logo.svg`} />
+        {!mobileScreen && (
+          <img
+            src={`${CDN_URL}/images/logo-names-2.svg`}
+            alt="Trustless Market logo"
+            width={183}
+            height={40}
+          />
+        )}
+        {mobileScreen && (
+          <img alt="logo" src={`${CDN_URL}/images/names-logo.svg`} />
+        )}
       </Link>
       <MenuMobile ref={refMenu} onCloseMenu={() => setIsOpenMenu(false)} />
       <div className="rightContainer">
