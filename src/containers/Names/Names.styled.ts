@@ -1,6 +1,6 @@
+import Button from '@/components/Button';
 import px2rem from '@/utils/px2rem';
 import styled, { DefaultTheme } from 'styled-components';
-import Button from '@/components/Button';
 
 export const NamesContainer = styled.div`
   padding: ${px2rem(24)} ${px2rem(32)};
@@ -29,6 +29,10 @@ export const NamesContainer = styled.div`
 
   .button-text {
     font-family: 'IBMPlexMono' !important;
+  }
+
+  .wallet-link {
+    display: flex;
   }
 `;
 
@@ -97,5 +101,22 @@ export const SubmitButton = styled(Button)`
 
   :disabled {
     opacity: 0.5;
+  }
+`;
+
+export const ToastPending = styled.div`
+  font-size: ${px2rem(14)};
+  font-weight: 400;
+  width: ${px2rem(310)};
+  display: flex;
+  align-items: center;
+  gap: ${px2rem(22)};
+
+  .wallet-link {
+    display: flex;
+    align-items: center;
+    color: #898989;
+    font-weight: 600;
+    gap: ${px2rem(4)};
   }
 `;

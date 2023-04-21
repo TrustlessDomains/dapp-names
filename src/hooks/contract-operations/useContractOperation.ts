@@ -80,9 +80,7 @@ const useContractOperation = <P, R>(
       console.timeEnd('____unInscribedTxIDsLoadTime');
 
       if (unInscribedTxIDs.length > 0) {
-        throw Error(
-          'You have some pending transactions. Please complete all of them before moving on.',
-        );
+        throw Error('pending');
       }
 
       console.log('unInscribedTxIDs', unInscribedTxIDs);
