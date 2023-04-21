@@ -88,20 +88,6 @@ const BNSTransferModal = (props: Props) => {
                 />
                 {errors.address && touched.address && <p className="error">{errors.address}</p>}
               </WrapInput>
-              {/* <div className="divider"></div>
-              <div className="est-fee">
-                <Text size="large" fontWeight="medium" className="est-fee-text" color="bg1">
-                  Estimated fee
-                </Text>
-                <div className="est-fee-value">
-                  <div className="icCopy" onClick={() => onClickCopy(feeEsitmate)}>
-                    <IconSVG src={IcCopy} color="bg2" type="stroke"></IconSVG>
-                  </div>
-                  <Text size="large" fontWeight="medium" color="bg2">
-                    {feeEsitmate} TC
-                  </Text>
-                </div>
-              </div> */}
               <Button disabled={isProcessing} type="submit" className="transfer-btn">
                 <Text size="medium" fontWeight="medium" className="transfer-text">
                   {isProcessing ? 'Processing...' : 'Transfer'}
