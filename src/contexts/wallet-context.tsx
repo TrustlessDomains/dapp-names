@@ -3,7 +3,6 @@ import { useWeb3React } from '@web3-react/core';
 import { useAppDispatch } from '@/state/hooks';
 import { resetUser, updateEVMWallet, updateSelectedWallet, updateTaprootWallet } from '@/state/user/reducer';
 import { getConnection } from '@/connection';
-import { generateBitcoinTaprootKey } from '@/utils/derive-key';
 import { useSelector } from 'react-redux';
 import { getUserSelector } from '@/state/user/selector';
 import { generateNonceMessage, verifyNonceMessage } from '@/services/auth';
@@ -23,20 +22,18 @@ export interface IWalletContext {
   onDisconnect: () => Promise<void>;
   requestBtcAddress: () => Promise<void>;
   onConnect: () => Promise<string | null>;
-  generateBitcoinKey: (walletAddress: string) => Promise<string | null>;
 }
 
 const initialValue: IWalletContext = {
   onDisconnect: () => new Promise<void>(r => r()),
   requestBtcAddress: () => new Promise<void>(r => r()),
   onConnect: () => new Promise<null>(r => r(null)),
-  generateBitcoinKey: (_: string) => new Promise<null>(r => r(null)),
 };
 
 export const WalletContext = React.createContext<IWalletContext>(initialValue);
 
 export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsWithChildren): React.ReactElement => {
-  const { connector, provider, account, chainId } = useWeb3React();
+  const { connector, provider, chainId } = useWeb3React();
   const dispatch = useAppDispatch();
   const user = useSelector(getUserSelector);
   const router = useRouter();
@@ -88,25 +85,6 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     }
     return null;
   }, [dispatch, connector, provider]);
-
-  const generateBitcoinKey = React.useCallback(
-    async (evmWalletAddress: string) => {
-      if (evmWalletAddress) {
-        const existedWallet = bitcoinStorage.getUserTaprootAddress(evmWalletAddress);
-        if (existedWallet) {
-          dispatch(updateTaprootWallet(existedWallet));
-          return existedWallet;
-        }
-        const { address: taprootAddress } = await generateBitcoinTaprootKey(evmWalletAddress);
-        if (taprootAddress) {
-          dispatch(updateTaprootWallet(taprootAddress));
-          return taprootAddress;
-        }
-      }
-      return null;
-    },
-    [dispatch, account],
-  );
 
   const requestBtcAddress = async (): Promise<void> => {
     await TC_SDK.actionRequest({
@@ -178,10 +156,9 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     return {
       onDisconnect: disconnect,
       onConnect: connect,
-      generateBitcoinKey,
       requestBtcAddress,
     };
-  }, [disconnect, connect, generateBitcoinKey]);
+  }, [disconnect, connect, requestBtcAddress]);
 
   return <WalletContext.Provider value={contextValues}>{children}</WalletContext.Provider>;
 };
