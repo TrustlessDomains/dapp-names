@@ -127,24 +127,27 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
 
   useAsyncEffect(async () => {
     const accessToken = getAccessToken();
-    if (accessToken) {
+    if (accessToken && connector) {
       try {
         const connection = getConnection(connector);
         if (!connection) {
           throw new Error('Get connection error.');
         }
-        await connection.connector.activate();
+
+        try {
+          await connection.connector.activate();
+        } catch (err) {
+          console.log(err);
+        }
+
         if (chainId !== SupportedChainId.TRUSTLESS_COMPUTER) {
           await switchChain(SupportedChainId.TRUSTLESS_COMPUTER);
         }
-        console.log('accessToken', accessToken)
         const { walletAddress } = await getCurrentProfile();
         dispatch(updateEVMWallet(walletAddress));
         dispatch(updateSelectedWallet({ wallet: 'METAMASK' }));
-        await requestBtcAddress();
       } catch (err: unknown) {
         clearAccessTokenStorage();
-        console.log('auto connect errr')
         console.log(err);
       }
     }
