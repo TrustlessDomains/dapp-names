@@ -120,7 +120,8 @@ const useContractOperation = <P, R>(
         method: `${transactionType} ${dAppType}`,
         hash: Object(tx).hash,
         dappURL: window.location.origin,
-        isRedirect: false,
+        isRedirect: true,
+        target: 'parent',
       });
 
       return tx;
