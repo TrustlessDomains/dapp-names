@@ -17,15 +17,18 @@ import useAsyncEffect from 'use-async-effect';
 import { useRouter } from 'next/router';
 import { ROUTE_PATH } from '@/constants/route-path';
 import bitcoinStorage from '@/utils/bitcoin-storage';
+import * as TC_SDK from 'trustless-computer-sdk';
 
 export interface IWalletContext {
   onDisconnect: () => Promise<void>;
+  requestBtcAddress: () => Promise<void>;
   onConnect: () => Promise<string | null>;
   generateBitcoinKey: (walletAddress: string) => Promise<string | null>;
 }
 
 const initialValue: IWalletContext = {
   onDisconnect: () => new Promise<void>(r => r()),
+  requestBtcAddress: () => new Promise<void>(r => r()),
   onConnect: () => new Promise<null>(r => r(null)),
   generateBitcoinKey: (_: string) => new Promise<null>(r => r(null)),
 };
@@ -105,6 +108,15 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     [dispatch, account],
   );
 
+  const requestBtcAddress = async (): Promise<void> => {
+    await TC_SDK.actionRequest({
+      method: TC_SDK.RequestMethod.account,
+      redirectURL: window.location.origin + window.location.pathname,
+      target: 'parent',
+    })
+    // window.location.href = `${TC_WEB_URL}/?function=request&method=account&redirectURL=${window.location.origin + window.location.pathname}`;
+  }
+
   useEffect(() => {
     if (user?.walletAddress && !user.walletAddressBtcTaproot) {
       const taprootAddress = bitcoinStorage.getUserTaprootAddress(user?.walletAddress);
@@ -125,12 +137,14 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
         if (chainId !== SupportedChainId.TRUSTLESS_COMPUTER) {
           await switchChain(SupportedChainId.TRUSTLESS_COMPUTER);
         }
+        console.log('accessToken', accessToken)
         const { walletAddress } = await getCurrentProfile();
         dispatch(updateEVMWallet(walletAddress));
         dispatch(updateSelectedWallet({ wallet: 'METAMASK' }));
-        await generateBitcoinKey(walletAddress);
+        await requestBtcAddress();
       } catch (err: unknown) {
         clearAccessTokenStorage();
+        console.log('auto connect errr')
         console.log(err);
       }
     }
@@ -148,11 +162,21 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     }
   }, [disconnect]);
 
+  useEffect(() => {
+    const { tcAddress, tpAddress } = router.query as { tcAddress: string, tpAddress: string };
+    if (tpAddress) {
+      dispatch(updateTaprootWallet(tpAddress));
+      bitcoinStorage.setUserTaprootAddress(tcAddress, tpAddress);
+      router.push(ROUTE_PATH.HOME);
+    }
+  }, [router])
+
   const contextValues = useMemo((): IWalletContext => {
     return {
       onDisconnect: disconnect,
       onConnect: connect,
       generateBitcoinKey,
+      requestBtcAddress,
     };
   }, [disconnect, connect, generateBitcoinKey]);
 
