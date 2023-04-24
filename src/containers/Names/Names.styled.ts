@@ -39,10 +39,19 @@ export const NamesContainer = styled.div`
 export const FormContainer = styled.div`
   margin-top: ${px2rem(24)};
 
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: ${px2rem(8)};
+  }
+
   .form {
     display: flex;
     justify-content: center;
     align-content: center;
+    width: 100%;
   }
 
   .input {
@@ -65,7 +74,7 @@ export const FormContainer = styled.div`
   }
 
   .btn {
-    margin-left: ${px2rem(24)};
+    margin-left: ${px2rem(12)};
     padding: 0;
     height: ${px2rem(60)};
 

@@ -14,6 +14,7 @@ import toast from 'react-hot-toast';
 import { TC_WEB_URL } from '@/configs';
 import { showError } from '@/utils/toast';
 import { DappsTabs } from '@/enums/tabs';
+import ToolTips from '@/components/ToolTips';
 
 const Names: React.FC = () => {
   const [nameValidate, setNameValidate] = useState(false);
@@ -100,34 +101,41 @@ const Names: React.FC = () => {
       </NamesContainer>
       <FormContainer>
         <div className="block_search">
-          <div className="form">
-            <div className="input">
-              <input
-                type="text"
-                placeholder="Enter name, address"
-                value={valueInput}
-                onChange={(e) => {
-                  setValueInput(e.target.value || '');
-                  handleValidate(e.target.value);
-                }}
-              />
-            </div>
-            <div className="btn">
-              <SubmitButton
-                bg={'btnBg'}
-                disabled={!nameValidate || isProcessing}
-                onClick={handleRegistered}
-              >
-                <Text
-                  size="medium"
-                  color="bg1"
-                  className="button-text"
-                  fontWeight="medium"
+          <div className="content">
+            <div className="form">
+              <div className="input">
+                <input
+                  type="text"
+                  placeholder="Enter name, address"
+                  value={valueInput}
+                  onChange={(e) => {
+                    setValueInput(e.target.value || '');
+                    handleValidate(e.target.value);
+                  }}
+                />
+              </div>
+              <div className="btn">
+                <SubmitButton
+                  bg={'btnBg'}
+                  disabled={!nameValidate || isProcessing}
+                  onClick={handleRegistered}
                 >
-                  {isProcessing ? 'Processing...' : 'Register'}
-                </Text>
-              </SubmitButton>
+                  <Text
+                    size="medium"
+                    color="bg1"
+                    className="button-text"
+                    fontWeight="medium"
+                  >
+                    {isProcessing ? 'Processing...' : 'Register'}
+                  </Text>
+                </SubmitButton>
+              </div>
             </div>
+            <ToolTips
+              className="content"
+              name="Remember you must have BTC to create a BNS"
+              note="Go to Wallet, tap the copy icon to copy and paste your BTC address to the address field on the platform you intend to withdraw BTC from. Make a transfer from there and BTC will be credited to your wallet."
+            />
           </div>
         </div>
       </FormContainer>
