@@ -1,8 +1,6 @@
-import React, { ReactNode, useState } from "react";
-import { OverlayTrigger } from "react-bootstrap";
-import { Container, WrapTooltip } from "./ToolTips.styled";
-import Image from "next/image";
-import Icon from "./icons/question-circle.svg";
+import React, { ReactNode, useState } from 'react';
+import { OverlayTrigger } from 'react-bootstrap';
+import { Container, WrapTooltip } from './ToolTips.styled';
 
 interface IProps {
   name?: string;
@@ -15,7 +13,7 @@ export const ToolTip = ({ name, note, className }: IProps): JSX.Element => {
 
   return (
     <Container>
-      {name && <p className={className || "tooltip-name"}>{name}</p>}
+      {name && <p className={className || 'tooltip-name'}>{name}</p>}
       {note && (
         <div
           onMouseEnter={() => {
