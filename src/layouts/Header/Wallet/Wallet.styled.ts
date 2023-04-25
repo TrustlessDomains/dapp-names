@@ -9,6 +9,7 @@ export const WalletPopover = styled(Popover)`
   width: ${px2rem(200)};
   color: ${({ theme }) => theme.white};
   padding: ${px2rem(12)} ${px2rem(20)};
+  font-family: var(--bs-body-font-family);
 
   .icCopy {
     cursor: pointer;

@@ -3,10 +3,6 @@ import px2rem from '@/utils/px2rem';
 import styled, { DefaultTheme } from 'styled-components';
 
 export const StyledTransferModal = styled(MainModal)`
-  * {
-    font-family: 'Bandeins Strange Variable' !important;
-  }
-
   .label {
     font-size: ${px2rem(12)};
     font-weight: 500;
@@ -73,7 +69,8 @@ export const WrapInput = styled.div`
     border: 1px solid ${({ theme }: { theme: DefaultTheme }) => theme.border3};
 
     :hover {
-      border: 1px solid ${({ theme }: { theme: DefaultTheme }) => theme.primary.brand};
+      border: 1px solid
+        ${({ theme }: { theme: DefaultTheme }) => theme.primary.brand};
     }
   }
 

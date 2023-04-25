@@ -1,11 +1,23 @@
 import React, { useMemo } from 'react';
-import { createGlobalStyle, DefaultTheme, ThemeProvider as StyledComponentsThemeProvider } from 'styled-components';
+import {
+  createGlobalStyle,
+  DefaultTheme,
+  ThemeProvider as StyledComponentsThemeProvider,
+} from 'styled-components';
 import { getTheme } from '@/theme/index';
+
+import { Open_Sans } from 'next/font/google';
+
+const openSans = Open_Sans({ weight: '300', subsets: ['latin'] });
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const darkMode = true;
   const themeObject = useMemo(() => getTheme(darkMode), [darkMode]);
-  return <StyledComponentsThemeProvider theme={themeObject}>{children}</StyledComponentsThemeProvider>;
+  return (
+    <StyledComponentsThemeProvider theme={themeObject}>
+      {children}
+    </StyledComponentsThemeProvider>
+  );
 }
 
 export const ThemedGlobalStyle = createGlobalStyle`
@@ -14,6 +26,12 @@ export const ThemedGlobalStyle = createGlobalStyle`
     font-size: 16px;
     color: ${({ theme }: { theme: DefaultTheme }) => theme.bg1};
     background-color: ${({ theme }) => theme.bg1};
+
+    font-family: ${openSans.style.fontFamily};
+
+    body{
+      --bs-body-font-family: ${openSans.style.fontFamily};
+    }
 
     @media screen and (min-width: 1920px) {
       font-size: 18px;
@@ -26,17 +44,14 @@ export const ThemedGlobalStyle = createGlobalStyle`
 
 
     h3 {
-      font-family: 'IBMPlexMono' !important;
       font-size: ${({ theme }: { theme: DefaultTheme }) => theme.fontSizes.h3};
       line-height: ${({ theme }: { theme: DefaultTheme }) => theme.lineHeight.h3};
     }
     h5 {
-      font-family: 'IBMPlexMono' !important;
       font-size: ${({ theme }: { theme: DefaultTheme }) => theme.fontSizes.h5};
       line-height: ${({ theme }: { theme: DefaultTheme }) => theme.lineHeight.h5};
     }
     h6 {
-      font-family: 'IBMPlexMono' !important;
       font-size: ${({ theme }: { theme: DefaultTheme }) => theme.fontSizes.h6};
       line-height: ${({ theme }: { theme: DefaultTheme }) => theme.lineHeight.h6};
     }
@@ -54,9 +69,6 @@ export const ThemedGlobalStyle = createGlobalStyle`
       }
     }
 
-    button {
-      font-family: 'IBMPlexMono';
-    }
 }
 
   summary::-webkit-details-marker {

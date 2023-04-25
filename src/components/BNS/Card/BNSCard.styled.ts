@@ -29,6 +29,12 @@ export const StyledBNSCard = styled.div`
     }
   }
 
+  .card-owner {
+    display: flex;
+    align-items: center;
+    gap: ${px2rem(8)};
+  }
+
   .card-info {
     padding: 16px 24px;
     .card-title {
@@ -46,8 +52,8 @@ export const StyledBNSCard = styled.div`
     .card-subTitle {
       font-style: normal;
       font-weight: 500;
-      font-size: 18px;
-      line-height: 28px;
+      font-size: ${px2rem(14)};
+      line-height: 20px;
       color: #898989;
     }
   }

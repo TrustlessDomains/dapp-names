@@ -9,7 +9,8 @@ const Wrapper = styled.div`
   margin-top: ${px2rem(140)};
   flex-wrap: wrap;
   gap: ${px2rem(32)};
-  @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) => theme.breakpoint.md}) {
+  @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) =>
+      theme.breakpoint.md}) {
     gap: ${px2rem(16)};
   }
 
@@ -21,7 +22,8 @@ const Wrapper = styled.div`
     margin-right: ${px2rem(16)};
     color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
 
-    @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) => theme.breakpoint.md}) {
+    @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) =>
+        theme.breakpoint.md}) {
       order: 2;
       padding-bottom: ${px2rem(32)};
     }
@@ -33,7 +35,8 @@ const Wrapper = styled.div`
     flex-wrap: wrap;
     gap: ${px2rem(32)};
 
-    @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) => theme.breakpoint.md}) {
+    @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) =>
+        theme.breakpoint.md}) {
       order: 1;
     }
 
@@ -45,7 +48,6 @@ const Wrapper = styled.div`
       font-size: ${px2rem(16)};
       line-height: ${px2rem(28)};
       font-weight: 500;
-      font-family: 'IBMPlexMono';
 
       &:hover {
         opacity: 0.8;

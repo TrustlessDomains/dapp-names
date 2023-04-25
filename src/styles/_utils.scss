@@ -20,6 +20,12 @@
   margin-bottom: 1.5rem;
 }
 
-.font-ibm {
-  font-family: 'IBMPlexMono', sans-serif !important;
+.tooltip-inner {
+  font-family: var(--bs-body-font-family);
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

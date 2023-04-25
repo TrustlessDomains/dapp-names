@@ -91,7 +91,7 @@ const Names: React.FC = () => {
         <div className="upload_left">
           {/* <img src={IcImgName} alt="upload file icon" /> */}
           <div className="upload_content">
-            <h3 className="upload_title">Bitcoin Name System</h3>
+            <h1 className="upload_title">Bitcoin Name System</h1>
             <Text className="upload_desc" size="medium">
               BNS is the standard for naming on Bitcoin. No more copying and pasting
               <br></br>

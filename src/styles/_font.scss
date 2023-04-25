@@ -24,10 +24,3 @@
   font-named-instance: 'Regular';
   src: url(/fonts/JetBrainsMono-Regular.ttf);
 }
-
-@supports (font-variation-settings: normal) {
-  * {
-    font-family: 'Bandeins Strange Variable';
-    font-weight: 600;
-  }
-}

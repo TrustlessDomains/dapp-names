@@ -32,14 +32,10 @@ export const NamesContainer = styled.div`
     font-weight: 400;
     font-size: ${px2rem(20)};
     line-height: ${px2rem(30)};
-    margin-top: ${px2rem(24)};
+    margin-top: ${px2rem(16)};
 
     text-align: center;
     color: rgba(255, 255, 255, 0.8);
-  }
-
-  .button-text {
-    font-family: 'IBMPlexMono' !important;
   }
 
   .wallet-link {

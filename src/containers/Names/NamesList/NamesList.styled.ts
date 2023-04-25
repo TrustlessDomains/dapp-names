@@ -1,3 +1,4 @@
+import { px2rem } from '@trustless-computer/dapp-core';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -83,11 +84,17 @@ const Container = styled.div`
       white-space: nowrap;
     }
 
+    .card-owner {
+      display: flex;
+      align-items: center;
+      gap: ${px2rem(8)};
+    }
+
     .card-subTitle {
       font-style: normal;
       font-weight: 500;
-      font-size: 18px;
-      line-height: 28px;
+      font-size: ${px2rem(14)};
+      line-height: 20px;
       color: #898989;
     }
   }

@@ -7,6 +7,7 @@ export const Container = styled.div`
   flex-direction: row;
   gap: ${px2rem(8)};
   margin-top: ${px2rem(4)};
+  font-family: var(--bs-body-font-family);
 
   .tooltip-name {
     font-size: ${px2rem(16)};

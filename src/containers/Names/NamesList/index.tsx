@@ -7,6 +7,8 @@ import { Spinner } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { Container } from './NamesList.styled';
+import Jazzicon from 'react-jazzicon/dist/Jazzicon';
+import { jsNumberForAddress } from 'react-jazzicon';
 
 const LIMIT_PAGE = 12;
 
@@ -76,8 +78,18 @@ const NameList = () => {
                       <div className="card-content">
                         <div className="card-info">
                           <p className="card-title">{item.name}</p>
-                          <p className="card-subTitle">{shortenAddress(item.owner, 4)}</p>
-                          <p className="card-subTitle">Name #{item.id}</p>
+                          <div className="flex-between">
+                            <div className="card-owner">
+                              <Jazzicon
+                                diameter={24}
+                                seed={jsNumberForAddress(item.owner)}
+                              ></Jazzicon>
+                              <p className="card-subTitle">
+                                {shortenAddress(item.owner, 4)}
+                              </p>
+                            </div>
+                            <p className="card-subTitle">Name #{item.id}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
