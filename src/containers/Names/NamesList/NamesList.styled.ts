@@ -47,6 +47,11 @@ const Container = styled.div`
   .card-content {
     background: #2e2e2e;
     border: 1px solid transparent;
+
+    background: #17171a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+
     :hover {
       border: 1px solid #d9d9d9;
     }

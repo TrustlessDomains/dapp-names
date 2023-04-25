@@ -92,8 +92,9 @@ const Names: React.FC = () => {
           {/* <img src={IcImgName} alt="upload file icon" /> */}
           <div className="upload_content">
             <h3 className="upload_title">Bitcoin Name System</h3>
-            <Text size="medium" maxWidth="90%">
+            <Text className="upload_desc" size="medium">
               BNS is the standard for naming on Bitcoin. No more copying and pasting
+              <br></br>
               long addresses. Use your BNS name to receive any token and NFT.
             </Text>
           </div>
@@ -132,7 +133,6 @@ const Names: React.FC = () => {
               </div>
             </div>
             <ToolTips
-              className="content"
               name="Remember you must have BTC to create a BNS"
               note="Go to Wallet, tap the copy icon to copy and paste your BTC address to the address field on the platform you intend to withdraw BTC from. Make a transfer from there and BTC will be credited to your wallet."
             />

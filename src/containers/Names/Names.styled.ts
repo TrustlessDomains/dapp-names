@@ -4,7 +4,7 @@ import styled, { DefaultTheme } from 'styled-components';
 
 export const NamesContainer = styled.div`
   padding: ${px2rem(24)} ${px2rem(32)};
-  background-color: ${({ theme }: { theme: DefaultTheme }) => theme.bg2};
+  /* background-color: ${({ theme }: { theme: DefaultTheme }) => theme.bg2}; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,6 +25,17 @@ export const NamesContainer = styled.div`
 
   .upload_title {
     margin-bottom: ${px2rem(8)};
+    text-align: center;
+  }
+
+  .upload_desc {
+    font-weight: 400;
+    font-size: ${px2rem(20)};
+    line-height: ${px2rem(30)};
+    margin-top: ${px2rem(24)};
+
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
   }
 
   .button-text {

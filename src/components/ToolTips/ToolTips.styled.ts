@@ -1,6 +1,6 @@
-import px2rem from "@/utils/px2rem";
-import styled from "styled-components";
-import { Tooltip } from "react-bootstrap";
+import px2rem from '@/utils/px2rem';
+import styled from 'styled-components';
+import { Tooltip } from 'react-bootstrap';
 
 export const Container = styled.div`
   display: flex;
@@ -9,8 +9,8 @@ export const Container = styled.div`
   margin-top: ${px2rem(4)};
 
   .tooltip-name {
-    font-size: ${px2rem(18)};
-    line-height: ${px2rem(28)};
+    font-size: ${px2rem(16)};
+    line-height: ${px2rem(26)};
     color: white;
 
     font-weight: 400;

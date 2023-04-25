@@ -50,7 +50,7 @@ const commonTheme = {
 export const darkTheme = {
   ...commonTheme,
   // Background
-  bg1: commonTheme.primary.brand,
+  bg1: '#0F0F0F',
   bg2: commonTheme.primary[333],
   bg3: '#404040',
   bg4: '#cecece',
