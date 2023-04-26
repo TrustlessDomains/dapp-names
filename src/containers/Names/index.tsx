@@ -15,6 +15,8 @@ import { TC_WEB_URL } from '@/configs';
 import { showError } from '@/utils/toast';
 import { DappsTabs } from '@/enums/tabs';
 import ToolTips from '@/components/ToolTips';
+import ToastConfirm from '@/components/ToastConfirm';
+import { walletLinkSignTemplate } from '@/utils/configs';
 
 const Names: React.FC = () => {
   const [nameValidate, setNameValidate] = useState(false);
@@ -33,6 +35,8 @@ const Names: React.FC = () => {
   >({
     operation: useRegister,
   });
+
+  const { dAppType, transactionType } = useRegister();
 
   const handleValidate = (name: string) => {
     if (name) {
@@ -59,10 +63,33 @@ const Names: React.FC = () => {
 
     // Call contract
     try {
-      await registerName({
+      const tx = await registerName({
         name: valueInput,
       });
-      toast.success('Transaction has been created. Please wait for few minutes.');
+      toast.success(
+        () => (
+          <ToastConfirm
+            id="create-success"
+            url={walletLinkSignTemplate({
+              transactionType,
+              dAppType,
+              hash: Object(tx).hash,
+              isRedirect: true,
+            })}
+            message="Please go to your wallet to authorize the request for the Bitcoin transaction."
+            linkText="Go to wallet"
+          />
+        ),
+        {
+          duration: 50000,
+          position: 'top-right',
+          style: {
+            maxWidth: '900px',
+            borderLeft: '4px solid #00AA6C',
+          },
+        },
+      );
+
       setValueInput('');
       setNameValidate(false);
     } catch (err) {
