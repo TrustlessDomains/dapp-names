@@ -39,12 +39,18 @@ const Header = ({ height }: { height: number }) => {
             height={40}
           />
         )}
-        {mobileScreen && (
-          <img alt="logo" src={`${CDN_URL}/images/names-logo.svg`} />
-        )}
+        {mobileScreen && <img alt="logo" src={`${CDN_URL}/images/names-logo.svg`} />}
       </Link>
       <MenuMobile ref={refMenu} onCloseMenu={() => setIsOpenMenu(false)} />
       <div className="rightContainer">
+        <div className="external-link">
+          <Link href={'https://trustless.computer/'} target="_blank">
+            Trustless
+          </Link>
+          <Link href={'https://trustlessfaucet.io/'} target="_blank">
+            Faucet
+          </Link>
+        </div>
         <WalletHeader />
         <button className="btnMenuMobile" onClick={() => setIsOpenMenu(true)}>
           <img src={`${CDN_URL}/icons/ic_hambuger.svg`} />
