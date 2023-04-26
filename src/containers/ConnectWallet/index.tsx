@@ -60,16 +60,10 @@ const ConnectWallet: React.FC = (): React.ReactElement => {
           </div>
         </div>
         <div className="mainContent">
-          <img
-            width={80}
-            height={80}
-            className="logo"
-            src={`${CDN_URL}/icons/wallet_logo.svg`}
-            alt="trustless computer logo"
-          />
-          <h1 className="title">
-            {`A crypto wallet & gateway to decentralized applications on Bitcoin.`}
-          </h1>
+          <h1 className="title">{`Connect Wallet`}</h1>
+          <p className="desc">
+            {`Connect your wallet to access Trustless Domain on Trustless Computer.`}
+          </p>
           <ConnectWalletButton disabled={isConnecting} onClick={handleConnectWallet}>
             {isConnecting ? 'Connecting...' : 'Connect wallet'}
           </ConnectWalletButton>

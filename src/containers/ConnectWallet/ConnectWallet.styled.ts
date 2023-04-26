@@ -31,10 +31,20 @@ export const Wrapper = styled.div`
 
     .title {
       max-width: 600px;
-      font-weight: 500;
-      font-size: ${px2rem(24)};
-      line-height: ${px2rem(34)};
+      font-weight: 600;
+      font-size: ${px2rem(32)};
+      line-height: ${px2rem(42)};
       color: #fff;
+      text-align: center;
+      margin-bottom: ${px2rem(12)};
+    }
+
+    .desc {
+      max-width: 600px;
+      font-weight: 500;
+      font-size: ${px2rem(18)};
+      line-height: ${px2rem(28)};
+      color: #cecece;
       text-align: center;
       margin-bottom: ${px2rem(36)};
     }

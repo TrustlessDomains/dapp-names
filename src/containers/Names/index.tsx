@@ -161,7 +161,22 @@ const Names: React.FC = () => {
             </div>
             <ToolTips
               name="Remember you must have BTC to create a BNS"
-              note="Go to Wallet, tap the copy icon to copy and paste your BTC address to the address field on the platform you intend to withdraw BTC from. Make a transfer from there and BTC will be credited to your wallet."
+              note={
+                <p>
+                  {
+                    <a
+                      className="textLink"
+                      href="https://trustlesswallet.io/"
+                      target="_blank"
+                    >
+                      Go to Wallet
+                    </a>
+                  }
+                  , tap the copy icon to copy and paste your BTC address to the
+                  address field on the platform you intend to withdraw BTC from. Make
+                  a transfer from there and BTC will be credited to your wallet.
+                </p>
+              }
             />
           </div>
         </div>
