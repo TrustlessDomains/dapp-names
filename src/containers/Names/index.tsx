@@ -1,27 +1,28 @@
-import { useState } from 'react';
 import Text from '@/components/Text';
-import NamesList from './NamesList';
-import { NamesContainer, FormContainer, SubmitButton } from './Names.styled';
-import useContractOperation from '@/hooks/contract-operations/useContractOperation';
+import ToolTips from '@/components/ToolTips';
+import { ROUTE_PATH } from '@/constants/route-path';
 import useIsRegistered, {
   ICheckIfRegisteredNameParams,
 } from '@/hooks/contract-operations/bns/useIsRegistered';
-import useRegister, {
-  IRegisterNameParams,
-} from '@/hooks/contract-operations/bns/useRegister';
-import { Transaction } from 'ethers';
-import toast from 'react-hot-toast';
-import { TC_WEB_URL } from '@/configs';
+import useContractOperation from '@/hooks/contract-operations/useContractOperation';
+import { getIsAuthenticatedSelector } from '@/state/user/selector';
 import { showError } from '@/utils/toast';
-import { DappsTabs } from '@/enums/tabs';
-import ToolTips from '@/components/ToolTips';
-import ToastConfirm from '@/components/ToastConfirm';
-import { walletLinkSignTemplate } from '@/utils/configs';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import ModalSelectFee from './ModalSelectFee';
+import { FormContainer, NamesContainer, SubmitButton } from './Names.styled';
+import NamesList from './NamesList';
 
 const Names: React.FC = () => {
   const [nameValidate, setNameValidate] = useState(false);
   const [valueInput, setValueInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const isAuthenticated = useSelector(getIsAuthenticatedSelector);
+  const router = useRouter();
+
   const { run: checkNameIsRegistered } = useContractOperation<
     ICheckIfRegisteredNameParams,
     boolean
@@ -29,86 +30,43 @@ const Names: React.FC = () => {
     operation: useIsRegistered,
     inscribeable: false,
   });
-  const { run: registerName } = useContractOperation<
-    IRegisterNameParams,
-    Transaction | null
-  >({
-    operation: useRegister,
-  });
-
-  const { dAppType, transactionType } = useRegister();
 
   const handleValidate = (name: string) => {
     if (name) {
       setNameValidate(true);
     }
   };
-  const handleRegistered = async () => {
-    console.log(valueInput);
-    setIsProcessing(true);
 
-    // Check if name has been registered
-    const isRegistered = await checkNameIsRegistered({
-      name: valueInput,
-    });
-
-    // If name has already been taken
-    if (isRegistered) {
-      showError({
-        message: `${valueInput} has already been taken. Please choose another one.`,
+  const handleCheckNameIsRegistered = async () => {
+    try {
+      setIsProcessing(true);
+      const isRegistered = await checkNameIsRegistered({
+        name: valueInput,
       });
+
+      // If name has already been taken
+      if (isRegistered) {
+        showError({
+          message: `${valueInput} has already been taken. Please choose another one.`,
+        });
+      }
+      return isRegistered;
+    } catch (err: unknown) {
+      throw Error();
+    } finally {
       setIsProcessing(false);
+    }
+  };
+
+  const handleClickRegister = async () => {
+    if (!isAuthenticated) {
+      router.push(ROUTE_PATH.CONNECT_WALLET);
       return;
     }
 
-    // Call contract
-    try {
-      const tx = await registerName({
-        name: valueInput,
-      });
-      toast.success(
-        () => (
-          <ToastConfirm
-            id="create-success"
-            url={walletLinkSignTemplate({
-              transactionType,
-              dAppType,
-              hash: Object(tx).hash,
-              isRedirect: true,
-            })}
-            message="Please go to your wallet to authorize the request for the Bitcoin transaction."
-            linkText="Go to wallet"
-          />
-        ),
-        {
-          duration: 50000,
-          position: 'top-right',
-          style: {
-            maxWidth: '900px',
-            borderLeft: '4px solid #00AA6C',
-          },
-        },
-      );
-
-      setValueInput('');
-      setNameValidate(false);
-    } catch (err) {
-      if ((err as Error).message === 'pending') {
-        showError({
-          message:
-            'You have some pending transactions. Please complete all of them before moving on.',
-          url: `${TC_WEB_URL}/?tab=${DappsTabs.TRANSACTION}`,
-          linkText: 'Go to Wallet',
-        });
-      } else {
-        showError({
-          message: (err as Error).message,
-        });
-      }
-
-      console.log(err);
-    } finally {
-      setIsProcessing(false);
+    const nameRegistered = await handleCheckNameIsRegistered();
+    if (!nameRegistered) {
+      setShowModal(true);
     }
   };
 
@@ -146,7 +104,7 @@ const Names: React.FC = () => {
                 <SubmitButton
                   bg={'btnBg'}
                   disabled={!nameValidate || isProcessing}
-                  onClick={handleRegistered}
+                  onClick={handleClickRegister}
                 >
                   <Text
                     size="medium"
@@ -182,6 +140,13 @@ const Names: React.FC = () => {
         </div>
       </FormContainer>
       <NamesList />
+      <ModalSelectFee
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        valueInput={valueInput}
+        setValueInput={setValueInput}
+        setNameValidate={setNameValidate}
+      ></ModalSelectFee>
     </>
   );
 };

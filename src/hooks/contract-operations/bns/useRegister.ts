@@ -1,18 +1,20 @@
-import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
-import { useContract } from '@/hooks/useContract';
 import BNSABIJson from '@/abis/bns.json';
 import { BNS_CONTRACT } from '@/configs';
-import { useWeb3React } from '@web3-react/core';
-import { useCallback, useContext } from 'react';
-import { stringToBuffer, formatBTCPrice } from '@trustless-computer/dapp-core';
-import { Transaction } from 'ethers';
-import * as TC_SDK from 'trustless-computer-sdk';
+import { ERROR_CODE } from '@/constants/error';
 import { AssetsContext } from '@/contexts/assets-context';
-import BigNumber from 'bignumber.js';
 import { TransactionEventType } from '@/enums/transaction';
+import { useContract } from '@/hooks/useContract';
+import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
+import { stringToBuffer } from '@trustless-computer/dapp-core';
+import { useWeb3React } from '@web3-react/core';
+import BigNumber from 'bignumber.js';
+import { Transaction } from 'ethers';
+import { useCallback, useContext } from 'react';
+import * as TC_SDK from 'trustless-computer-sdk';
 
 export interface IRegisterNameParams {
   name: string;
+  selectFee: number;
 }
 
 const useRegister: ContractOperationHook<
@@ -26,24 +28,20 @@ const useRegister: ContractOperationHook<
   const call = useCallback(
     async (params: IRegisterNameParams): Promise<Transaction | null> => {
       if (account && provider && contract) {
-        const { name } = params;
+        const { name, selectFee } = params;
         const byteCode = stringToBuffer(name);
         console.log({
           tcTxSizeByte: Buffer.byteLength(byteCode),
-          feeRatePerByte: feeRate.fastestFee,
+          feeRatePerByte: selectFee,
         });
         const estimatedFee = TC_SDK.estimateInscribeFee({
           // TODO remove hardcode
-          tcTxSizeByte: Buffer.byteLength(byteCode) + 1000,
-          feeRatePerByte: feeRate.fastestFee,
+          tcTxSizeByte: Buffer.byteLength(byteCode),
+          feeRatePerByte: selectFee,
         });
         const balanceInBN = new BigNumber(btcBalance);
         if (balanceInBN.isLessThan(estimatedFee.totalFee)) {
-          throw Error(
-            `Your balance is insufficient. Please top up at least ${formatBTCPrice(
-              estimatedFee.totalFee.toString(),
-            )} BTC to pay network fee.`,
-          );
+          throw Error(ERROR_CODE.INSUFFICIENT_BALANCE);
         }
         const transaction = await contract
           .connect(provider.getSigner())
