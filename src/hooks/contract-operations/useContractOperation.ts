@@ -102,6 +102,7 @@ const useContractOperation = <P, R>(
         dappURL: window.location.origin,
         isRedirect: true,
         target: '_blank',
+        isMainnet: true,
       });
 
       return tx;

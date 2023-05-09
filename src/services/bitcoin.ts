@@ -22,22 +22,7 @@ export const getCollectedUTXO = async (
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const collected: any = await apiClient.get<ICollectedUTXOResp>(`${WALLETS_API_PATH}/${btcAddress}`);
-    const incomingUTXOs: TC_SDK.UTXO[] = [];
-    const pendingUTXOs = await getPendingUTXOs(btcAddress);
-    for (const utxo of pendingUTXOs) {
-      for (let index = 0; index < utxo.vout.length; index++) {
-        const vout = utxo.vout[index];
-        if (vout.scriptpubkey_address.toLowerCase() === btcAddress.toLowerCase() && vout.value) {
-          // append incoming utxo
-          incomingUTXOs.push({
-            tx_hash: utxo.txid,
-            tx_output_n: index,
-            value: new BigNumber(vout.value),
-          });
-        }
-      }
-    }
-    const tempUTXOs = [...(collected?.txrefs || []), ...incomingUTXOs];
+    const tempUTXOs = [...(collected?.txrefs || [])];
     let utxos;
     try {
       const tcClient = new TC_SDK.TcClient(TC_SDK.Mainnet, TC_NETWORK_RPC);

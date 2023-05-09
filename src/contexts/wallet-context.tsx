@@ -91,6 +91,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
       method: TC_SDK.RequestMethod.account,
       redirectURL: window.location.origin + window.location.pathname,
       target: '_self',
+      isMainnet: true,
     })
     // window.location.href = `${TC_WEB_URL}/?function=request&method=account&redirectURL=${window.location.origin + window.location.pathname}`;
   }
