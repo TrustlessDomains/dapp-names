@@ -5,10 +5,11 @@ import useIsRegistered, {
   ICheckIfRegisteredNameParams,
 } from '@/hooks/contract-operations/bns/useIsRegistered';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
+import SignEventEmitter from '@/services/events/signEvent';
 import { getIsAuthenticatedSelector } from '@/state/user/selector';
 import { showError } from '@/utils/toast';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ModalSelectFee from './ModalSelectFee';
 import { FormContainer, NamesContainer, SubmitButton } from './Names.styled';
@@ -19,6 +20,19 @@ const Names: React.FC = () => {
   const [valueInput, setValueInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  const signEvent = SignEventEmitter.getInstance();
+
+  useEffect(() => {
+    signEvent.postSignMessageData('rawabc_res');
+    signEvent.on('resultSignMessageData', (data) => {
+      console.log('sign Data', data);
+    });
+    return () => {
+      console.log('disconnect');
+      signEvent.disconnect();
+    };
+  }, [signEvent]);
 
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const router = useRouter();
