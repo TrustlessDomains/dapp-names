@@ -68,6 +68,7 @@
     "stream": "^0.0.2",
     "styled-components": "^5.3.9",
     "swr": "^2.1.2",
+    "tc-connect": "https://github.com/TrustlessComputer/tc-connect#v0.0.0.4_test",
     "trustless-computer-sdk": "https://github.com/TrustlessComputer/tc-sdk#v0.1.31",
     "typescript": "5.0.4",
     "unzipit": "^1.4.2",

@@ -5,7 +5,6 @@ import useIsRegistered, {
   ICheckIfRegisteredNameParams,
 } from '@/hooks/contract-operations/bns/useIsRegistered';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
-import SignEventEmitter from '@/services/events/signEvent';
 import { getIsAuthenticatedSelector } from '@/state/user/selector';
 import { showError } from '@/utils/toast';
 import { useRouter } from 'next/router';
@@ -14,6 +13,7 @@ import { useSelector } from 'react-redux';
 import ModalSelectFee from './ModalSelectFee';
 import { FormContainer, NamesContainer, SubmitButton } from './Names.styled';
 import NamesList from './NamesList';
+import { SignEventEmitter } from "tc-connect";
 
 const Names: React.FC = () => {
   const [nameValidate, setNameValidate] = useState(false);
