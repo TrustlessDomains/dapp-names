@@ -47,8 +47,8 @@ const Header = ({ height }: { height: number }) => {
           <Link href={'https://trustless.computer/'} target="_blank">
             Trustless
           </Link>
-          <Link href={'https://trustlessfaucet.io/'} target="_blank">
-            Faucet
+          <Link href={'https://tcgasstation.com/'} target="_blank">
+            Get TC
           </Link>
         </div>
         <WalletHeader />
