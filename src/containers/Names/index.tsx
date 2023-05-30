@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import ModalSelectFee from './ModalSelectFee';
 import { FormContainer, NamesContainer, SubmitButton } from './Names.styled';
 import NamesList from './NamesList';
+import { TC_WEB_WALLET_URL } from '@/configs';
 
 const Names: React.FC = () => {
   const user = useSelector(getUserSelector);
@@ -129,7 +130,7 @@ const Names: React.FC = () => {
                   {
                     <a
                       className="textLink"
-                      href="https://trustlesswallet.io/"
+                      href={TC_WEB_WALLET_URL}
                       target="_blank"
                     >
                       Go to Wallet
