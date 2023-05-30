@@ -1,5 +1,3 @@
-import { IMAGE_TYPE } from '@/components/NFTDisplayBox/constant';
-
 export interface IInscription {
   id: string;
   collection: string;
@@ -8,7 +6,7 @@ export interface IInscription {
   tokenUri: string;
   attributes: [{ traitType: string; value: string }];
   metadataType: string;
-  contentType: IMAGE_TYPE;
+  contentType: string;
   createdAt: string;
   updatedAt: string;
   mintedAt: number;

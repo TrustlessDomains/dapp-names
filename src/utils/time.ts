@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import isNumber from 'lodash/isNumber';
 
 const FORMAT_PATTERN = 'DD MMM hh:mm A';
@@ -7,11 +7,12 @@ interface IFormatDate {
   dateTime: number;
   formatPattern?: string;
 }
-const formatUnixDateTime = ({ dateTime, formatPattern = FORMAT_PATTERN }: IFormatDate) =>
-  moment.unix(dateTime).format(formatPattern);
+const formatUnixDateTime = ({ dateTime, formatPattern = FORMAT_PATTERN }: IFormatDate) => {
+  return dayjs.unix(dateTime).format(formatPattern);
+}
 
 const formatDateTime = ({ dateTime, formatPattern = FORMAT_PATTERN }: IFormatDate) =>
-  moment(dateTime).format(formatPattern);
+  dayjs(dateTime).format(formatPattern);
 
 const formatTimeStamp = (timestamp: number) => new Date(timestamp).toISOString().replace('T', ' ').replace('.000Z', '');
 

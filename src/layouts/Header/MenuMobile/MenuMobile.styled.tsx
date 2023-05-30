@@ -4,9 +4,13 @@ import px2rem from '@/utils/px2rem';
 const Wrapper = styled.div`
   position: fixed;
   top: 0;
-  left: 0;
-  z-index: 99;
-  transform: translateX(100%);
+  right: -100%;
+  z-index: 9999;
+  transition: all 0.3s ease;
+
+  &.show {
+    right: 0;
+  }
 
   .inner {
     background-color: ${({ theme }: { theme: DefaultTheme }) => theme.bg1};

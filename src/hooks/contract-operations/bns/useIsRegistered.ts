@@ -1,32 +1,30 @@
 import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
-import { useContract } from '@/hooks/useContract';
 import BNSABIJson from '@/abis/bns.json';
 import { BNS_CONTRACT } from '@/configs';
-import { useWeb3React } from '@web3-react/core';
 import { useCallback } from 'react';
 import { stringToBuffer } from '@trustless-computer/dapp-core';
 import { TransactionEventType } from '@/enums/transaction';
+import { getContract } from '@/utils';
+import web3Provider from '@/connection/web3-provider';
 
 export interface ICheckIfRegisteredNameParams {
   name: string;
+  owner: string;
 }
 
 const useIsRegistered: ContractOperationHook<ICheckIfRegisteredNameParams, boolean> = () => {
-  const { account, provider } = useWeb3React();
-  const contract = useContract(BNS_CONTRACT, BNSABIJson.abi, false);
+  const contract = getContract(BNS_CONTRACT, BNSABIJson.abi, web3Provider.web3);
 
   const call = useCallback(
     async (params: ICheckIfRegisteredNameParams): Promise<boolean> => {
-      if (account && provider && contract) {
-        const { name } = params;
-        const byteCode = stringToBuffer(name);
-        const transaction = await contract.connect(provider).registered(byteCode);
-        return transaction;
-      }
-
-      return false;
+      const { name, owner } = params;
+      const byteCode = stringToBuffer(name);
+      const res = await contract.registered(byteCode, {
+        from: owner
+      });
+      return res;
     },
-    [account, provider, contract],
+    [contract],
   );
 
   return {

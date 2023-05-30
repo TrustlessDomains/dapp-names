@@ -1,7 +1,7 @@
 import { px2rem } from '@trustless-computer/dapp-core';
 import styled from 'styled-components';
 
-const Container = styled.div`
+export const Container = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -100,4 +100,17 @@ const Container = styled.div`
   }
 `;
 
-export { Container };
+export const NameListLayout = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  gap: ${px2rem(24)};
+
+  @media screen and (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+`;

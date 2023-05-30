@@ -1,58 +1,51 @@
 import BNSABIJson from '@/abis/bns.json';
 import { BNS_CONTRACT } from '@/configs';
-import { ERROR_CODE } from '@/constants/error';
-import { AssetsContext } from '@/contexts/assets-context';
 import { TransactionEventType } from '@/enums/transaction';
-import { useContract } from '@/hooks/useContract';
 import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
 import { stringToBuffer } from '@trustless-computer/dapp-core';
-import { useWeb3React } from '@web3-react/core';
-import BigNumber from 'bignumber.js';
-import { Transaction } from 'ethers';
-import { useCallback, useContext } from 'react';
-import * as TC_SDK from 'trustless-computer-sdk';
+import { useCallback } from 'react';
+import { IRequestSignResp } from 'tc-connect';
+import logger from '@/services/logger';
+import { ethers } from "ethers";
+import connector from '@/connectors/tc-connector';
 
 export interface IRegisterNameParams {
   name: string;
-  selectFee: number;
+  owner: string;
 }
 
 const useRegister: ContractOperationHook<
   IRegisterNameParams,
-  Transaction | null
+  IRequestSignResp | null
 > = () => {
-  const { account, provider } = useWeb3React();
-  const contract = useContract(BNS_CONTRACT, BNSABIJson.abi, true);
-  const { btcBalance, feeRate } = useContext(AssetsContext);
 
   const call = useCallback(
-    async (params: IRegisterNameParams): Promise<Transaction | null> => {
-      if (account && provider && contract) {
-        const { name, selectFee } = params;
-        const byteCode = stringToBuffer(name);
-        console.log({
-          tcTxSizeByte: Buffer.byteLength(byteCode),
-          feeRatePerByte: selectFee,
-        });
-        const estimatedFee = TC_SDK.estimateInscribeFee({
-          // TODO remove hardcode
-          tcTxSizeByte: Buffer.byteLength(byteCode),
-          feeRatePerByte: selectFee,
-        });
-        const balanceInBN = new BigNumber(btcBalance);
-        if (balanceInBN.isLessThan(estimatedFee.totalFee)) {
-          throw Error(ERROR_CODE.INSUFFICIENT_BALANCE);
-        }
-        const transaction = await contract
-          .connect(provider.getSigner())
-          .register(account, byteCode);
+    async (params: IRegisterNameParams): Promise<IRequestSignResp | null> => {
+      const { name, owner } = params;
+      const byteCode = stringToBuffer(name);
+      const ContractInterface = new ethers.Interface(BNSABIJson.abi);
+      const encodeAbi = ContractInterface.encodeFunctionData("register", [
+        owner,
+        byteCode
+      ]);
 
-        return transaction;
-      }
+      const response = await connector.requestSign({
+        target: "_blank",
+        calldata: encodeAbi,
+        to: BNS_CONTRACT,
+        value: "",
+        redirectURL: window.location.href,
+        isInscribe: true,
+        gasPrice: undefined,
+        gasLimit: undefined,
+        functionType: 'Register',
+        functionName: 'register(address,bytes)',
+      });
 
-      return null;
+      logger.debug(response);
+      return response;
     },
-    [account, provider, contract, btcBalance, feeRate],
+    [],
   );
 
   return {
