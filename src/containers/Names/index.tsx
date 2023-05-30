@@ -5,8 +5,8 @@ import useIsRegistered, {
   ICheckIfRegisteredNameParams,
 } from '@/hooks/contract-operations/bns/useIsRegistered';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
-import { getIsAuthenticatedSelector } from '@/state/user/selector';
-import { showError } from '@/utils/toast';
+import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
+import { showToastError } from '@/utils/toast';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -15,11 +15,11 @@ import { FormContainer, NamesContainer, SubmitButton } from './Names.styled';
 import NamesList from './NamesList';
 
 const Names: React.FC = () => {
+  const user = useSelector(getUserSelector);
   const [nameValidate, setNameValidate] = useState(false);
   const [valueInput, setValueInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const router = useRouter();
 
@@ -28,7 +28,6 @@ const Names: React.FC = () => {
     boolean
   >({
     operation: useIsRegistered,
-    inscribeable: false,
   });
 
   const handleValidate = (name: string) => {
@@ -38,15 +37,21 @@ const Names: React.FC = () => {
   };
 
   const handleCheckNameIsRegistered = async () => {
+    if (!user.tcAddress) {
+      router.push(ROUTE_PATH.CONNECT_WALLET);
+      return;
+    }
+
     try {
       setIsProcessing(true);
       const isRegistered = await checkNameIsRegistered({
         name: valueInput,
+        owner: user.tcAddress
       });
 
       // If name has already been taken
       if (isRegistered) {
-        showError({
+        showToastError({
           message: `${valueInput} has already been taken. Please choose another one.`,
         });
       }

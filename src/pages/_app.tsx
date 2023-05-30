@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import type { AppProps } from 'next/app'
 import { SEO_TITLE, SEO_DESCRIPTION, SEO_IMAGE } from '@/constants/seo';
-import Web3Provider from '@/components/Web3Provider';
 import { Provider } from 'react-redux';
 import { WalletProvider } from '@/contexts/wallet-context';
 import { AssetsProvider } from '@/contexts/assets-context';
@@ -12,10 +11,17 @@ import { Toaster } from 'react-hot-toast';
 import '@/styles/index.scss';
 import ClientOnly from '@/components/Utils/ClientOnly';
 import { CDN_URL } from '@/configs';
+import { MempoolProvider } from '@/contexts/mempool-context';
+import { useEffect } from 'react';
+import { setupSDK } from '@/lib/sdk';
 
 export default function App({ Component, pageProps }: AppProps) {
   const { seoInfo = {} } = pageProps;
   const { title, description, image } = seoInfo;
+
+  useEffect(() => {
+    setupSDK();
+  }, []);
 
   return (
     <>
@@ -58,14 +64,14 @@ export default function App({ Component, pageProps }: AppProps) {
         <Provider store={store}>
           <ThemeProvider>
             <ThemedGlobalStyle />
-            <Web3Provider>
-              <WalletProvider>
-                <AssetsProvider>
+            <WalletProvider>
+              <AssetsProvider>
+                <MempoolProvider>
                   <Component {...pageProps} />
-                </AssetsProvider>
-                <Toaster position="top-center" reverseOrder={false} />
-              </WalletProvider>
-            </Web3Provider>
+                </MempoolProvider>
+              </AssetsProvider>
+              <Toaster position="top-center" reverseOrder={false} />
+            </WalletProvider>
           </ThemeProvider>
         </Provider>
       </ClientOnly>

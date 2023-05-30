@@ -65,9 +65,13 @@ export const FormContainer = styled.div`
     display: flex;
     justify-content: center;
     align-content: center;
-    max-width: ${px2rem(550)};
     width: 100%;
     height: ${px2rem(60)};
+    max-width: ${px2rem(550)};
+    
+    @media screen and (max-width: 768px) {
+      max-width: 100%;
+    }
 
     input {
       border: 1px solid #cecece;

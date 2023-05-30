@@ -1,60 +1,58 @@
 import { ContractOperationHook, DAppType } from '@/interfaces/contract-operation';
-import { useContract } from '@/hooks/useContract';
 import BNSABIJson from '@/abis/bns.json';
-import { BNS_CONTRACT, TRANSFER_TX_SIZE } from '@/configs';
-import { useWeb3React } from '@web3-react/core';
-import { useCallback, useContext } from 'react';
-import { Transaction } from 'ethers';
-import * as TC_SDK from 'trustless-computer-sdk';
-import { AssetsContext } from '@/contexts/assets-context';
-import BigNumber from 'bignumber.js';
-import { formatBTCPrice, stringToBuffer } from '@trustless-computer/dapp-core';
+import { BNS_CONTRACT } from '@/configs';
+import { useCallback } from 'react';
+import { stringToBuffer } from '@trustless-computer/dapp-core';
 import { TransactionEventType } from '@/enums/transaction';
+import { ethers } from "ethers";
+import { IRequestSignResp } from 'tc-connect';
+import connector from '@/connectors/tc-connector';
+import logger from '@/services/logger';
+import web3Provider from '@/connection/web3-provider';
+import { getContract } from '@/utils';
 
 export interface ITransferNameParams {
   to: string;
   name: string;
+  from: string;
 }
 
-const useTransferName: ContractOperationHook<ITransferNameParams, Transaction | null> = () => {
-  const { account, provider } = useWeb3React();
-  const contract = useContract(BNS_CONTRACT, BNSABIJson.abi, true);
-  const { btcBalance, feeRate } = useContext(AssetsContext);
+const useTransferName: ContractOperationHook<ITransferNameParams, IRequestSignResp | null> = () => {
+  const contract = getContract(BNS_CONTRACT, BNSABIJson.abi, web3Provider.web3);
 
   const call = useCallback(
-    async (params: ITransferNameParams): Promise<Transaction | null> => {
-      if (account && provider && contract) {
-        const { to, name } = params;
-        console.log({
-          tcTxSizeByte: TRANSFER_TX_SIZE,
-          feeRatePerByte: feeRate.fastestFee,
-        });
-        const estimatedFee = TC_SDK.estimateInscribeFee({
-          tcTxSizeByte: TRANSFER_TX_SIZE,
-          feeRatePerByte: feeRate.fastestFee,
-        });
-        const balanceInBN = new BigNumber(btcBalance);
-        if (balanceInBN.isLessThan(estimatedFee.totalFee)) {
-          throw Error(
-            `Your balance is insufficient. Please top up at least ${formatBTCPrice(
-              estimatedFee.totalFee.toString(),
-            )} BTC to pay network fee.`,
-          );
-        }
+    async (params: ITransferNameParams): Promise<IRequestSignResp | null> => {
+      const { from, to, name } = params;
 
-        const byteCode = stringToBuffer(name);
+      const byteCode = stringToBuffer(name);
+      const tokenId = await await contract.registry(byteCode, {
+        from: from
+      });
 
-        // Map name to token ID
-        const tokenId = await contract.connect(provider).registry(byteCode);
+      const ContractInterface = new ethers.Interface(BNSABIJson.abi);
+      const encodeAbi = ContractInterface.encodeFunctionData("transferFrom", [
+        from,
+        to,
+        tokenId
+      ]);
 
-        // Transfer
-        const transaction = await contract.connect(provider.getSigner()).transferFrom(account, to, tokenId);
-        return transaction;
-      }
+      const response = await connector.requestSign({
+        target: "_blank",
+        calldata: encodeAbi,
+        to: BNS_CONTRACT,
+        value: "",
+        redirectURL: window.location.href,
+        isInscribe: true,
+        gasPrice: undefined,
+        gasLimit: undefined,
+        functionType: 'Transfer From',
+        functionName: 'transferFrom(address,address,uint256)',
+      });
 
-      return null;
+      logger.debug(response);
+      return response;
     },
-    [account, provider, contract, btcBalance, feeRate],
+    [],
   );
 
   return {

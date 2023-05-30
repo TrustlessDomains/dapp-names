@@ -40,11 +40,6 @@ export const StyledModalSelectFee = styled(MainModal)`
       border-color: #8759f2;
       border-width: 2px;
     }
-
-    &:hover {
-      cursor: pointer;
-      opacity: 1;
-    }
   }
 
   .ext-price {
@@ -57,8 +52,8 @@ export const StyledModalSelectFee = styled(MainModal)`
 
   .confirm-btn {
     width: 100%;
-    padding-top: ${px2rem(19)};
-    padding-bottom: ${px2rem(19)};
+    padding-top: ${px2rem(12)};
+    padding-bottom: ${px2rem(12)};
     border-radius: 8px !important;
     background-color: #8759f2;
   }

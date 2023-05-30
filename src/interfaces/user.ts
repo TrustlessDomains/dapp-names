@@ -1,6 +1,8 @@
 export type User = {
-  name: string;
-  id: string;
-  walletAddressBtcTaproot: string;
-  walletAddress: string;
+  tcAddress: string;
+  btcAddress: string;
+  accounts: Array<{
+    tcAddress: string;
+    btcAddress: string;
+  }>;
 };

@@ -1,10 +1,10 @@
 import { APP_ENV } from '@/configs';
-import { ApplicationEnvironment } from '@/enums/configs';
+import { AppEnv } from '@/enums/configs';
 
 export const isProduction = (): boolean => {
-  return APP_ENV === ApplicationEnvironment.PRODUCTION;
+  return APP_ENV === AppEnv.PRODUCTION;
 };
 
 export const isDevelop = (): boolean => {
-  return APP_ENV === ApplicationEnvironment.DEVELOP;
+  return APP_ENV === AppEnv.DEVELOP;
 };

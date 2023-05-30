@@ -5,8 +5,3 @@ export interface SerializedToken {
   symbol?: string;
   name?: string;
 }
-
-export interface SerializedPair {
-  token0: SerializedToken;
-  token1: SerializedToken;
-}
