@@ -37,7 +37,7 @@ const Header = ({ height }: { height: number }) => {
         </div>
         <WalletHeader />
         <button className="btnMenuMobile" onClick={() => setIsOpenMenu(true)}>
-          <img src={`${CDN_URL}/icons/ic_hambuger.svg`} />
+          <img src={`${CDN_URL}/icons/ic_hambuger.svg`} alt='ic_hambuger' />
         </button>
       </div>
     </Wrapper>
