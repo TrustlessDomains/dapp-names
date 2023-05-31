@@ -13,18 +13,18 @@ export interface ICheckIfRegisteredNameParams {
 }
 
 const useIsRegistered: ContractOperationHook<ICheckIfRegisteredNameParams, boolean> = () => {
-  const contract = getContract(BNS_CONTRACT, BNSABIJson.abi, web3Provider.web3);
 
   const call = useCallback(
     async (params: ICheckIfRegisteredNameParams): Promise<boolean> => {
       const { name, owner } = params;
+      const contract = getContract(BNS_CONTRACT, BNSABIJson.abi, web3Provider.web3);
       const byteCode = stringToBuffer(name);
       const res = await contract.registered(byteCode, {
         from: owner
       });
       return res;
     },
-    [contract],
+    [],
   );
 
   return {

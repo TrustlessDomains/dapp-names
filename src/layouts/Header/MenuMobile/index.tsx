@@ -28,7 +28,7 @@ const MenuMobile = ({ onCloseMenu, isOpen }: IProp) => {
     <Wrapper className={isOpen ? 'show' : ''}>
       <div className="inner">
         <button className="btnMenuMobile" onClick={onCloseMenu}>
-          <img src={`${CDN_URL}/icons/ic_close_menu.svg`} />
+          <img src={`${CDN_URL}/icons/ic_close_menu.svg`} alt='ic_close_menu' />
         </button>
         <StyledLink href={'https://trustless.computer/'} target="_blank">
           Trustless

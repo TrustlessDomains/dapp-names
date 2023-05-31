@@ -18,12 +18,10 @@ export interface ITransferNameParams {
 }
 
 const useTransferName: ContractOperationHook<ITransferNameParams, IRequestSignResp | null> = () => {
-  const contract = getContract(BNS_CONTRACT, BNSABIJson.abi, web3Provider.web3);
-
   const call = useCallback(
     async (params: ITransferNameParams): Promise<IRequestSignResp | null> => {
       const { from, to, name } = params;
-
+      const contract = getContract(BNS_CONTRACT, BNSABIJson.abi, web3Provider.web3);
       const byteCode = stringToBuffer(name);
       const tokenId = await await contract.registry(byteCode, {
         from: from
