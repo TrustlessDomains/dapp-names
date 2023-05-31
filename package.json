@@ -43,7 +43,7 @@
     "redux": "^4.2.1",
     "sass": "^1.62.0",
     "styled-components": "^5.3.9",
-    "tc-connect": "https://github.com/TrustlessComputer/tc-connect#v0.0.0.61_test",
+    "tc-connect": "https://github.com/TrustlessComputer/tc-connect#v0.0.0.68_test",
     "trustless-computer-sdk": "https://github.com/TrustlessComputer/tc-sdk#v0.1.36.14_test",
     "typescript": "5.0.4",
     "use-async-effect": "^2.2.7"
