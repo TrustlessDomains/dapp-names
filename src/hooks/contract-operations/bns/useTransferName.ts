@@ -37,6 +37,7 @@ const useTransferName: ContractOperationHook<ITransferNameParams, IRequestSignRe
       ]);
 
       const response = await connector.requestSign({
+        from: from,
         target: "_blank",
         calldata: encodeAbi,
         to: BNS_CONTRACT,
