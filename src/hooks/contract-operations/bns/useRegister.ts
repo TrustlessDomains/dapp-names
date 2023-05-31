@@ -30,6 +30,7 @@ const useRegister: ContractOperationHook<
       ]);
 
       const response = await connector.requestSign({
+        from: owner,
         target: "_blank",
         calldata: encodeAbi,
         to: BNS_CONTRACT,
