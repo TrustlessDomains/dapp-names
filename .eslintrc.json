@@ -1,5 +1,7 @@
 {
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "extends": [
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
@@ -15,7 +17,6 @@
       }
     ],
     "@typescript-eslint/no-explicit-any": "error",
-    "@next/next/no-img-element": "off",
-    "no-console": "error"
+    "@next/next/no-img-element": "off"
   }
 }

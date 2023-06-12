@@ -5,7 +5,7 @@ export interface IInscriptionByOutput {
   [key: string]: TC_SDK.Inscription[];
 }
 
-export type IBlockStreamTxs = IPendingUTXO
+export type IBlockStreamTxs = IPendingUTXO;
 
 export interface ICollectedUTXOResp {
   availableUTXOs: TC_SDK.UTXO[];
@@ -18,6 +18,12 @@ export enum FeeRateName {
   fastestFee = 'fastestFee',
   halfHourFee = 'halfHourFee',
   hourFee = 'hourFee',
+}
+
+export interface IFeeRate {
+  [FeeRateName.fastestFee]: number;
+  [FeeRateName.halfHourFee]: number;
+  [FeeRateName.hourFee]: number;
 }
 
 interface Vin {

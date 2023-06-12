@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useCallback, useEffect, useMemo } from 'react';
-import { getCollectedUTXO } from '@/services/bitcoin';
-import { ICollectedUTXOResp } from '@/interfaces/api/bitcoin';
+import { getCollectedUTXO, getFeeRate } from '@/services/bitcoin';
+import { ICollectedUTXOResp, IFeeRate } from '@/interfaces/api/bitcoin';
 import { useSelector } from 'react-redux';
 import { getUserSelector } from '@/state/user/selector';
 import web3Provider from '@/connection/web3-provider';
@@ -8,19 +8,50 @@ import web3Provider from '@/connection/web3-provider';
 export interface IAssetsContext {
   tcBalance: string;
   btcBalance: string;
+  feeRate: IFeeRate;
+  fetchFeeRate: () => Promise<IFeeRate | undefined>;
 }
 
 const initialValue: IAssetsContext = {
   tcBalance: '0',
   btcBalance: '0',
+  feeRate: {
+    fastestFee: 25,
+    halfHourFee: 20,
+    hourFee: 15,
+  },
+  fetchFeeRate: () => new Promise<IFeeRate | undefined>(() => null),
 };
 
 export const AssetsContext = React.createContext<IAssetsContext>(initialValue);
 
-export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsWithChildren): React.ReactElement => {
+export const AssetsProvider: React.FC<PropsWithChildren> = ({
+  children,
+}: PropsWithChildren): React.ReactElement => {
   const userInfo = useSelector(getUserSelector);
   const [tcBalance, setTCBalance] = React.useState<string>('0');
   const [assets, setAssets] = React.useState<ICollectedUTXOResp | undefined>();
+  // Fee rate
+  const [feeRate, setFeeRate] = React.useState<IFeeRate>({
+    fastestFee: 25,
+    halfHourFee: 20,
+    hourFee: 15,
+  });
+
+  const fetchFeeRate = async () => {
+    let _feeRate = {
+      fastestFee: 25,
+      halfHourFee: 20,
+      hourFee: 15,
+    };
+    try {
+      _feeRate = await getFeeRate();
+      setFeeRate(_feeRate);
+    } catch (error) {
+      setFeeRate(_feeRate);
+    }
+    return _feeRate;
+  };
 
   const fetchTCBalance = useCallback(async () => {
     if (!userInfo.tcAddress) {
@@ -36,7 +67,9 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     }
   }, [userInfo]);
 
-  const fetchBtcBalance = useCallback(async (): Promise<ICollectedUTXOResp | undefined> => {
+  const fetchBtcBalance = useCallback(async (): Promise<
+    ICollectedUTXOResp | undefined
+  > => {
     if (!userInfo?.tcAddress || !userInfo.btcAddress) {
       setAssets(undefined);
       return undefined;
@@ -52,11 +85,11 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     }
   }, [userInfo]);
 
-
   const fetchUserAssets = useCallback(async () => {
     fetchTCBalance();
     fetchBtcBalance();
-  }, [fetchTCBalance, fetchBtcBalance])
+    fetchFeeRate();
+  }, []);
 
   const btcBalance = React.useMemo(() => {
     return assets ? assets?.availableBalance.toString() : '0';
@@ -76,17 +109,13 @@ export const AssetsProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
 
   const contextValues = useMemo((): IAssetsContext => {
     return {
+      feeRate,
       tcBalance,
       btcBalance,
     };
-  }, [
-    tcBalance,
-    btcBalance
-  ]);
+  }, [tcBalance, btcBalance, feeRate]);
 
   return (
-    <AssetsContext.Provider value={contextValues}>
-      {children}
-    </AssetsContext.Provider>
+    <AssetsContext.Provider value={contextValues}>{children}</AssetsContext.Provider>
   );
 };

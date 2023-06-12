@@ -1,7 +1,4 @@
-import {
-  FeeRateName,
-  ICollectedUTXOResp,
-} from '@/interfaces/api/bitcoin';
+import { FeeRateName, ICollectedUTXOResp } from '@/interfaces/api/bitcoin';
 import { IMempoolFeeRate } from '@/interfaces/mempool';
 import { camelCaseKeys } from '@/utils/helpers';
 import * as TC_SDK from 'trustless-computer-sdk';

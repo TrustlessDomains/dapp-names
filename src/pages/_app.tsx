@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import type { AppProps } from 'next/app'
+import type { AppProps } from 'next/app';
 import { SEO_TITLE, SEO_DESCRIPTION, SEO_IMAGE } from '@/constants/seo';
 import { Provider } from 'react-redux';
 import { WalletProvider } from '@/contexts/wallet-context';
@@ -14,6 +14,7 @@ import { CDN_URL } from '@/configs';
 import { MempoolProvider } from '@/contexts/mempool-context';
 import { useEffect } from 'react';
 import { setupSDK } from '@/lib/sdk';
+import Web3Provider from '@/components/Web3Provider';
 
 export default function App({ Component, pageProps }: AppProps) {
   const { seoInfo = {} } = pageProps;
@@ -28,18 +29,12 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>{title ?? SEO_TITLE}</title>
         <meta property="og:title" content={title ?? SEO_TITLE} />
-        <meta
-          property="og:description"
-          content={description ?? SEO_DESCRIPTION}
-        />
+        <meta property="og:description" content={description ?? SEO_DESCRIPTION} />
         <meta property="og:image" content={image ?? SEO_IMAGE} />
         <meta property="og:type" content="website" />
         <meta property="twitter:title" content={title ?? SEO_TITLE} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:description"
-          content={description ?? SEO_DESCRIPTION}
-        />
+        <meta name="twitter:description" content={description ?? SEO_DESCRIPTION} />
         <meta name="twitter:image" content={image ?? SEO_IMAGE} />
         <meta
           name="viewport"
@@ -64,17 +59,19 @@ export default function App({ Component, pageProps }: AppProps) {
         <Provider store={store}>
           <ThemeProvider>
             <ThemedGlobalStyle />
-            <WalletProvider>
-              <AssetsProvider>
-                <MempoolProvider>
-                  <Component {...pageProps} />
-                </MempoolProvider>
-              </AssetsProvider>
-              <Toaster position="top-center" reverseOrder={false} />
-            </WalletProvider>
+            <Web3Provider>
+              <WalletProvider>
+                <AssetsProvider>
+                  <MempoolProvider>
+                    <Component {...pageProps} />
+                  </MempoolProvider>
+                </AssetsProvider>
+                <Toaster position="top-center" reverseOrder={false} />
+              </WalletProvider>
+            </Web3Provider>
           </ThemeProvider>
         </Provider>
       </ClientOnly>
     </>
-  )
+  );
 }

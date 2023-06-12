@@ -1,5 +1,5 @@
 import IconSVG from '@/components/IconSVG';
-import { CDN_URL, TC_WEB_WALLET_URL } from '@/configs';
+import { CDN_URL, TC_WEB_WALLET_URL, TC_DOMAIN_URL } from '@/configs';
 import { AssetsContext } from '@/contexts/assets-context';
 import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
 import { formatEthPrice } from '@/utils/format';
@@ -75,15 +75,12 @@ const WalletHeader = () => {
             {formatLongAddress(user?.tcAddress || '')}
           </Text>
         </div>
-        <div
-          className="icCopy"
-          onClick={() => onClickCopy(user?.tcAddress || '')}
-        >
+        <div className="icCopy" onClick={() => onClickCopy(user?.tcAddress || '')}>
           <IconSVG
             src={`${CDN_URL}/icons/ic-copy.svg`}
             color="white"
             maxWidth="16"
-          // type="stroke"
+            // type="stroke"
           ></IconSVG>
         </div>
       </div>
@@ -99,10 +96,7 @@ const WalletHeader = () => {
             {formatLongAddress(user?.btcAddress || '')}
           </Text>
         </div>
-        <div
-          className="icCopy"
-          onClick={() => onClickCopy(user?.btcAddress || '')}
-        >
+        <div className="icCopy" onClick={() => onClickCopy(user?.btcAddress || '')}>
           <IconSVG
             src={`${CDN_URL}/icons/ic-copy.svg`}
             color="white"
@@ -112,6 +106,10 @@ const WalletHeader = () => {
       </div>
       <div className="divider"></div>
       <div className="cta">
+        <div className="wallet-link" onClick={() => window.open(TC_DOMAIN_URL)}>
+          <IconSVG src={`${CDN_URL}/icons/settings.svg`} maxWidth="20" />
+          <Text size="medium">Manage BNS</Text>
+        </div>
         <div
           className="wallet-link"
           onClick={() => window.open(`${TC_WEB_WALLET_URL}?tab=${DappsTabs.NAMES}`)}
@@ -140,7 +138,9 @@ const WalletHeader = () => {
           >
             <div
               className="wallet"
-              onClick={() => window.open(`${TC_WEB_WALLET_URL}?tab=${DappsTabs.NAMES}`)}
+              onClick={() =>
+                window.open(`${TC_WEB_WALLET_URL}?tab=${DappsTabs.NAMES}`)
+              }
               ref={ref}
               onMouseEnter={handleOnMouseEnter}
               onMouseLeave={handleOnMouseLeave}
@@ -152,7 +152,10 @@ const WalletHeader = () => {
                   <p>{formatEthPrice(tcBalance)} TC</p>
                 </div>
                 <div className="avatar">
-                  <Jazzicon diameter={32} seed={jsNumberForAddress(user.tcAddress)} />
+                  <Jazzicon
+                    diameter={32}
+                    seed={jsNumberForAddress(user.tcAddress)}
+                  />
                 </div>
               </WalletBalance>
             </div>

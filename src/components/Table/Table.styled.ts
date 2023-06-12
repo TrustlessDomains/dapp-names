@@ -22,12 +22,11 @@ export const StyledTable = styled.div`
       &_item {
         font-weight: 500;
         line-height: ${px2rem(24)};
-        color: #b6b6b6;
-        position: sticky;
-        top: 0;
-        /* background-color: ${({ theme }: { theme: DefaultTheme }) => theme.white}; */
+        color: #fff;
         z-index: 10;
         font-size: 14px;
+        background: #1E1E22;
+        vertical-align: middle;
 
         @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) => theme.breakpoint.lg}) {
           font-size: ${px2rem(14)};
@@ -37,23 +36,21 @@ export const StyledTable = styled.div`
           white-space: nowrap;
         }
       }
+    }
 
-      .tableData {
-        border-bottom: 1px solid ${({ theme }: { theme: DefaultTheme }) => theme.primary.light};
+    .tableData {
+      &:not(:last-child) {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
 
-        &:hover {
-          background-color: ${({ theme }: { theme: DefaultTheme }) => theme.primary.light};
-        }
-
-        &_item {
-          padding-top: ${px2rem(26)};
-          padding-bottom: ${px2rem(26)};
-          color: ${({ theme }: { theme: DefaultTheme }) => theme.primary[333]};
-          line-height: ${px2rem(26)};
-          font-weight: 600;
-          vertical-align: middle;
-          font-size: 18px;
-        }
+      &_item {
+        padding-top: ${px2rem(16)};
+        padding-bottom: ${px2rem(16)};
+        color: #fff;
+        line-height: ${px2rem(26)};
+        font-weight: 400;
+        vertical-align: middle;
+        font-size: ${px2rem(16)};
       }
     }
 

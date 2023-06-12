@@ -65,19 +65,22 @@ const Table = ({
     <StyledTable>
       <div className={cs('wrapper', classWrapper)}>
         {!isLoading && (
-          <BSTable bordered className={cs('table', className)} {...delegatedProps}>
-            {TableHeads}
+          <>
+            <BSTable bordered className={cs('table', className)} {...delegatedProps}>
+              {TableHeads}
 
-            {!data || data.length === 0 ? (
-              <tbody className={'empty'}>
+              {(data && data.length > 0) && (
+                <tbody>
+                  {data && data?.length > 0 && data.map(row => <TableData rowData={row} key={`trowData-${row.id}`} />)}
+                </tbody>
+              )}
+            </BSTable>
+            {(!data || data.length === 0) && (
+              <>
                 <Empty isTable={true} />
-              </tbody>
-            ) : (
-              <tbody>
-                {data && data?.length > 0 && data.map(row => <TableData rowData={row} key={`trowData-${row.id}`} />)}
-              </tbody>
+              </>
             )}
-          </BSTable>
+          </>
         )}
       </div>
     </StyledTable>
