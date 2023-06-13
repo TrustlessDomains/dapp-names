@@ -173,7 +173,7 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
           validate={validateForm}
           onSubmit={handleSubmit}
         >
-          {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
+          {({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <FileUploader
                 handleChange={onChangeFile}
