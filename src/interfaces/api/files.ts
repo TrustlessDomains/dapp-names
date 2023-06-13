@@ -1,3 +1,4 @@
+import { ChunkProcessStatus } from '@/enums/file';
 export interface IUploadFilePayload {
   file: File;
 }
@@ -64,4 +65,14 @@ export interface ICompressFileAndGetSizePayload {
 export interface ICompressFileAndGetSizeResponse {
   originalSize: number;
   compressedSize: number;
+}
+
+export interface IGetFileChunkResponse {
+  id: string;
+  status: ChunkProcessStatus;
+  createdAt: string;
+  fileId: string;
+  chunkIndex: number;
+  chunkData: string;
+  txHash: string;
 }

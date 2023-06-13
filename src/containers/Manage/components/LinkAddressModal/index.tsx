@@ -4,6 +4,7 @@ import { Modal } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as TC_SDK from 'trustless-computer-sdk';
 import BigNumber from 'bignumber.js';
+import { Transaction } from 'ethers';
 
 import web3Provider from '@/connection/custom-web3-provider';
 import { IOwnedBNS } from '@/interfaces/bns';
@@ -46,7 +47,7 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }: IModal) 
 
   const { run: mapNameToAddress } = useContractOperation<
     IMapNameToAddressParams,
-    boolean
+    Transaction | null
   >({
     operation: useMapNameToAddress,
     inscribeable: true,
@@ -89,7 +90,6 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }: IModal) 
         address: user?.walletAddress as string,
         chunks: [fileBuffer],
       };
-      // }
       const gasLimit = await estimateGas(payload);
       const gasPrice = await web3Provider.getGasPrice();
       const gasLimitBN = new BigNumber(gasLimit);

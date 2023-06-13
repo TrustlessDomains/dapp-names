@@ -1,4 +1,5 @@
-import { APP_ENV } from "@/configs";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { APP_ENV } from '@/configs';
 
 const logger = {
   logLevel: 'info', // Set the default log level
@@ -7,14 +8,15 @@ const logger = {
     this.logLevel = level;
   },
 
-  log: function (level: string, message: unknown) {
+  log: function (level: string, ...args: any) {
     const levels = ['debug', 'info', 'warn', 'error'];
     const levelIndex = levels.indexOf(level);
     const currentLevelIndex = levels.indexOf(this.logLevel);
 
     if (levelIndex >= currentLevelIndex) {
       // eslint-disable-next-line no-console
-      console.log(`[${level.toUpperCase()}]`, message);
+      console.log(`logLevel: [${level.toUpperCase()}]`);
+      console.log(...args);
 
       if (level === 'error') {
         // Send log to server
@@ -22,20 +24,20 @@ const logger = {
     }
   },
 
-  debug: function (message: unknown) {
-    this.log('debug', message);
+  debug: function (...args: any) {
+    this.log('debug', ...args);
   },
 
-  info: function (message: unknown) {
-    this.log('info', message);
+  info: function (...args: any) {
+    this.log('info', ...args);
   },
 
-  warn: function (message: unknown) {
-    this.log('warn', message);
+  warn: function (...args: any) {
+    this.log('warn', ...args);
   },
 
-  error: function (message: unknown) {
-    this.log('error', message);
+  error: function (...args: any) {
+    this.log('error', ...args);
   },
 };
 

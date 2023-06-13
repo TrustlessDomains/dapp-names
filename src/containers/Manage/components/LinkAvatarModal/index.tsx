@@ -5,6 +5,7 @@ import { Formik } from 'formik';
 import * as TC_SDK from 'trustless-computer-sdk';
 import BigNumber from 'bignumber.js';
 import { FileUploader } from 'react-drag-drop-files';
+import { Transaction } from 'ethers';
 
 import { IOwnedBNS } from '@/interfaces/bns';
 import { compressFileAndGetSize } from '@/services/file';
@@ -44,7 +45,7 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
 
   const { run: setAvatarToName } = useContractOperation<
     ISetAvatarToNameParams,
-    boolean
+    Transaction | null
   >({
     operation: useSetAvatarToName,
     inscribeable: true,

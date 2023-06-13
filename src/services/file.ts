@@ -3,6 +3,7 @@ import {
   IUploadFileResponse,
   ICompressFileAndGetSizePayload,
   ICompressFileAndGetSizeResponse,
+  IGetFileChunkResponse,
 } from '@/interfaces/api/files';
 import { camelCaseKeys } from '@trustless-computer/dapp-core';
 import { apiClient } from '.';

@@ -10,6 +10,7 @@ import BigNumber from 'bignumber.js';
 import { Transaction } from 'ethers';
 import { useCallback, useContext } from 'react';
 import * as TC_SDK from 'trustless-computer-sdk';
+import { TransactionEventType } from '@/enums/transaction';
 
 export interface IPreserveChunkParams {
   address: string;
@@ -96,7 +97,7 @@ const usePreserveChunks: ContractOperationHook<
     call: call,
     estimateGas: estimateGas,
     dAppType: DAppType.BFS,
-    operationName: 'Preserve Chunks',
+    transactionType: TransactionEventType.MAP,
   };
 };
 
