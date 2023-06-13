@@ -44,7 +44,6 @@ type IModal = {
 
 const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }: IModal) => {
   const user = useSelector(getUserSelector);
-
   const { run: mapNameToAddress } = useContractOperation<
     IMapNameToAddressParams,
     Transaction | null
@@ -52,12 +51,13 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }: IModal) 
     operation: useMapNameToAddress,
     inscribeable: true,
   });
-
   const { estimateGas } = usePreserveChunks();
   const { feeRate } = useContext(AssetsContext);
+
   const [estBTCFee, setEstBTCFee] = useState<string | null>(null);
   const [estTCFee, setEstTCFee] = useState<string | null>(null);
   const [valueInput, setValueInput] = useState<string>('');
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   const calculateEstBtcFee = useCallback(async () => {
     if (!valueInput || !validateEVMAddress(valueInput)) return;
@@ -116,6 +116,7 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }: IModal) 
 
   const handleSubmit = async () => {
     if (!domainSelecting?.tokenId) return;
+    setIsProcessing(true);
     try {
       await mapNameToAddress({
         to: valueInput,
@@ -124,6 +125,7 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }: IModal) 
     } catch (err: unknown) {
       logger.error(err);
     }
+    setIsProcessing(false);
   };
 
   const validateForm = (values: IFormValue): Record<string, string> => {
@@ -176,7 +178,7 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }: IModal) 
                   value={values.tcAddress}
                   className="input"
                   placeholder="Paste your TC address"
-                  // disabled={isProcessing}
+                  disabled={isProcessing}
                 />
                 {errors.tcAddress && touched.tcAddress && (
                   <p className="error">{errors.tcAddress}</p>
@@ -189,14 +191,9 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }: IModal) 
                 isBigFile={false}
                 uploadView
               />
-              <Button
-                type="submit"
-                className="upload-btn"
-                // disabled={isProcessing}
-              >
+              <Button type="submit" className="upload-btn" disabled={isProcessing}>
                 <Text size="medium" fontWeight="medium" className="upload-text">
-                  {/* {isProcessing ? 'Updating...' : 'Update'} */}
-                  Update
+                  {isProcessing ? 'Updating...' : 'Update'}
                 </Text>
               </Button>
             </form>
