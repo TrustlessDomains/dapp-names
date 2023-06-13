@@ -1,8 +1,12 @@
 import { MediaType } from '@/enums/file';
 
-export const BLOCK_CHAIN_FILE_LIMIT = 0.35; // MB
+export const BLOCK_CHAIN_FILE_LIMIT = 330000;
 
-export const ZIP_MIMES = ['application/zip', 'application/x-zip-compressed', 'multipart/x-zip'];
+export const ZIP_MIMES = [
+  'application/zip',
+  'application/x-zip-compressed',
+  'multipart/x-zip',
+];
 
 export const NAIVE_MIMES: Record<string, string> = {
   html: 'text/html',
@@ -116,4 +120,7 @@ export const SUPPORTED_FILE_EXT: Array<{ mediaType: MediaType; ext: string }> = 
   },
 ];
 
-export const ERC721_SUPPORTED_EXTENSIONS = [...STATIC_IMAGE_EXTENSIONS, ZIP_EXTENSION];
+export const ERC721_SUPPORTED_EXTENSIONS = [
+  ...STATIC_IMAGE_EXTENSIONS,
+  ZIP_EXTENSION,
+];

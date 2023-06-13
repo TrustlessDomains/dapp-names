@@ -99,9 +99,9 @@ const useContractOperation = <P, R>(
       TC_SDK.signTransaction({
         method: `${transactionType} ${dAppType}`,
         hash: Object(tx).hash,
-        dappURL: window.location.origin,
+        dappURL: window.location.href,
         isRedirect: true,
-        target: '_blank',
+        target: '_self',
         isMainnet: true,
       });
 

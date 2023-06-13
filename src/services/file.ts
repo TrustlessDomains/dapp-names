@@ -1,10 +1,17 @@
-import { IUploadFilePayload, IUploadFileResponse } from '@/interfaces/api/files';
+import {
+  IUploadFilePayload,
+  IUploadFileResponse,
+  ICompressFileAndGetSizePayload,
+  ICompressFileAndGetSizeResponse,
+} from '@/interfaces/api/files';
 import { camelCaseKeys } from '@trustless-computer/dapp-core';
 import { apiClient } from '.';
 
 const API_PATH = '/upload';
 
-export const uploadFile = async (payload: IUploadFilePayload): Promise<IUploadFileResponse> => {
+export const uploadFile = async (
+  payload: IUploadFilePayload,
+): Promise<IUploadFileResponse> => {
   try {
     const formData = new FormData();
     for (const [key, value] of Object.entries(payload)) {
@@ -18,5 +25,22 @@ export const uploadFile = async (payload: IUploadFilePayload): Promise<IUploadFi
     return Object(camelCaseKeys(res));
   } catch (err: unknown) {
     throw Error('Failed to upload file');
+  }
+};
+
+export const compressFileAndGetSize = async (
+  payload: ICompressFileAndGetSizePayload,
+): Promise<ICompressFileAndGetSizeResponse> => {
+  try {
+    const { fileBase64 } = payload;
+    const res = await apiClient.post<IGetFileChunkResponse>(
+      `${API_PATH}/file-size`,
+      {
+        file_content: fileBase64,
+      },
+    );
+    return Object(camelCaseKeys(res));
+  } catch (err: unknown) {
+    throw Error('Failed to compress and get size');
   }
 };

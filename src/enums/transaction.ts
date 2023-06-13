@@ -9,4 +9,6 @@ export enum TransactionEventType {
   TRANSFER = 'Transfer',
   MINT = 'Mint',
   NONE = 'None',
+  MAP = 'Map',
+  SET_AVATAR = 'Set Avatar',
 }

@@ -1,3 +1,4 @@
+import { TC_NETWORK_RPC } from '@/configs';
 import { ICustomTransaction } from '@/interfaces/transaction';
 import Web3 from 'web3';
 
@@ -12,6 +13,13 @@ class CustomWeb3Provider {
     const tx = (await this.web3.eth.getTransaction(txHash)) as ICustomTransaction;
     return tx;
   }
+
+  async getGasPrice(): Promise<string> {
+    const gasPrice = await this.web3.eth.getGasPrice();
+    return gasPrice;
+  }
 }
 
-export default CustomWeb3Provider;
+const instance = new CustomWeb3Provider(TC_NETWORK_RPC);
+
+export default instance;

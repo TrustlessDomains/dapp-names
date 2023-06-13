@@ -1,5 +1,5 @@
 import IconSVG from '@/components/IconSVG';
-import { CDN_URL, TC_WEB_URL } from '@/configs';
+import { CDN_URL, TC_WEB_URL, TC_DOMAIN_URL } from '@/configs';
 // import { ROUTE_PATH } from '@/constants/route-path';
 import { AssetsContext } from '@/contexts/assets-context';
 import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
@@ -7,7 +7,7 @@ import { formatEthPrice } from '@/utils/format';
 import { formatBTCPrice, formatLongAddress } from '@trustless-computer/dapp-core';
 import { useWeb3React } from '@web3-react/core';
 import copy from 'copy-to-clipboard';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useContext, useRef, useState } from 'react';
 import { OverlayTrigger } from 'react-bootstrap';
 import { toast } from 'react-hot-toast';
@@ -20,7 +20,7 @@ import { WalletContext } from '@/contexts/wallet-context';
 import { DappsTabs } from '@/enums/tabs';
 
 const WalletHeader = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const { account } = useWeb3React();
   const user = useSelector(getUserSelector);
   const { onDisconnect, onConnect, requestBtcAddress } = useContext(WalletContext);
@@ -118,6 +118,10 @@ const WalletHeader = () => {
       </div>
       <div className="divider"></div>
       <div className="cta">
+        <div className="wallet-link" onClick={() => router.push(TC_DOMAIN_URL)}>
+          <IconSVG src={`${CDN_URL}/icons/settings.svg`} maxWidth="20" />
+          <Text size="medium">Manage BNS</Text>
+        </div>
         <div
           className="wallet-link"
           onClick={() => window.open(`${TC_WEB_URL}?tab=${DappsTabs.NAMES}`)}
