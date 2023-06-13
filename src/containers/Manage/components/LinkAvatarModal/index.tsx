@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useRef, useCallback } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import { Formik } from 'formik';
@@ -9,7 +9,7 @@ import { Transaction } from 'ethers';
 
 import { IOwnedBNS } from '@/interfaces/bns';
 import { compressFileAndGetSize } from '@/services/file';
-import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
+import { BLOCK_CHAIN_FILE_LIMIT, IMAGE_EXTENSIONS } from '@/constants/file';
 import web3Provider from '@/connection/custom-web3-provider';
 import { readFileAsBuffer } from '@/utils';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
@@ -55,11 +55,12 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
   const { feeRate } = useContext(AssetsContext);
   const [estBTCFee, setEstBTCFee] = useState<string | null>(null);
   const [estTCFee, setEstTCFee] = useState<string | null>(null);
-  const mapDomainFormRef = useRef(null);
   const [file, setFile] = useState<File | null>(null);
+  const [isProcessing, setIsProcessing] = useState<boolean>(false);
 
   const calculateEstBtcFee = useCallback(async () => {
     if (!file) return;
+
     try {
       setEstBTCFee(null);
 
@@ -130,6 +131,8 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
 
   const handleSubmit = async () => {
     if (!file || !domainSelecting?.tokenId) return;
+
+    setIsProcessing(true);
     try {
       const fileBuffer = await readFileAsBuffer(file);
       const result = await setAvatarToName({
@@ -141,6 +144,7 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
     } catch (error: unknown) {
       logger.error(error);
     }
+    setIsProcessing(false);
   };
 
   const validateForm = (values: IFormValue): Record<string, string> => {
@@ -166,7 +170,6 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
         <WrapDescription>#{domainSelecting?.tokenId}</WrapDescription>
         <div className="label">AVATAR</div>
         <Formik
-          innerRef={mapDomainFormRef}
           key="create"
           initialValues={{
             file,
@@ -177,9 +180,12 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
           {({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <FileUploader
+                disabled={isProcessing}
                 handleChange={onChangeFile}
-                name={'fileUploader'}
-                classes={'dropZone'}
+                name="fileUploader"
+                classes="dropZone"
+                types={IMAGE_EXTENSIONS}
+                maxSize={BLOCK_CHAIN_FILE_LIMIT}
               ></FileUploader>
               <EstimatedFee
                 classNames="estimated-fee"
@@ -188,14 +194,9 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
                 isBigFile={false}
                 uploadView
               />
-              <Button
-                type="submit"
-                className="upload-btn"
-                // disabled={isProcessing}
-              >
+              <Button type="submit" className="upload-btn" disabled={isProcessing}>
                 <Text size="medium" fontWeight="medium" className="upload-text">
-                  {/* {isProcessing ? 'Updating...' : 'Update'} */}
-                  Update
+                  {isProcessing ? 'Updating...' : 'Update'}
                 </Text>
               </Button>
             </form>
