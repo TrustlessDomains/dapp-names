@@ -1,12 +1,4 @@
-import {
-  useState,
-  // useMemo,
-  useEffect,
-  useContext,
-  useRef,
-  useCallback,
-} from 'react';
-// import Link from 'next/link';
+import { useState, useEffect, useContext, useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import { Formik } from 'formik';
@@ -14,6 +6,7 @@ import * as TC_SDK from 'trustless-computer-sdk';
 import BigNumber from 'bignumber.js';
 import { FileUploader } from 'react-drag-drop-files';
 
+import { IOwnedBNS } from '@/interfaces/bns';
 import { compressFileAndGetSize } from '@/services/file';
 import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import web3Provider from '@/connection/custom-web3-provider';
@@ -26,9 +19,7 @@ import useSetAvatarToName, {
   ISetAvatarToNameParams,
 } from '@/hooks/contract-operations/bns/useSetAvatarToName';
 import { AssetsContext } from '@/contexts/assets-context';
-import { validateEVMAddress } from '@/utils/validate';
 import { CDN_URL, TRANSFER_TX_SIZE } from '@/configs';
-// import { ROUTE_PATH } from '@/constants/route-path';
 import logger from '@/services/logger';
 import { getUserSelector } from '@/state/user/selector';
 import IconSVG from '@/components/IconSVG';
@@ -36,13 +27,19 @@ import Button from '@/components/Button';
 import Text from '@/components/Text';
 import EstimatedFee from '@/components/EstimatedFee';
 
-import { StyledModalUpload, Title, WrapDescription } from './LinkAvatarModal.styled';
+import { StyledModal, Title, WrapDescription } from './LinkAvatarModal.styled';
 
 interface IFormValue {
-  tcAddress: string;
+  file: File | null;
 }
 
-const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }) => {
+type IModal = {
+  showModal: boolean;
+  setShowModal: (arg: boolean) => void;
+  domainSelecting: IOwnedBNS | null;
+};
+
+const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) => {
   const user = useSelector(getUserSelector);
 
   const { run: setAvatarToName } = useContractOperation<
@@ -53,13 +50,6 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }) => {
     inscribeable: true,
   });
 
-  const { run: preserveChunks } = useContractOperation<
-    IPreserveChunkParams,
-    Transaction | null
-  >({
-    operation: usePreserveChunks,
-    inscribeable: true,
-  });
   const { estimateGas } = usePreserveChunks();
   const { feeRate } = useContext(AssetsContext);
   const [estBTCFee, setEstBTCFee] = useState<string | null>(null);
@@ -138,7 +128,7 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }) => {
   };
 
   const handleSubmit = async () => {
-    if (!file) return;
+    if (!file || !domainSelecting?.tokenId) return;
     try {
       const fileBuffer = await readFileAsBuffer(file);
       const result = await setAvatarToName({
@@ -155,20 +145,16 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }) => {
   const validateForm = (values: IFormValue): Record<string, string> => {
     const errors: Record<string, string> = {};
 
-    // if (!values.tcAddress) {
-    //   errors.tcAddress = 'TC address is required.';
-    // } else if (!validateEVMAddress(values.tcAddress)) {
-    //   errors.tcAddress = 'Invalid wallet address.';
-    // }
+    console.log('validateForm', values);
 
     return errors;
   };
 
   return (
-    <StyledModalUpload show={showModal} onHide={handleClose} centered>
+    <StyledModal show={showModal} onHide={handleClose} centered backdrop="static">
       <Modal.Header>
         <IconSVG
-          className="cursor-pointer"
+          className="icon-close"
           onClick={handleClose}
           src={`${CDN_URL}/icons/ic-close.svg`}
           maxWidth={'22px'}
@@ -177,12 +163,12 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }) => {
       <Modal.Body>
         <Title className="font-medium">{domainSelecting?.name}</Title>
         <WrapDescription>#{domainSelecting?.tokenId}</WrapDescription>
-        <div>AVATAR</div>
+        <div className="label">AVATAR</div>
         <Formik
           innerRef={mapDomainFormRef}
           key="create"
           initialValues={{
-            tcAddress: '',
+            file,
           }}
           validate={validateForm}
           onSubmit={handleSubmit}
@@ -195,6 +181,7 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }) => {
                 classes={'dropZone'}
               ></FileUploader>
               <EstimatedFee
+                classNames="estimated-fee"
                 estimateBTCGas={estBTCFee}
                 estimateTCGas={estTCFee}
                 isBigFile={false}
@@ -202,12 +189,10 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }) => {
               />
               <Button
                 type="submit"
-                bg="linear-gradient(90deg, #9796f0,#fbc7d4)"
-                className="confirm-btn"
+                className="upload-btn"
                 // disabled={isProcessing}
-                background={'linear-gradient(90deg, #9796f0,#fbc7d4)'}
               >
-                <Text size="medium" fontWeight="medium" className="confirm-text">
+                <Text size="medium" fontWeight="medium" className="upload-text">
                   {/* {isProcessing ? 'Updating...' : 'Update'} */}
                   Update
                 </Text>
@@ -216,7 +201,7 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }) => {
           )}
         </Formik>
       </Modal.Body>
-    </StyledModalUpload>
+    </StyledModal>
   );
 };
 

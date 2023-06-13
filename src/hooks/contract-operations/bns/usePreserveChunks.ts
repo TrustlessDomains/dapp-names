@@ -1,4 +1,3 @@
-// import BNSABIJson from '@/abis/bns.json';
 import ArtifactABIJson from '@/abis/artifacts.json';
 import { ARTIFACT_CONTRACT, TRANSFER_TX_SIZE } from '@/configs';
 import { AssetsContext } from '@/contexts/assets-context';

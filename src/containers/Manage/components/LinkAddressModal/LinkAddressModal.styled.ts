@@ -2,30 +2,15 @@ import styled, { DefaultTheme } from 'styled-components';
 import px2rem from '@/utils/px2rem';
 import { Modal } from 'react-bootstrap';
 
-export const Container = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-
-  .title {
-    font-weight: 500;
-    font-size: 56px;
-    line-height: 66px;
-    align-items: center;
-    align-self: center;
-    letter-spacing: -0.02em;
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
-  }
-`;
-
-export const StyledModalUpload = styled(Modal)`
+export const StyledModal = styled(Modal)`
   &.modal {
     --bs-modal-color: ${({ theme }) => theme.bg1};
   }
 
   .modal-content {
     border-radius: 12px;
+    background: #1c1c1c;
+    box-shadow: -10px 0px 40px rgba(0, 0, 0, 0.2);
   }
 
   .modal-header {
@@ -38,8 +23,7 @@ export const StyledModalUpload = styled(Modal)`
   }
 
   .modal-body {
-    padding: ${px2rem(32)};
-    padding-bottom: ${px2rem(16)};
+    padding: ${px2rem(48)};
     padding-top: ${px2rem(0)};
   }
 
@@ -47,68 +31,33 @@ export const StyledModalUpload = styled(Modal)`
     border-top: none;
   }
 
-  /* ======= Custom modal ========== */
-
-  .dropZone {
-    margin-top: ${px2rem(24)};
-
-    width: 100%;
-  }
-
-  .preview-wrapper {
-    margin-top: ${px2rem(20)};
-
-    .thumbnail-wrapper {
-      min-height: ${px2rem(160)};
-      position: relative;
-    }
-
-    img {
-      background-color: ${({ theme }: { theme: DefaultTheme }) => theme.bg5};
-      height: ${px2rem(160)};
-      width: ${px2rem(160)};
-
-      object-fit: cover;
-      margin-left: auto;
-      margin-right: auto;
+  .icon-close {
+    cursor: pointer;
+    svg {
+      path {
+        fill: #ffffff;
+      }
     }
   }
 
-  .error-text {
-    margin-top: ${px2rem(8)};
-    font-weight: 500;
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.text6};
+  .estimated-fee {
+    margin: ${px2rem(24)} 0;
+    padding: ${px2rem(12)};
+    background: #2e2e2e;
   }
 
   .upload-btn {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-
-    padding: ${px2rem(12)} ${px2rem(16)};
-    gap: ${px2rem(6)};
-    background: ${({ theme }: { theme: DefaultTheme }) => theme.bg5};
-    border-radius: 2px;
-    height: ${px2rem(48)};
+    width: 100%;
+    padding: ${px2rem(11)} 0 ${px2rem(11)} 0;
     cursor: pointer;
+    background: #8759f2;
+    border-radius: 8px;
 
     .upload-text {
-      padding-top: ${px2rem(11)};
-      padding-bottom: ${px2rem(11)};
-      font-weight: 500;
-      font-size: ${px2rem(14)};
-      color: ${({ theme }: { theme: DefaultTheme }) => theme.primary.brand};
-    }
-  }
-
-  .confirm-btn {
-    width: 100%;
-    margin-top: ${px2rem(16)};
-
-    .confirm-text {
-      padding-top: ${px2rem(11)};
-      padding-bottom: ${px2rem(11)};
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 26px;
+      letter-spacing: 0.01em;
     }
   }
 `;
@@ -119,33 +68,26 @@ export const WrapInput = styled.div`
   margin-bottom: ${px2rem(16)};
 
   .title-input {
-    font-weight: 500;
+    margin-bottom: ${px2rem(6)};
+    font-weight: 400;
     font-size: ${px2rem(12)};
     line-height: ${px2rem(20)};
     text-transform: uppercase;
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.primary['5b']};
-    margin-bottom: ${px2rem(4)};
+    color: #cecece;
   }
 
   .input {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: ${px2rem(12)};
-    gap: ${px2rem(16)};
+    border: 1px solid #5b5b5b;
+    border-radius: 8px;
+    padding: ${px2rem(11)} ${px2rem(14)};
     font-weight: 400;
     font-size: ${px2rem(16)};
     line-height: ${px2rem(26)};
-
-    border: 1px solid ${({ theme }: { theme: DefaultTheme }) => theme.border3};
-
-    :hover {
-      border: 1px solid
-        ${({ theme }: { theme: DefaultTheme }) => theme.primary.brand};
-    }
+    color: #ffffff;
   }
 
   .error {
+    margin-top: ${px2rem(4)};
     font-weight: 400;
     font-size: ${px2rem(14)};
     line-height: ${px2rem(24)};
@@ -153,11 +95,18 @@ export const WrapInput = styled.div`
   }
 `;
 
-export const Title = styled.h5`
-  margin-bottom: ${px2rem(24)};
+export const Title = styled.h6`
   font-weight: 600;
+  font-size: 24px;
+  letter-spacing: -0.03em;
+  color: #ffffff;
 `;
 
 export const WrapDescription = styled.div`
-  color: ${({ theme }: { theme: DefaultTheme }) => theme.text5};
+  margin-bottom: ${px2rem(24)};
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: #b6b6b6;
+  letter-spacing: -0.03em;
 `;

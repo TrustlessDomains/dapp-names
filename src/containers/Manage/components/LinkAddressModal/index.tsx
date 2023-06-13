@@ -1,12 +1,4 @@
-import {
-  useState,
-  // useMemo,
-  useEffect,
-  useContext,
-  useRef,
-  useCallback,
-} from 'react';
-// import Link from 'next/link';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import { Formik } from 'formik';
@@ -15,8 +7,6 @@ import BigNumber from 'bignumber.js';
 
 import web3Provider from '@/connection/custom-web3-provider';
 import { IOwnedBNS } from '@/interfaces/bns';
-// import { readFileAsBuffer } from '@/utils';
-// import { BLOCK_CHAIN_FILE_LIMIT } from '@/constants/file';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
 import usePreserveChunks, {
   IPreserveChunkParams,
@@ -27,7 +17,6 @@ import useMapNameToAddress, {
 import { AssetsContext } from '@/contexts/assets-context';
 import { validateEVMAddress } from '@/utils/validate';
 import { CDN_URL, TRANSFER_TX_SIZE } from '@/configs';
-// import { ROUTE_PATH } from '@/constants/route-path';
 import logger from '@/services/logger';
 import { getUserSelector } from '@/state/user/selector';
 import IconSVG from '@/components/IconSVG';
@@ -36,17 +25,23 @@ import Text from '@/components/Text';
 import EstimatedFee from '@/components/EstimatedFee';
 
 import {
-  StyledModalUpload,
+  StyledModal,
   Title,
   WrapInput,
   WrapDescription,
 } from './LinkAddressModal.styled';
 
-interface IFormValue {
+type IFormValue = {
   tcAddress: string;
-}
+};
 
-const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }) => {
+type IModal = {
+  showModal: boolean;
+  setShowModal: (arg: boolean) => void;
+  domainSelecting: IOwnedBNS | null;
+};
+
+const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }: IModal) => {
   const user = useSelector(getUserSelector);
 
   const { run: mapNameToAddress } = useContractOperation<
@@ -57,32 +52,19 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }) => {
     inscribeable: true,
   });
 
-  const { run: preserveChunks } = useContractOperation<
-    IPreserveChunkParams,
-    Transaction | null
-  >({
-    operation: usePreserveChunks,
-    inscribeable: true,
-  });
   const { estimateGas } = usePreserveChunks();
   const { feeRate } = useContext(AssetsContext);
   const [estBTCFee, setEstBTCFee] = useState<string | null>(null);
   const [estTCFee, setEstTCFee] = useState<string | null>(null);
-  const mapDomainFormRef = useRef(null);
+  const [valueInput, setValueInput] = useState<string>('');
 
   const calculateEstBtcFee = useCallback(async () => {
+    if (!valueInput || !validateEVMAddress(valueInput)) return;
+
     try {
       setEstBTCFee(null);
 
-      const tcTxSizeByte =
-        TRANSFER_TX_SIZE + mapDomainFormRef?.current?.values?.tcAddress?.length;
-      // if (file.size < BLOCK_CHAIN_FILE_LIMIT) {
-      //   const fileBuffer = await readFileAsBuffer(file);
-      //   const { compressedSize } = await compressFileAndGetSize({
-      //     fileBase64: fileBuffer.toString('base64'),
-      //   });
-      //   tcTxSizeByte = TRANSFER_TX_SIZE + compressedSize;
-      // }
+      const tcTxSizeByte = TRANSFER_TX_SIZE + valueInput?.length;
       const estimatedEconomyFee = TC_SDK.estimateInscribeFee({
         tcTxSizeByte: tcTxSizeByte,
         feeRatePerByte: feeRate.hourFee,
@@ -92,22 +74,19 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }) => {
     } catch (err: unknown) {
       logger.error(err);
     }
-  }, [mapDomainFormRef, setEstBTCFee, feeRate.hourFee]);
+  }, [valueInput, setEstBTCFee, feeRate.hourFee]);
 
   const calculateEstTcFee = useCallback(async () => {
-    if (!estimateGas || !user) return;
+    if (!valueInput || !validateEVMAddress(valueInput) || !estimateGas || !user)
+      return;
 
     setEstTCFee(null);
     let payload: IPreserveChunkParams;
 
     try {
-      // if (file.size < BLOCK_CHAIN_FILE_LIMIT) {
-      // const file = Buffer.from('0x57912f02709Ff6b3c7b00c9a6532e166C91e8E8D');
-      const fileBuffer = Buffer.from(
-        mapDomainFormRef?.current?.values?.tcAddress as string,
-      );
+      const fileBuffer = Buffer.from(valueInput);
       payload = {
-        address: user.walletAddress,
+        address: user?.walletAddress as string,
         chunks: [fileBuffer],
       };
       // }
@@ -121,7 +100,7 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }) => {
     } catch (err: unknown) {
       logger.error(err);
     }
-  }, [mapDomainFormRef, setEstTCFee, estimateGas, user]);
+  }, [valueInput, setEstTCFee, estimateGas, user]);
 
   useEffect(() => {
     calculateEstBtcFee();
@@ -136,11 +115,15 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }) => {
   };
 
   const handleSubmit = async () => {
-    const result = await mapNameToAddress({
-      to: mapDomainFormRef?.current?.values?.tcAddress,
-      tokenId: domainSelecting?.tokenId,
-    });
-    console.log(11111, result, mapDomainFormRef?.current?.values?.tcAddress);
+    if (!domainSelecting?.tokenId) return;
+    try {
+      await mapNameToAddress({
+        to: valueInput,
+        tokenId: domainSelecting?.tokenId,
+      });
+    } catch (err: unknown) {
+      logger.error(err);
+    }
   };
 
   const validateForm = (values: IFormValue): Record<string, string> => {
@@ -156,20 +139,20 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }) => {
   };
 
   return (
-    <StyledModalUpload show={showModal} onHide={handleClose} centered>
+    <StyledModal show={showModal} onHide={handleClose} centered backdrop="static">
       <Modal.Header>
         <IconSVG
-          className="cursor-pointer"
+          className="icon-close"
           onClick={handleClose}
           src={`${CDN_URL}/icons/ic-close.svg`}
           maxWidth={'22px'}
+          color="white"
         />
       </Modal.Header>
       <Modal.Body>
         <Title className="font-medium">{domainSelecting?.name}</Title>
         <WrapDescription>#{domainSelecting?.tokenId}</WrapDescription>
         <Formik
-          innerRef={mapDomainFormRef}
           key="create"
           initialValues={{
             tcAddress: '',
@@ -185,7 +168,10 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }) => {
                   id="tcAddress"
                   type="text"
                   name="tcAddress"
-                  onChange={handleChange}
+                  onChange={(evt) => {
+                    setValueInput(evt.target.value);
+                    handleChange(evt);
+                  }}
                   onBlur={handleBlur}
                   value={values.tcAddress}
                   className="input"
@@ -197,6 +183,7 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }) => {
                 )}
               </WrapInput>
               <EstimatedFee
+                classNames="estimated-fee"
                 estimateBTCGas={estBTCFee}
                 estimateTCGas={estTCFee}
                 isBigFile={false}
@@ -204,12 +191,10 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }) => {
               />
               <Button
                 type="submit"
-                bg="linear-gradient(90deg, #9796f0,#fbc7d4)"
-                className="confirm-btn"
+                className="upload-btn"
                 // disabled={isProcessing}
-                background={'linear-gradient(90deg, #9796f0,#fbc7d4)'}
               >
-                <Text size="medium" fontWeight="medium" className="confirm-text">
+                <Text size="medium" fontWeight="medium" className="upload-text">
                   {/* {isProcessing ? 'Updating...' : 'Update'} */}
                   Update
                 </Text>
@@ -218,7 +203,7 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }) => {
           )}
         </Formik>
       </Modal.Body>
-    </StyledModalUpload>
+    </StyledModal>
   );
 };
 
