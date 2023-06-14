@@ -6,7 +6,7 @@ import useIsRegistered, {
 } from '@/hooks/contract-operations/bns/useIsRegistered';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
 import { getIsAuthenticatedSelector } from '@/state/user/selector';
-import { showError } from '@/utils/toast';
+import { showToastError } from '@/utils/toast';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -46,7 +46,7 @@ const Names: React.FC = () => {
 
       // If name has already been taken
       if (isRegistered) {
-        showError({
+        showToastError({
           message: `${valueInput} has already been taken. Please choose another one.`,
         });
       }
