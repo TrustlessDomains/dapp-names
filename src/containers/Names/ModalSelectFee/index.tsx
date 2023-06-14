@@ -14,7 +14,7 @@ import useRegister, {
 import { Transaction } from 'ethers';
 import { toast } from 'react-hot-toast';
 import ToastConfirm from '@/components/ToastConfirm';
-import { showError } from '@/utils/toast';
+import { showToastError } from '@/utils/toast';
 import { DappsTabs } from '@/enums/tabs';
 import { walletLinkSignTemplate } from '@/utils/configs';
 import * as TC_SDK from 'trustless-computer-sdk';
@@ -124,7 +124,7 @@ const ModalSelectFee = (props: Props) => {
       setNameValidate(false);
     } catch (err) {
       if ((err as Error).message === ERROR_CODE.PENDING) {
-        showError({
+        showToastError({
           message:
             'You have some pending transactions. Please complete all of them before moving on.',
           url: `${TC_WEB_URL}/?tab=${DappsTabs.TRANSACTION}`,
@@ -138,7 +138,7 @@ const ModalSelectFee = (props: Props) => {
           feeRatePerByte: selectFee,
         });
 
-        showError({
+        showToastError({
           message: `Your balance is insufficient. Please top up at least ${formatBTCPrice(
             estimatedFee.totalFee.toString(),
           )} BTC to pay network fee.`,
@@ -146,7 +146,7 @@ const ModalSelectFee = (props: Props) => {
           linkText: 'Go to Wallet',
         });
       } else {
-        showError({
+        showToastError({
           message: (err as Error).message,
         });
       }
