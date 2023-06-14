@@ -126,8 +126,10 @@ export const StyledModal = styled(Modal)`
 `;
 
 export const Title = styled.h6`
+  margin-bottom: ${px2rem(4)};
   font-weight: 600;
   font-size: ${px2rem(24)};
+  line-height: 150%;
   letter-spacing: -0.03em;
   color: #ffffff;
 `;
