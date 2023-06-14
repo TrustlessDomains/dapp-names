@@ -141,10 +141,10 @@ const Manage = () => {
 
   return (
     <Container>
-      <p className="title">Manage your BNS</p>
+      <h1 className="title">Manage your BNS</h1>
       {hasFetching ? (
         <>
-          {yourListDomains.length > 1 ? (
+          {yourListDomains.length > 0 ? (
             <InfiniteScroll
               className="disable-scrollbar"
               dataLength={yourListDomains.length}
