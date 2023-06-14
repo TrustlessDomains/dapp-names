@@ -24,6 +24,7 @@ import IconSVG from '@/components/IconSVG';
 import Button from '@/components/Button';
 import Text from '@/components/Text';
 import EstimatedFee from '@/components/EstimatedFee';
+import InsufficientFund from '@/components/InsufficientFund';
 
 import {
   StyledModal,
@@ -199,6 +200,7 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }: IModal) 
             </form>
           )}
         </Formik>
+        <InsufficientFund />
       </Modal.Body>
     </StyledModal>
   );

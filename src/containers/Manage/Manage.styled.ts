@@ -57,7 +57,7 @@ export const Container = styled.div`
       }
 
       .tableData_item {
-        padding: ${px2rem(32)} ${px2rem(16)};
+        padding: ${px2rem(32)} ${px2rem(24)};
         color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
         font-weight: 600;
         font-size: ${px2rem(16)};
@@ -79,6 +79,7 @@ export const Container = styled.div`
           cursor: pointer;
           p {
             margin-right: ${px2rem(8)};
+            line-height: inherit;
           }
         }
       }

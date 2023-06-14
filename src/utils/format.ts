@@ -1,5 +1,7 @@
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
+import { ROOT_ADDRESS } from '@/constants/common';
+import { WETH_ADDRESS, WBTC_ADDRESS } from '@/constants/marketplace';
 
 export const exponentialToDecimal = (exponential: number): string => {
   let decimal = exponential.toString().toLowerCase();
@@ -108,4 +110,17 @@ export const formatTCPrice = (price: string | null, emptyStr?: string): string =
   if (!price) return emptyStr || '-';
   const priceNumb = new BigNumber(price).dividedBy(1e18).toNumber();
   return ceilPrecised(priceNumb, 4).toString().replace(',', '.');
+};
+
+export const mappingERC20ToSymbol = (erc20Address: string) => {
+  switch (erc20Address.toLowerCase()) {
+    case ROOT_ADDRESS.toLowerCase():
+      return 'TC';
+    case WETH_ADDRESS.toLowerCase():
+      return 'WETH';
+    case WBTC_ADDRESS.toLowerCase():
+      return 'WBTC';
+    default:
+      return 'TC';
+  }
 };
