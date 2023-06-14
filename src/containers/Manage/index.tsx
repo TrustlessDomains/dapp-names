@@ -150,7 +150,7 @@ const Manage = () => {
               dataLength={yourListDomains.length}
               next={fetchListDomains}
               hasMore={hasMore}
-              height={600}
+              height="80vh"
               style={{ overflow: 'hidden auto' }}
               loader={
                 loading ? (

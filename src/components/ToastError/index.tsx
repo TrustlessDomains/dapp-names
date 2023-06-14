@@ -1,8 +1,8 @@
-import React from "react";
-import { ToastPending } from "./ToastError.styled";
-import { CDN_URL } from "@/configs";
-import toast from "react-hot-toast";
-import IconSVG from "../IconSVG";
+import React from 'react';
+import { ToastPending } from './ToastError.styled';
+import { CDN_URL } from '@/configs';
+import toast from 'react-hot-toast';
+import IconSVG from '../IconSVG';
 
 interface IProps {
   id: string;
@@ -52,7 +52,7 @@ const ToastError: React.FC<IProps> = ({
         />
       </div>
     </ToastPending>
-  )
-}
+  );
+};
 
 export default ToastError;
