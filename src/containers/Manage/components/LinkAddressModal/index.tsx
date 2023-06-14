@@ -153,7 +153,7 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }: IModal) 
         />
       </Modal.Header>
       <Modal.Body>
-        <Title className="font-medium">{domainSelecting?.name}</Title>
+        <Title>{domainSelecting?.name}</Title>
         <WrapDescription>#{domainSelecting?.tokenId}</WrapDescription>
         <Formik
           key="create"
