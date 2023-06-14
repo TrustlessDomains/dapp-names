@@ -23,11 +23,16 @@ export const Container = styled.div`
     justify-content: center;
   }
 
-  .mt-60 {
+  .noData {
+    max-width: ${px2rem(1410)};
+    width: inherit;
+    margin: 0 auto;
     margin-top: ${px2rem(60)};
   }
 
   .list-domains {
+    max-width: ${px2rem(1000)};
+    margin: 0 auto;
     margin-top: ${px2rem(48)};
     padding: ${px2rem(32)};
     background: #1b1e26;
