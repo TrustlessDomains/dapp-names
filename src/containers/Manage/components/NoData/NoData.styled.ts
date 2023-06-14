@@ -14,7 +14,7 @@ export const Container = styled.div`
   .text {
     margin-top: ${px2rem(48)};
     font-weight: 400;
-    font-size: 24px;
+    font-size: ${px2rem(24)};
     line-height: 150%;
     letter-spacing: -0.05em;
     color: ${({ theme }: { theme: DefaultTheme }) => theme.white};

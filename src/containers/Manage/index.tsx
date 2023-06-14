@@ -5,6 +5,7 @@ import { Spinner } from 'react-bootstrap';
 import copy from 'copy-to-clipboard';
 import { toast } from 'react-hot-toast';
 
+import withConnectedWallet from '@/hoc/withConnectedWallet';
 import { IOwnedBNS } from '@/interfaces/bns';
 import { getBnsByWallet } from '@/services/bns-explorer';
 import { FETCH_LIMIT, CDN_URL } from '@/configs';
@@ -22,7 +23,6 @@ import { Container } from './Manage.styled';
 
 const Manage = () => {
   const user = useSelector(getUserSelector);
-
   const [hasFetching, setHasFetching] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -121,6 +121,7 @@ const Manage = () => {
                   src={`${CDN_URL}/icons/ic-copy.svg`}
                   color="white"
                   maxWidth="20"
+                  maxHeight="20"
                 />
               </div>
             ) : (
@@ -192,4 +193,4 @@ const Manage = () => {
   );
 };
 
-export default Manage;
+export default withConnectedWallet(Manage);

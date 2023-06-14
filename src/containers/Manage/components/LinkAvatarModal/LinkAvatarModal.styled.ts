@@ -43,7 +43,7 @@ export const StyledModal = styled(Modal)`
   .label {
     margin-bottom: ${px2rem(8)};
     font-weight: 400;
-    font-size: 12px;
+    font-size: ${px2rem(12)};
     line-height: 20px;
     color: #cecece;
   }
@@ -59,11 +59,11 @@ export const StyledModal = styled(Modal)`
     padding: ${px2rem(11)} 0 ${px2rem(11)} 0;
     cursor: pointer;
     background: #8759f2;
-    border-radius: 8px;
+    border-radius: 8px !important;
 
     .upload-text {
       font-weight: 600;
-      font-size: 16px;
+      font-size: ${px2rem(16)};
       line-height: 26px;
       letter-spacing: 0.01em;
     }
@@ -83,14 +83,14 @@ export const StyledModal = styled(Modal)`
     background: #2e2e2e;
     border-radius: 8px;
     font-weight: 400;
-    font-size: 14px;
+    font-size: ${px2rem(14)};
     line-height: 150%;
     letter-spacing: -0.01em;
     color: #b6b6b6;
     cursor: pointer;
 
     .dropZoneThumbnail {
-      margin-top: ${px2rem(6)};
+      margin-bottom: ${px2rem(6)};
       display: flex;
       justify-content: center;
     }
@@ -108,7 +108,7 @@ export const StyledModal = styled(Modal)`
 
     .file-info {
       margin-top: ${px2rem(10)};
-      font-size: 12px;
+      font-size: ${px2rem(12)};
       line-height: 150%;
       color: #ffffff;
       text-align: center;
@@ -126,7 +126,7 @@ export const StyledModal = styled(Modal)`
 
 export const Title = styled.h6`
   font-weight: 600;
-  font-size: 24px;
+  font-size: ${px2rem(24)};
   letter-spacing: -0.03em;
   color: #ffffff;
 `;
@@ -134,7 +134,7 @@ export const Title = styled.h6`
 export const WrapDescription = styled.div`
   margin-bottom: ${px2rem(24)};
   font-weight: 400;
-  font-size: 16px;
+  font-size: ${px2rem(16)};
   line-height: 150%;
   color: #b6b6b6;
   letter-spacing: -0.03em;
