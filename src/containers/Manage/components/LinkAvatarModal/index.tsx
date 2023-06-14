@@ -34,6 +34,7 @@ import Button from '@/components/Button';
 import Text from '@/components/Text';
 import EstimatedFee from '@/components/EstimatedFee';
 import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
+import InsufficientFund from '@/components/InsufficientFund';
 
 import { StyledModal, Title, WrapDescription } from './LinkAvatarModal.styled';
 
@@ -254,6 +255,7 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
             </form>
           )}
         </Formik>
+        <InsufficientFund />
       </Modal.Body>
     </StyledModal>
   );

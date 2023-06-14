@@ -105,8 +105,8 @@ const Manage = () => {
               className="edit-icon"
               onClick={() => handleSetDomainToAvatar(item)}
               src={`${CDN_URL}/icons/pencil.svg`}
-              maxWidth="20"
-              maxHeight="20"
+              maxWidth="24"
+              maxHeight="24"
             />
           </div>
         ),
@@ -131,8 +131,8 @@ const Manage = () => {
               className="edit-icon"
               onClick={() => handleMapDomainToAddress(item)}
               src={`${CDN_URL}/icons/pencil.svg`}
-              maxWidth="20"
-              maxHeight="20"
+              maxWidth="24"
+              maxHeight="24"
             />
           </div>
         ),

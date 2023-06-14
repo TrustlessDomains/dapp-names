@@ -5,6 +5,7 @@ import { Modal } from 'react-bootstrap';
 export const StyledModal = styled(Modal)`
   &.modal {
     --bs-modal-color: ${({ theme }) => theme.bg1};
+    --bs-modal-width: ${px2rem(600)};
   }
 
   .modal-content {
