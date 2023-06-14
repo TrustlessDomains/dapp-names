@@ -1,12 +1,15 @@
-import { CDN_URL } from '@/configs';
-import { ROUTE_PATH } from '@/constants/route-path';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+
+import { CDN_URL } from '@/configs';
+import { ROUTE_PATH } from '@/constants/route-path';
+import { useWindowSize } from '@trustless-computer/dapp-core';
+import IconSVG from '@/components/IconSVG';
+
 import { Wrapper } from './Header.styled';
 import MenuMobile from './MenuMobile';
 import WalletHeader from './Wallet';
-import { useWindowSize } from '@trustless-computer/dapp-core';
 
 const Header = ({ height }: { height: number }) => {
   const refMenu = useRef<HTMLDivElement | null>(null);
@@ -44,11 +47,26 @@ const Header = ({ height }: { height: number }) => {
       <MenuMobile ref={refMenu} onCloseMenu={() => setIsOpenMenu(false)} />
       <div className="rightContainer">
         <div className="external-link">
-          <Link href={'https://trustless.computer/'} target="_blank">
-            Trustless
-          </Link>
           <Link href={'https://tcgasstation.com/'} target="_blank">
             Get TC
+            <IconSVG
+              maxWidth="28"
+              src={`${CDN_URL}/pages/artifacts/icons/ic-link.svg`}
+            ></IconSVG>
+          </Link>
+          <Link href={'https://newbitcoincity.com/'} target="_blank">
+            NBC
+            <IconSVG
+              maxWidth="28"
+              src={`${CDN_URL}/pages/artifacts/icons/ic-link.svg`}
+            ></IconSVG>
+          </Link>
+          <Link href={'https://generative.xyz/discord'} target="_blank">
+            Discord
+            <IconSVG
+              maxWidth="28"
+              src={`${CDN_URL}/pages/artifacts/icons/ic-link.svg`}
+            ></IconSVG>
           </Link>
         </div>
         <WalletHeader />
