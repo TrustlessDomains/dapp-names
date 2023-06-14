@@ -8,7 +8,7 @@ export const Container = styled.div`
   justify-content: center;
 
   .title {
-    margin-top: ${px2rem(32)};
+    margin: ${px2rem(32)} 0 ${px2rem(60)} 0;
     font-weight: 400;
     font-size: 48px;
     line-height: 58px;
@@ -27,13 +27,11 @@ export const Container = styled.div`
     max-width: ${px2rem(1410)};
     width: inherit;
     margin: 0 auto;
-    margin-top: ${px2rem(60)};
   }
 
   .list-domains {
     max-width: ${px2rem(1000)};
     margin: 0 auto;
-    margin-top: ${px2rem(48)};
     padding: ${px2rem(32)};
     background: #1b1e26;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -44,6 +42,10 @@ export const Container = styled.div`
 
       .tableData {
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .bns {
+        width: 40%;
       }
 
       .tableHead_item {

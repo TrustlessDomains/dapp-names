@@ -6,10 +6,16 @@ import * as TC_SDK from 'trustless-computer-sdk';
 import BigNumber from 'bignumber.js';
 import { FileUploader } from 'react-drag-drop-files';
 import { Transaction } from 'ethers';
+import { prettyPrintBytes } from '@trustless-computer/dapp-core';
 
+import { showToastError } from '@/utils/toast';
 import { IOwnedBNS } from '@/interfaces/bns';
 import { compressFileAndGetSize } from '@/services/file';
-import { BLOCK_CHAIN_FILE_LIMIT, IMAGE_EXTENSIONS } from '@/constants/file';
+import {
+  BLOCK_CHAIN_FILE_LIMIT,
+  IMAGE_EXTENSIONS,
+  MAX_FILE_SIZE,
+} from '@/constants/file';
 import web3Provider from '@/connection/custom-web3-provider';
 import { readFileAsBuffer } from '@/utils';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
@@ -27,6 +33,7 @@ import IconSVG from '@/components/IconSVG';
 import Button from '@/components/Button';
 import Text from '@/components/Text';
 import EstimatedFee from '@/components/EstimatedFee';
+import MediaPreview from '@/components/ThumbnailPreview/MediaPreview';
 
 import { StyledModal, Title, WrapDescription } from './LinkAvatarModal.styled';
 
@@ -57,6 +64,7 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
   const [estTCFee, setEstTCFee] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [preview, setPreview] = useState<string | null>(null);
 
   const calculateEstBtcFee = useCallback(async () => {
     if (!file) return;
@@ -121,11 +129,20 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
     calculateEstTcFee();
   }, [calculateEstTcFee]);
 
+  useEffect(() => {
+    if (file) {
+      setPreview(URL.createObjectURL(file));
+    }
+  }, [file]);
+
   const handleClose = () => {
     setShowModal(false);
+    // reset image upload
+    setFile(null);
+    setPreview('');
   };
 
-  const onChangeFile = (file: File): void => {
+  const onChangeFile = (file: File | null): void => {
     setFile(file);
   };
 
@@ -149,10 +166,16 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
 
   const validateForm = (values: IFormValue): Record<string, string> => {
     const errors: Record<string, string> = {};
-
-    console.log('validateForm', values);
-
+    if (!values?.file) {
+      errors.file = 'Avatar is required.';
+    }
     return errors;
+  };
+
+  const onSizeError = () => {
+    showToastError({
+      message: `File size error, maximum file size is ${MAX_FILE_SIZE * 1000}kb.`,
+    });
   };
 
   return (
@@ -177,16 +200,45 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
           validate={validateForm}
           onSubmit={handleSubmit}
         >
-          {({ handleSubmit }) => (
+          {({ handleSubmit, errors, setFieldValue }) => (
             <form onSubmit={handleSubmit}>
               <FileUploader
+                fileOrFiles={file}
                 disabled={isProcessing}
-                handleChange={onChangeFile}
-                name="fileUploader"
-                classes="dropZone"
+                handleChange={(uploadFile: File) => {
+                  onChangeFile(uploadFile);
+                  setFieldValue('file', uploadFile);
+                }}
+                name="file"
                 types={IMAGE_EXTENSIONS}
-                maxSize={BLOCK_CHAIN_FILE_LIMIT}
-              ></FileUploader>
+                maxSize={MAX_FILE_SIZE}
+                onSizeError={onSizeError}
+              >
+                {file ? (
+                  <div className="preview-wrapper">
+                    <div className="thumbnail-wrapper">
+                      <MediaPreview
+                        previewExt={file?.name?.split('.')?.pop() || ''}
+                        previewUrl={preview || ''}
+                      />
+                    </div>
+                    <div className="file-info">
+                      {`${file.name} (${prettyPrintBytes(file.size)})`}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="dropZoneHint">
+                    <IconSVG
+                      maxWidth={'60'}
+                      maxHeight={'60'}
+                      className="dropZoneThumbnail"
+                      src={`${CDN_URL}/images/docs.svg`}
+                    />
+                    <div>Upload your image file here.</div>
+                  </div>
+                )}
+              </FileUploader>
+              {errors?.file && <div className="error">{errors?.file}</div>}
               <EstimatedFee
                 classNames="estimated-fee"
                 estimateBTCGas={estBTCFee}

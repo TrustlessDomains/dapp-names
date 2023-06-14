@@ -68,30 +68,51 @@ export const StyledModal = styled(Modal)`
       letter-spacing: 0.01em;
     }
   }
-`;
 
-export const WrapInput = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: ${px2rem(16)};
-
-  .title-input {
-    margin-bottom: ${px2rem(6)};
-    font-weight: 400;
-    font-size: ${px2rem(12)};
-    line-height: ${px2rem(20)};
-    text-transform: uppercase;
-    color: #cecece;
+  label[for='file'] {
+    width: 100%;
   }
 
-  .input {
-    border: 1px solid #5b5b5b;
+  .dropZoneHint {
+    max-width: ${px2rem(229)};
+    padding: ${px2rem(24)};
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    background: #2e2e2e;
     border-radius: 8px;
-    padding: ${px2rem(11)} ${px2rem(14)};
     font-weight: 400;
-    font-size: ${px2rem(16)};
-    line-height: ${px2rem(26)};
-    color: #ffffff;
+    font-size: 14px;
+    line-height: 150%;
+    letter-spacing: -0.01em;
+    color: #b6b6b6;
+    cursor: pointer;
+
+    .dropZoneThumbnail {
+      margin-top: ${px2rem(6)};
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .preview-wrapper {
+    width: 100%;
+    cursor: pointer;
+
+    .thumbnail-wrapper {
+      position: relative;
+      min-width: ${px2rem(229)};
+      min-height: ${px2rem(160)};
+    }
+
+    .file-info {
+      margin-top: ${px2rem(10)};
+      font-size: 12px;
+      line-height: 150%;
+      color: #ffffff;
+      text-align: center;
+    }
   }
 
   .error {
