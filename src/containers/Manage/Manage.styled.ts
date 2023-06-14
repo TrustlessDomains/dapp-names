@@ -10,7 +10,7 @@ export const Container = styled.div`
   .title {
     margin: ${px2rem(32)} 0 ${px2rem(60)} 0;
     font-weight: 400;
-    font-size: 48px;
+    font-size: ${px2rem(48)};
     line-height: 58px;
     text-align: center;
     letter-spacing: -0.05em;
@@ -52,7 +52,7 @@ export const Container = styled.div`
         padding: ${px2rem(12)} ${px2rem(16)};
         color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
         font-weight: 600;
-        font-size: 12px;
+        font-size: ${px2rem(12)};
         line-height: 22px;
       }
 
@@ -60,7 +60,7 @@ export const Container = styled.div`
         padding: ${px2rem(32)} ${px2rem(16)};
         color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
         font-weight: 600;
-        font-size: 16px;
+        font-size: ${px2rem(16)};
         line-height: 28px;
         letter-spacing: -0.01em;
 

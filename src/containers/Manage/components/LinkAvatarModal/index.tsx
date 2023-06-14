@@ -234,7 +234,7 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
                       className="dropZoneThumbnail"
                       src={`${CDN_URL}/images/docs.svg`}
                     />
-                    <div>Upload your image file here.</div>
+                    <div className="text-center">Upload your image file here.</div>
                   </div>
                 )}
               </FileUploader>
