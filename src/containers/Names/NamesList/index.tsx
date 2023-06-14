@@ -10,7 +10,7 @@ import { Container } from './NamesList.styled';
 import Jazzicon from 'react-jazzicon/dist/Jazzicon';
 import { jsNumberForAddress } from 'react-jazzicon';
 
-const LIMIT_PAGE = 12;
+const LIMIT_PAGE = 36;
 
 const NameList = () => {
   const [pageSize] = useState(LIMIT_PAGE);

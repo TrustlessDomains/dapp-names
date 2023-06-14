@@ -24,3 +24,11 @@
   font-named-instance: 'Regular';
   src: url(/fonts/JetBrainsMono-Regular.ttf);
 }
+
+@font-face {
+  font-family: 'Open Sans';
+  font-weight: 600;
+  font-style: normal;
+  font-display: block;
+  src: url(/fonts/OpenSans-VariableFont_wdth.ttf) format('ttf');
+}
