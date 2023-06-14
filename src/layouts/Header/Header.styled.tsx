@@ -59,6 +59,23 @@ const Wrapper = styled.div`
       align-items: center;
       gap: ${px2rem(16)};
       margin-right: ${px2rem(24)};
+
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+
+      a {
+        display: flex;
+        gap: ${px2rem(6)};
+        align-items: center;
+
+        &:hover {
+          text-decoration: none;
+          rect {
+            stroke-opacity: 1;
+          }
+        }
+      }
     }
 
     @media screen and (min-width: 1024px) {
