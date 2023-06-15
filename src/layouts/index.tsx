@@ -1,11 +1,11 @@
 import React, { PropsWithChildren } from 'react';
-import Footer from './Footer';
+// import Footer from './Footer';
 import Header from './Header';
 import styled from 'styled-components';
 import px2rem from '@/utils/px2rem';
 
 const HEADER_HEIGHT = 80;
-const FO0TER_HEIGHT = 80;
+// const FO0TER_HEIGHT = 80;
 
 export const Container = styled.div`
   min-height: 100vh;
@@ -37,10 +37,8 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <Container>
       <Header height={HEADER_HEIGHT} />
-      <ContentWrapper>
-        {children}
-      </ContentWrapper>
-      <Footer height={FO0TER_HEIGHT} />
+      <ContentWrapper>{children}</ContentWrapper>
+      {/* <Footer height={FO0TER_HEIGHT} /> */}
     </Container>
   );
 };
