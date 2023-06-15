@@ -85,7 +85,10 @@ export const Container = styled.div`
           cursor: pointer;
           p {
             margin-right: ${px2rem(8)};
+            font-weight: 600;
+            font-size: ${px2rem(16)};
             line-height: inherit;
+            letter-spacing: -0.01em;
           }
         }
       }
