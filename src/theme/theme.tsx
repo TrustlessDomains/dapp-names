@@ -8,7 +8,7 @@ import { getTheme } from '@/theme/index';
 
 import { Open_Sans } from 'next/font/google';
 
-const openSans = Open_Sans({ weight: '300', subsets: ['latin'] });
+const openSans = Open_Sans({ weight: ['300', '400', '600'], subsets: ['latin'] });
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const darkMode = true;
@@ -22,14 +22,14 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
 
 export const ThemedGlobalStyle = createGlobalStyle`
 
-  html{
+  html {
     font-size: 16px;
     color: ${({ theme }: { theme: DefaultTheme }) => theme.bg1};
     background-color: ${({ theme }) => theme.bg1};
 
     font-family: ${openSans.style.fontFamily};
 
-    body{
+    body {
       --bs-body-font-family: ${openSans.style.fontFamily};
     }
 
@@ -40,8 +40,6 @@ export const ThemedGlobalStyle = createGlobalStyle`
     @media screen and (min-width: 2048px) {
       font-size: 20px;
     }
-    
-
 
     h3 {
       font-size: ${({ theme }: { theme: DefaultTheme }) => theme.fontSizes.h3};
@@ -59,7 +57,7 @@ export const ThemedGlobalStyle = createGlobalStyle`
       color: ${({ theme }: { theme: DefaultTheme }) => theme.text1};
     }
 
-    a{
+    a {
       color: inherit;
       text-decoration: none;
 
@@ -69,12 +67,9 @@ export const ThemedGlobalStyle = createGlobalStyle`
       }
     }
 
-}
+  }
 
   summary::-webkit-details-marker {
     display:none;
   }
-
-
-
 `;

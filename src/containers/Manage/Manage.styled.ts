@@ -15,6 +15,11 @@ export const Container = styled.div`
     text-align: center;
     letter-spacing: -0.05em;
     color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
+
+    @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) =>
+        theme.breakpoint.md}) {
+      font-size: ${px2rem(34.66)};
+    }
   }
 
   .loading {
@@ -50,6 +55,7 @@ export const Container = styled.div`
 
       .tableHead_item {
         padding: ${px2rem(12)} ${px2rem(16)};
+        background: #000000;
         color: ${({ theme }: { theme: DefaultTheme }) => theme.white};
         font-weight: 600;
         font-size: ${px2rem(12)};
@@ -79,14 +85,13 @@ export const Container = styled.div`
           cursor: pointer;
           p {
             margin-right: ${px2rem(8)};
+            font-weight: 600;
+            font-size: ${px2rem(16)};
             line-height: inherit;
+            letter-spacing: -0.01em;
           }
         }
       }
-    }
-
-    .tableHead {
-      background: #000000;
     }
   }
 `;

@@ -126,7 +126,6 @@ export const StyledModal = styled(Modal)`
 `;
 
 export const Title = styled.h6`
-  font-family: 'Open Sans';
   font-weight: 600;
   font-size: ${px2rem(24)};
   line-height: 150%;
