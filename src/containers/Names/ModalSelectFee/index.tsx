@@ -25,7 +25,7 @@ type Props = {
   handleClose: () => void;
   valueInput: string;
   setValueInput: (value: string) => void;
-  setNameValidate: (value: boolean) => void;
+  setNameValidate?: (value: boolean) => void;
 };
 
 enum optionFees {
@@ -121,7 +121,7 @@ const ModalSelectFee = (props: Props) => {
       );
 
       setValueInput('');
-      setNameValidate(false);
+      typeof setNameValidate === 'function' && setNameValidate(false);
     } catch (err) {
       if ((err as Error).message === ERROR_CODE.PENDING) {
         showToastError({

@@ -1,5 +1,7 @@
-import Text from '@/components/Text';
-import ToolTips from '@/components/ToolTips';
+import { useState, useRef } from 'react';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+
 import { ROUTE_PATH } from '@/constants/route-path';
 import useIsRegistered, {
   ICheckIfRegisteredNameParams,
@@ -7,12 +9,14 @@ import useIsRegistered, {
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
 import { getIsAuthenticatedSelector } from '@/state/user/selector';
 import { showToastError } from '@/utils/toast';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useIsInViewport } from '@/hooks/useIsInViewport';
+import Text from '@/components/Text';
+import ToolTips from '@/components/ToolTips';
+import RegisterFooter from '@/components/RegisterFooter';
+
 import ModalSelectFee from './ModalSelectFee';
-import { FormContainer, NamesContainer, SubmitButton } from './Names.styled';
 import NamesList from './NamesList';
+import { FormContainer, NamesContainer, SubmitButton } from './Names.styled';
 
 const Names: React.FC = () => {
   const [nameValidate, setNameValidate] = useState(false);
@@ -20,8 +24,13 @@ const Names: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  const registerInputRef = useRef<HTMLDivElement>(null);
+
   const isAuthenticated = useSelector(getIsAuthenticatedSelector);
   const router = useRouter();
+  const showRegisterFooter = useIsInViewport(registerInputRef, {
+    threshold: 0.2,
+  });
 
   const { run: checkNameIsRegistered } = useContractOperation<
     ICheckIfRegisteredNameParams,
@@ -34,6 +43,8 @@ const Names: React.FC = () => {
   const handleValidate = (name: string) => {
     if (name) {
       setNameValidate(true);
+    } else {
+      setNameValidate(false);
     }
   };
 
@@ -74,7 +85,6 @@ const Names: React.FC = () => {
     <>
       <NamesContainer>
         <div className="upload_left">
-          {/* <img src={IcImgName} alt="upload file icon" /> */}
           <div className="upload_content">
             <h1 className="upload_title">Bitcoin Name System</h1>
             <Text className="upload_desc" size="medium">
@@ -87,7 +97,7 @@ const Names: React.FC = () => {
       </NamesContainer>
       <FormContainer>
         <div className="block_search">
-          <div className="content">
+          <div className="content" ref={registerInputRef}>
             <div className="form">
               <div className="input">
                 <input
@@ -147,6 +157,7 @@ const Names: React.FC = () => {
         setValueInput={setValueInput}
         setNameValidate={setNameValidate}
       ></ModalSelectFee>
+      <RegisterFooter isVisible={showRegisterFooter} />
     </>
   );
 };
