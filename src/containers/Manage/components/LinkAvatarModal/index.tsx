@@ -153,14 +153,16 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
     setIsProcessing(true);
     try {
       const fileBuffer = await readFileAsBuffer(file);
-      const result = await setAvatarToName({
+      await setAvatarToName({
         tokenId: domainSelecting?.tokenId,
         fileBuffer,
         fileName: file?.name || 'test-file',
       });
-      console.log('set avatar', result);
     } catch (error: unknown) {
       logger.error(error);
+      showToastError({
+        message: (error as { message: string })?.message,
+      });
     }
     setIsProcessing(false);
   };
@@ -255,7 +257,7 @@ const LinkAvatarModal = ({ showModal, setShowModal, domainSelecting }: IModal) =
             </form>
           )}
         </Formik>
-        <InsufficientFund />
+        <InsufficientFund estTCFee={estTCFee} estBTCFee={estBTCFee} />
       </Modal.Body>
     </StyledModal>
   );
