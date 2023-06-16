@@ -6,6 +6,7 @@ import * as TC_SDK from 'trustless-computer-sdk';
 import BigNumber from 'bignumber.js';
 import { Transaction } from 'ethers';
 
+import { showToastError } from '@/utils/toast';
 import web3Provider from '@/connection/custom-web3-provider';
 import { IOwnedBNS } from '@/interfaces/bns';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
@@ -125,6 +126,9 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }: IModal) 
       });
     } catch (err: unknown) {
       logger.error(err);
+      showToastError({
+        message: (err as { message: string })?.message,
+      });
     }
     setIsProcessing(false);
   };
@@ -200,7 +204,7 @@ const LinkAddressModal = ({ showModal, setShowModal, domainSelecting }: IModal) 
             </form>
           )}
         </Formik>
-        <InsufficientFund />
+        <InsufficientFund estTCFee={estTCFee} estBTCFee={estBTCFee} />
       </Modal.Body>
     </StyledModal>
   );

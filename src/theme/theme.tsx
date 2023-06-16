@@ -8,7 +8,10 @@ import { getTheme } from '@/theme/index';
 
 import { Open_Sans } from 'next/font/google';
 
-const openSans = Open_Sans({ weight: ['300', '400', '600'], subsets: ['latin'] });
+const openSans = Open_Sans({
+  weight: ['300', '400', '500', '600'],
+  subsets: ['latin'],
+});
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const darkMode = true;
