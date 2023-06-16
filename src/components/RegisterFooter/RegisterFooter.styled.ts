@@ -1,8 +1,6 @@
 import { px2rem } from '@trustless-computer/dapp-core';
 import styled, { DefaultTheme } from 'styled-components';
 
-import Button from '@/components/Button';
-
 export const StyledRegisterFooter = styled.div<{ isVisible: boolean }>`
   width: 100%;
   padding: ${px2rem(12)} 0;
