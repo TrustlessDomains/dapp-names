@@ -1,10 +1,8 @@
-import Button from '@/components/Button';
 import px2rem from '@/utils/px2rem';
 import styled, { DefaultTheme } from 'styled-components';
 
 export const NamesContainer = styled.div`
   padding: ${px2rem(24)} ${px2rem(32)};
-  /* background-color: ${({ theme }: { theme: DefaultTheme }) => theme.bg2}; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -65,7 +63,7 @@ export const FormContainer = styled.div`
     display: flex;
     justify-content: center;
     align-content: center;
-    max-width: ${px2rem(550)};
+    max-width: ${px2rem(702)};
     width: 100%;
     height: ${px2rem(60)};
 
@@ -104,18 +102,5 @@ export const FormContainer = styled.div`
         width: 100%;
       }
     }
-  }
-`;
-
-export const SubmitButton = styled(Button)`
-  width: ${px2rem(130)};
-
-  p {
-    padding: unset !important;
-    color: ${({ theme }: { theme: DefaultTheme }) => theme.text1};
-  }
-
-  :disabled {
-    opacity: 0.5;
   }
 `;
