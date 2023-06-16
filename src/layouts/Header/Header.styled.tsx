@@ -35,6 +35,19 @@ const Wrapper = styled.div`
     text-decoration: unset;
   }
 
+  .leftContainer {
+    display: flex;
+    align-items: center;
+    gap: ${px2rem(40)};
+
+    .navLink {
+      color: #ffffff;
+      @media screen and (max-width: 768px) {
+        display: none;
+      }
+    }
+  }
+
   .rowLink {
     display: flex;
     flex-direction: row;

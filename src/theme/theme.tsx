@@ -9,7 +9,7 @@ import { getTheme } from '@/theme/index';
 import { Open_Sans } from 'next/font/google';
 
 const openSans = Open_Sans({
-  weight: ['300', '400', '500', '600'],
+  weight: ['300', '400', '500', '600', '700'],
   subsets: ['latin'],
 });
 
