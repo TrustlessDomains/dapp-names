@@ -34,7 +34,7 @@ const Names: React.FC = () => {
           <div className="content" ref={registerInputRef}>
             <RegisterForm />
             <ToolTips
-              name="Remember you must have BTC to create a BNS"
+              name="Remember to have both TC and BTC as network fees to register a BNS"
               note={
                 <p>
                   {
