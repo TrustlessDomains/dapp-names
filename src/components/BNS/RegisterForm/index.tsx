@@ -46,7 +46,9 @@ const RegisterForm = ({ className }: { className?: string }) => {
       // If name has already been taken
       if (isRegistered) {
         showToastError({
-          message: `${registerText} has already been taken. Please choose another one.`,
+          message: `${registerText} has already been taken. Please choose another one or buy on secondary`,
+          url: 'https://trustlessnfts.com/collection/0x8b46f89bba2b1c1f9ee196f43939476e79579798',
+          linkText: 'here',
         });
       }
       return isRegistered;

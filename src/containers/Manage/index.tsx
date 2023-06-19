@@ -19,6 +19,7 @@ import Text from '@/components/Text';
 import LinkAddressModal from './components/LinkAddressModal';
 import LinkAvatarModal from './components/LinkAvatarModal';
 import NoData from './components/NoData';
+import DefaultBns from './components/DefaultBns';
 import { Container } from './Manage.styled';
 
 const Manage = () => {
@@ -143,6 +144,7 @@ const Manage = () => {
   return (
     <Container>
       <h1 className="title">Manage your BNS</h1>
+      <DefaultBns className="mb-48" />
       {hasFetching ? (
         <>
           {yourListDomains.length > 0 ? (
@@ -165,6 +167,7 @@ const Manage = () => {
             >
               <div className="list-domains">
                 <Table
+                  classWrapper="table-responsive"
                   tableHead={['#', 'BNS', 'AVATAR', 'ADDRESS']}
                   data={tableData}
                 />

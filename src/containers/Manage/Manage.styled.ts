@@ -22,6 +22,10 @@ export const Container = styled.div`
     }
   }
 
+  .mb-48 {
+    margin-bottom: ${px2rem(48)};
+  }
+
   .loading {
     margin-top: ${px2rem(48)};
     display: flex;
