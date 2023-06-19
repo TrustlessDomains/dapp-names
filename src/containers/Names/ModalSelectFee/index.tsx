@@ -1,24 +1,36 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { StyledModalSelectFee } from './ModalSelectFee.styled';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
+import { Transaction } from 'ethers';
+import { toast } from 'react-hot-toast';
+import * as TC_SDK from 'trustless-computer-sdk';
+import BigNumber from 'bignumber.js';
+
 import IconSVG from '@/components/IconSVG';
-import { CDN_URL, TC_WEB_URL } from '@/configs';
+import { CDN_URL, TC_WEB_URL, TRANSFER_TX_SIZE } from '@/configs';
 import Button from '@/components/Button';
 import Text from '@/components/Text';
 import { formatBTCPrice, stringToBuffer } from '@trustless-computer/dapp-core';
 import { AssetsContext } from '@/contexts/assets-context';
 import useContractOperation from '@/hooks/contract-operations/useContractOperation';
+import usePreserveChunks, {
+  IPreserveChunkParams,
+} from '@/hooks/contract-operations/bns/usePreserveChunks';
 import useRegister, {
   IRegisterNameParams,
 } from '@/hooks/contract-operations/bns/useRegister';
-import { Transaction } from 'ethers';
-import { toast } from 'react-hot-toast';
 import ToastConfirm from '@/components/ToastConfirm';
 import { showToastError } from '@/utils/toast';
 import { DappsTabs } from '@/enums/tabs';
 import { walletLinkSignTemplate } from '@/utils/configs';
-import * as TC_SDK from 'trustless-computer-sdk';
+import logger from '@/services/logger';
+import { getUserSelector } from '@/state/user/selector';
 import { ERROR_CODE } from '@/constants/error';
+import web3Provider from '@/connection/custom-web3-provider';
+import EstimatedFee from '@/components/EstimatedFee';
+import InsufficientFund from '@/components/InsufficientFund';
+
+import { StyledModal, Title } from './ModalSelectFee.styled';
 
 type Props = {
   show: boolean;
@@ -28,12 +40,6 @@ type Props = {
   setNameValidate?: (value: boolean) => void;
 };
 
-enum optionFees {
-  economy = 'Economy',
-  faster = 'Faster',
-  fastest = 'Fastest',
-}
-
 const ModalSelectFee = (props: Props) => {
   const {
     show = false,
@@ -42,18 +48,13 @@ const ModalSelectFee = (props: Props) => {
     setValueInput,
     setNameValidate,
   } = props;
-
+  const user = useSelector(getUserSelector);
   const { feeRate } = useContext(AssetsContext);
+  const { estimateGas } = usePreserveChunks();
 
   const [isProcessing, setIsProcessing] = useState(false);
-  const [selectFee, setSelectFee] = useState<number>(0);
-  const [activeFee, setActiveFee] = useState(optionFees.fastest);
-
-  const [estBTCFee, setEstBTCFee] = useState({
-    economy: '0',
-    faster: '0',
-    fastest: '0',
-  });
+  const [estBTCFee, setEstBTCFee] = useState<string | null>(null);
+  const [estTCFee, setEstTCFee] = useState<string | null>(null);
 
   const { run: registerName } = useContractOperation<
     IRegisterNameParams,
@@ -64,27 +65,55 @@ const ModalSelectFee = (props: Props) => {
 
   const { dAppType, transactionType } = useRegister();
 
-  const handleEstFee = () => {
-    const byteCode = stringToBuffer(valueInput);
-    const estimatedFastestFee = TC_SDK.estimateInscribeFee({
-      tcTxSizeByte: Buffer.byteLength(byteCode),
-      feeRatePerByte: feeRate.fastestFee,
-    });
-    const estimatedFasterFee = TC_SDK.estimateInscribeFee({
-      tcTxSizeByte: Buffer.byteLength(byteCode),
-      feeRatePerByte: feeRate.halfHourFee,
-    });
-    const estimatedEconomyFee = TC_SDK.estimateInscribeFee({
-      tcTxSizeByte: Buffer.byteLength(byteCode),
-      feeRatePerByte: feeRate.hourFee,
-    });
+  const calculateEstBtcFee = useCallback(async () => {
+    if (!valueInput) return;
 
-    setEstBTCFee({
-      fastest: estimatedFastestFee.totalFee.toString(),
-      faster: estimatedFasterFee.totalFee.toString(),
-      economy: estimatedEconomyFee.totalFee.toString(),
-    });
-  };
+    try {
+      setEstBTCFee(null);
+
+      const tcTxSizeByte = TRANSFER_TX_SIZE + valueInput?.length;
+      const estimatedEconomyFee = TC_SDK.estimateInscribeFee({
+        tcTxSizeByte: tcTxSizeByte,
+        feeRatePerByte: feeRate.hourFee,
+      });
+
+      setEstBTCFee(estimatedEconomyFee.totalFee.toString());
+    } catch (err: unknown) {
+      logger.error(err);
+    }
+  }, [valueInput, setEstBTCFee, feeRate.hourFee]);
+
+  const calculateEstTcFee = useCallback(async () => {
+    if (!valueInput || !estimateGas || !user) return;
+
+    setEstTCFee(null);
+    let payload: IPreserveChunkParams;
+
+    try {
+      const fileBuffer = Buffer.from(valueInput);
+      payload = {
+        address: user?.walletAddress as string,
+        chunks: [fileBuffer],
+      };
+      const gasLimit = await estimateGas(payload);
+      const gasPrice = await web3Provider.getGasPrice();
+      const gasLimitBN = new BigNumber(gasLimit);
+      const gasPriceBN = new BigNumber(gasPrice);
+      const tcGas = gasLimitBN.times(gasPriceBN);
+      logger.debug('TC Gas', tcGas.toString());
+      setEstTCFee(tcGas.toString());
+    } catch (err: unknown) {
+      logger.error(err);
+    }
+  }, [valueInput, setEstTCFee, estimateGas, user]);
+
+  useEffect(() => {
+    calculateEstBtcFee();
+  }, [calculateEstBtcFee]);
+
+  useEffect(() => {
+    calculateEstTcFee();
+  }, [calculateEstTcFee]);
 
   const handleRegistered = async () => {
     console.log(valueInput);
@@ -94,7 +123,7 @@ const ModalSelectFee = (props: Props) => {
     try {
       const tx = await registerName({
         name: valueInput,
-        selectFee,
+        selectFee: feeRate.hourFee,
       });
       toast.success(
         () => (
@@ -135,7 +164,7 @@ const ModalSelectFee = (props: Props) => {
 
         const estimatedFee = TC_SDK.estimateInscribeFee({
           tcTxSizeByte: Buffer.byteLength(byteCode),
-          feeRatePerByte: selectFee,
+          feeRatePerByte: feeRate.hourFee,
         });
 
         showToastError({
@@ -157,87 +186,37 @@ const ModalSelectFee = (props: Props) => {
     }
   };
 
-  const renderEstFee = ({
-    title,
-    estFee,
-    feeRate,
-  }: {
-    title: optionFees;
-    estFee: string;
-    feeRate: number;
-  }) => {
-    return (
-      <div
-        className={`est-fee-item ${activeFee === title ? 'active' : ''}`}
-        onClick={() => {
-          setSelectFee(feeRate);
-          setActiveFee(title);
-        }}
-      >
-        <div>
-          <Text fontWeight="medium" color="bg1" size="regular">
-            {title}
-          </Text>
-          <Text color="border2" className="mb-10">
-            {feeRate} sats/vByte
-          </Text>
-          <p className="ext-price">
-            {formatBTCPrice(estFee)} <span>BTC</span>
-          </p>
-        </div>
-      </div>
-    );
-  };
-
-  useEffect(() => {
-    handleEstFee();
-  }, [valueInput, feeRate]);
-
   return (
-    <StyledModalSelectFee show={show} onHide={handleClose} centered>
+    <StyledModal show={show} onHide={handleClose} centered backdrop="static">
       <Modal.Header>
         <IconSVG
-          className="cursor-pointer"
+          className="icon-close"
           onClick={handleClose}
-          src={`${CDN_URL}/icons/ic-close-1.svg`}
+          src={`${CDN_URL}/icons/ic-close.svg`}
           maxWidth={'22px'}
         />
       </Modal.Header>
       <Modal.Body>
-        <p className="modal-title">Select the network fee</p>
-        <div className="est-fee">
-          <div className="est-fee-options">
-            {renderEstFee({
-              title: optionFees.economy,
-              estFee: estBTCFee.economy,
-              feeRate: feeRate.hourFee,
-            })}
-            {renderEstFee({
-              title: optionFees.faster,
-              estFee: estBTCFee.faster,
-              feeRate: feeRate.halfHourFee,
-            })}
-            {renderEstFee({
-              title: optionFees.fastest,
-              estFee: estBTCFee.fastest,
-              feeRate: feeRate.fastestFee,
-            })}
-          </div>
-        </div>
-        <div className="confirm">
-          <Button
-            disabled={isProcessing}
-            type="submit"
-            className="confirm-btn"
-            onClick={handleRegistered}
-          >
-            <Text size="medium" fontWeight="medium" className="confirm-text">
-              {isProcessing ? 'Processing...' : 'Register'}
-            </Text>
-          </Button>
-        </div>
+        <Title className="font-medium">{valueInput}</Title>
+        <EstimatedFee
+          classNames="estimated-fee"
+          estimateBTCGas={estBTCFee}
+          estimateTCGas={estTCFee}
+          isBigFile={false}
+          uploadView
+        />
+        <Button
+          onClick={handleRegistered}
+          className="upload-btn"
+          disabled={isProcessing}
+        >
+          <Text size="medium" fontWeight="medium" className="upload-text">
+            {isProcessing ? 'Processing...' : 'Register'}
+          </Text>
+        </Button>
+        <InsufficientFund estTCFee={estTCFee} estBTCFee={estBTCFee} />
       </Modal.Body>
-    </StyledModalSelectFee>
+    </StyledModal>
   );
 };
 

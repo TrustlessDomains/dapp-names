@@ -1,5 +1,5 @@
-import { px2rem } from '@trustless-computer/dapp-core';
 import styled from 'styled-components';
+import px2rem from '@/utils/px2rem';
 import { Modal } from 'react-bootstrap';
 
 export const StyledModal = styled(Modal)`
@@ -41,10 +41,45 @@ export const StyledModal = styled(Modal)`
     }
   }
 
-  .estimated-fee {
-    margin: ${px2rem(24)} 0;
-    padding: ${px2rem(12)};
-    background: #2e2e2e;
+  .loading {
+    margin: ${px2rem(48)} 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .table {
+    margin-bottom: ${px2rem(24)};
+
+    .tableData {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .tableHead_item {
+      padding: ${px2rem(12)} ${px2rem(16)};
+      background: #000000;
+    }
+
+    .tableData_item {
+      padding: ${px2rem(10)} ${px2rem(16)};
+    }
+
+    .avatar,
+    .default {
+      text-align: center;
+    }
+
+    .action {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      input {
+        cursor: pointer;
+      }
+      .form-check-input:checked {
+        background-color: #8759f2;
+        border-color: #8759f2;
+      }
+    }
   }
 
   .upload-btn {
@@ -64,6 +99,7 @@ export const StyledModal = styled(Modal)`
 `;
 
 export const Title = styled.h6`
+  margin-bottom: ${px2rem(24)};
   font-weight: 600;
   font-size: ${px2rem(24)};
   line-height: 150%;
