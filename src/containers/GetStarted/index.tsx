@@ -58,16 +58,93 @@ const STEP_1_CONTENT = [
   },
 ];
 
+const STEP_2_CONTENT = [
+  {
+    title: 'STEP 1: Choose the BNS you want to register',
+    content: '',
+    image: `${CDN_URL}/pages/nfts/img-getstarted-1a.png`,
+  },
+  {
+    title: 'STEP 2: Pay the TC network fee',
+    content: '',
+    image: `${CDN_URL}/pages/nfts/img-getstarted-1a.png`,
+  },
+  {
+    title: 'STEP 3: Pay the  BTC network fee',
+    content: '',
+    image: `${CDN_URL}/pages/nfts/img-getstarted-1a.png`,
+  },
+  {
+    title:
+      'STEP 4: When the registration process is completed, your BNS will appear on your wallet, under the “Names” tab',
+    content: '',
+    image: `${CDN_URL}/pages/nfts/img-getstarted-1a.png`,
+  },
+];
+
+const STEP_3_CONTENT = [
+  {
+    title: '• Select the default BNS for your TC address',
+    content: '',
+    image: `${CDN_URL}/pages/nfts/img-getstarted-1a.png`,
+  },
+  {
+    title: '• Update the avatar for your BNS',
+    content: 'Note that the BTC and TC network fees depend on the image size',
+    image: `${CDN_URL}/pages/nfts/img-getstarted-1a.png`,
+  },
+  {
+    title: '• Link a BNS to another TC address',
+    content: '',
+    image: `${CDN_URL}/pages/nfts/img-getstarted-1a.png`,
+  },
+];
+
 const GetStarted = () => {
   return (
     <StyledGetStarted>
       <div className="wrapper">
         <h1 className="title">Get started</h1>
         <StepBlock>
-          <h3>Create TC Wallet, top-up TC, and BTC for the network fee</h3>
+          <h3>1. Create TC Wallet, top-up TC, and BTC for the network fee</h3>
           <div className="content-wrapper">
             {STEP_1_CONTENT.map((item, index) => (
               <div className="content-wrapper-item" key={`step-1-${index}`}>
+                <SubStepBlock title={item.title}>{item.content}</SubStepBlock>
+                <div className="image-wrapper">
+                  <img src={item.image} alt="get started image instruction" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </StepBlock>
+        <StepBlock>
+          <h3>2. REGISTER BNS</h3>
+          <div className="content-wrapper">
+            {STEP_2_CONTENT.map((item, index) => (
+              <div className="content-wrapper-item" key={`step-2-${index}`}>
+                <SubStepBlock title={item.title}>{item.content}</SubStepBlock>
+                <div className="image-wrapper">
+                  <img src={item.image} alt="get started image instruction" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </StepBlock>
+        <StepBlock>
+          <h3>
+            3. MANAGE YOUR BNS{' '}
+            <a
+              href="https://trustless.domains/setting"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              https://trustless.domains/setting
+            </a>
+          </h3>
+          <div className="content-wrapper">
+            {STEP_3_CONTENT.map((item, index) => (
+              <div className="content-wrapper-item" key={`step-2-${index}`}>
                 <SubStepBlock title={item.title}>{item.content}</SubStepBlock>
                 <div className="image-wrapper">
                   <img src={item.image} alt="get started image instruction" />

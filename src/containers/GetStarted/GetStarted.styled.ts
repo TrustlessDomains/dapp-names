@@ -25,6 +25,7 @@ export const StyledGetStarted = styled.div`
 `;
 
 export const StepBlock = styled.div`
+  margin-bottom: ${px2rem(60)};
   padding: ${px2rem(24)};
   background: #1b1e26;
   border: 1px solid #c6c7f8;
@@ -32,6 +33,10 @@ export const StepBlock = styled.div`
   width: 100%;
   transition: all 0.3s ease-in-out;
   opacity: 1;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   .content-wrapper {
     display: flex;
