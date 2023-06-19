@@ -99,8 +99,8 @@ const SetDefaultModal = ({
             {item?.pfpData?.gcsUrl ? (
               <img
                 src={item?.pfpData?.gcsUrl}
-                width={34}
-                height={34}
+                width={28}
+                height={28}
                 alt={item?.pfpData?.filename}
               />
             ) : (

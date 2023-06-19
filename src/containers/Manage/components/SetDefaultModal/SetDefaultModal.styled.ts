@@ -72,6 +72,13 @@ export const StyledModal = styled(Modal)`
       display: flex;
       justify-content: center;
       align-items: center;
+      input {
+        cursor: pointer;
+      }
+      .form-check-input:checked {
+        background-color: #8759f2;
+        border-color: #8759f2;
+      }
     }
   }
 
