@@ -37,6 +37,7 @@ const NameList = () => {
     const page = Math.floor(collections.length / LIMIT_PAGE) + 1;
     fetchNames(page, true);
   };
+
   const debounceLoadMore = debounce(onLoadMoreNames, 300);
 
   useEffect(() => {
@@ -70,7 +71,7 @@ const NameList = () => {
             }}
           >
             <Masonry gutter="16px">
-              {collections &&
+              {(collections &&
                 collections.length > 0 &&
                 collections.map((item: any, index: number) => {
                   return (
@@ -94,7 +95,7 @@ const NameList = () => {
                       </div>
                     </div>
                   );
-                })}
+                })) || <></>}
             </Masonry>
           </ResponsiveMasonry>
         </InfiniteScroll>

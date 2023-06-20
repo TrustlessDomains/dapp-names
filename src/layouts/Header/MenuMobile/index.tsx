@@ -41,21 +41,21 @@ const MenuMobile = React.forwardRef(
             />
           </button>
           <StyledLink
-            active={false}
+            $active={false}
             href={'https://tcgasstation.com/'}
             target="_blank"
           >
             Get TC
           </StyledLink>
           <StyledLink
-            active={false}
+            $active={false}
             href={'https://newbitcoincity.com/'}
             target="_blank"
           >
             NBC
           </StyledLink>
           <StyledLink
-            active={false}
+            $active={false}
             href={'https://generative.xyz/discord/'}
             target="_blank"
           >
@@ -64,11 +64,11 @@ const MenuMobile = React.forwardRef(
           {MENU_HEADER.map((item) => {
             return (
               <StyledLink
-                active={activePath === item.activePath}
+                $active={activePath === item.activePath}
                 href={item.route}
                 key={item.id}
                 onClick={onCloseMenu}
-                activeColor="#F9D03F"
+                $activeColor="#F9D03F"
               >
                 {item.name}
               </StyledLink>

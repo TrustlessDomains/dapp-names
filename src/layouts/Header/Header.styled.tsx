@@ -172,7 +172,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const StyledLink = styled(Link)<{ active: boolean; activeColor?: string }>`
+const StyledLink = styled(Link)<{ $active: boolean; $activeColor?: string }>`
   cursor: pointer;
   font-weight: 400;
   font-size: ${px2rem(16)};
@@ -180,13 +180,13 @@ const StyledLink = styled(Link)<{ active: boolean; activeColor?: string }>`
   text-decoration: none !important;
   color: ${({
     theme,
-    active,
-    activeColor,
+    $active,
+    $activeColor,
   }: {
     theme: DefaultTheme;
-    active: boolean;
-    activeColor?: string;
-  }) => (active ? activeColor || theme.white : theme.text2)};
+    $active: boolean;
+    $activeColor?: string;
+  }) => ($active ? $activeColor || theme.white : theme.text2)};
   letter-spacing: -0.02em;
 
   :hover {
