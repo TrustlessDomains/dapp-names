@@ -139,11 +139,7 @@ const SetDefaultModal = ({
       <Modal.Body>
         <Title>Set default BNS</Title>
         {isFetching ? (
-          <Table
-            classWrapper="table-responsive"
-            tableHead={['#', 'BNS', 'AVATAR', 'DEFAULT']}
-            data={tableData}
-          />
+          <Table tableHead={['#', 'BNS', 'AVATAR', 'DEFAULT']} data={tableData} />
         ) : (
           <div className="loading">
             <Spinner variant="light" />

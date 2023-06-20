@@ -46,6 +46,13 @@ export const Container = styled.div`
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 20px;
 
+    .wrapper {
+      @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) =>
+          theme.breakpoint.xs}) {
+        overflow-x: scroll;
+      }
+    }
+
     .table {
       margin-bottom: 0;
 

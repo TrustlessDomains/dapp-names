@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 import px2rem from '@/utils/px2rem';
 import { Modal } from 'react-bootstrap';
 
@@ -45,6 +45,13 @@ export const StyledModal = styled(Modal)`
     margin: ${px2rem(48)} 0;
     display: flex;
     justify-content: center;
+  }
+
+  .wrapper {
+    @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) =>
+        theme.breakpoint.xs}) {
+      overflow-x: scroll;
+    }
   }
 
   .table {
