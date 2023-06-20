@@ -167,7 +167,6 @@ const Manage = () => {
             >
               <div className="list-domains">
                 <Table
-                  classWrapper="table-responsive"
                   tableHead={['#', 'BNS', 'AVATAR', 'ADDRESS']}
                   data={tableData}
                 />

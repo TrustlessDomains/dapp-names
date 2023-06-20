@@ -5,18 +5,26 @@ export interface UserState {
   selectedWallet?: ConnectionType;
   walletAddressBtcTaproot?: string;
   walletAddress?: string;
+  avatar?: string;
+  name?: string;
 }
 
 export const initialState: UserState = {
   selectedWallet: undefined,
   walletAddressBtcTaproot: undefined,
   walletAddress: undefined,
+  avatar: undefined,
+  name: undefined,
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    updateWalletInfo(state, { payload: { avatar, name } }) {
+      state.avatar = avatar;
+      state.name = name;
+    },
     updateSelectedWallet(state, { payload: { wallet } }) {
       state.selectedWallet = wallet;
     },
@@ -34,5 +42,11 @@ const userSlice = createSlice({
   },
 });
 
-export const { updateSelectedWallet, resetUser, updateTaprootWallet, updateEVMWallet } = userSlice.actions;
+export const {
+  updateSelectedWallet,
+  resetUser,
+  updateTaprootWallet,
+  updateEVMWallet,
+  updateWalletInfo,
+} = userSlice.actions;
 export default userSlice.reducer;

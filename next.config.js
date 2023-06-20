@@ -11,8 +11,16 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.trustless.computer',
       },
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.trustless.domains',
+      },
     ],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

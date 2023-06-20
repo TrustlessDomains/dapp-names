@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 import px2rem from '@/utils/px2rem';
 
 export const Container = styled.div`
@@ -25,6 +25,15 @@ export const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @media screen and (max-width: ${({ theme }: { theme: DefaultTheme }) =>
+        theme.breakpoint.xs}) {
+      display: block;
+
+      .bns-info {
+        margin-bottom: ${px2rem(8)};
+      }
+    }
 
     .bns-info {
       display: flex;

@@ -1,5 +1,4 @@
-// import IcAvatarDefault from '@/assets/icons/ic-avatar.svg';
-// import IcMenuClose from '@/assets/icons/ic_close_menu.svg';
+import Image from 'next/image';
 import { MENU_HEADER } from '@/constants/header';
 import { AssetsContext } from '@/contexts/assets-context';
 import { formatBTCPrice } from '@trustless-computer/dapp-core';
@@ -8,7 +7,7 @@ import React, { ForwardedRef, useContext } from 'react';
 import { ConnectWalletButton, StyledLink, WalletBalance } from '../Header.styled';
 import { Wrapper } from './MenuMobile.styled';
 import { useSelector } from 'react-redux';
-import { getIsAuthenticatedSelector } from '@/state/user/selector';
+import { getIsAuthenticatedSelector, getUserSelector } from '@/state/user/selector';
 import { ROUTE_PATH } from '@/constants/route-path';
 import { CDN_URL } from '@/configs';
 import { useRouter } from 'next/router';
@@ -22,6 +21,8 @@ const MenuMobile = React.forwardRef(
     const { btcBalance, juiceBalance } = useContext(AssetsContext);
     const isAuthenticated = useSelector(getIsAuthenticatedSelector);
     const router = useRouter();
+    const user = useSelector(getUserSelector);
+
     const activePath = router.pathname.split('/')[1];
 
     const handleConnectWallet = async () => {
@@ -32,7 +33,12 @@ const MenuMobile = React.forwardRef(
       <Wrapper ref={ref}>
         <div className="inner">
           <button className="btnMenuMobile" onClick={onCloseMenu}>
-            <img src={`${CDN_URL}/icons/ic_close_menu.svg`} />
+            <Image
+              width="24"
+              height="24"
+              src={`${CDN_URL}/icons/ic_close_menu.svg`}
+              alt="close"
+            />
           </button>
           <StyledLink
             active={false}
@@ -77,7 +83,16 @@ const MenuMobile = React.forwardRef(
                   <p>{formatEthPrice(juiceBalance)} TC</p>
                 </div>
                 <div className="avatar">
-                  <img src={`${CDN_URL}/icons/ic-avatar.svg`} alt="default avatar" />
+                  {user?.avatar ? (
+                    <Image width="32" height="32" src={user?.avatar} alt="avatar" />
+                  ) : (
+                    <Image
+                      width="32"
+                      height="32"
+                      src={`${CDN_URL}/icons/ic-avatar.svg`}
+                      alt="default avatar"
+                    />
+                  )}
                 </div>
               </WalletBalance>
             </div>

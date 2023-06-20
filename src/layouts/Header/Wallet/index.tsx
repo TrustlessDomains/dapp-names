@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import IconSVG from '@/components/IconSVG';
 import { CDN_URL, TC_WEB_URL, TC_DOMAIN_URL } from '@/configs';
 // import { ROUTE_PATH } from '@/constants/route-path';
@@ -162,7 +163,11 @@ const WalletHeader = () => {
                   <p>{formatEthPrice(juiceBalance)} TC</p>
                 </div>
                 <div className="avatar">
-                  <Jazzicon diameter={32} seed={jsNumberForAddress(account)} />
+                  {user?.avatar ? (
+                    <Image width="32" height="32" src={user?.avatar} alt="avatar" />
+                  ) : (
+                    <Jazzicon diameter={32} seed={jsNumberForAddress(account)} />
+                  )}
                 </div>
               </WalletBalance>
             </div>
