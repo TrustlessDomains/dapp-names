@@ -22,6 +22,22 @@ export const StyledGetStarted = styled.div`
     color: #ffffff;
     text-align: center;
   }
+
+  .normal-link {
+    text-transform: none;
+  }
+
+  h3 {
+    word-wrap: break-word;
+  &:hover {
+    .anchor {
+      visibility: visible;
+    }
+  }
+
+  .anchor {
+    visibility: hidden;
+  }
 `;
 
 export const StepBlock = styled.div`
