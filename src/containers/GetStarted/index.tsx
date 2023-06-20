@@ -60,24 +60,24 @@ const STEP_1_CONTENT = [
 
 const STEP_2_CONTENT = [
   {
-    title: 'STEP 1: Choose the BNS you want to register',
-    content: '',
-    image: `${CDN_URL}/pages/bns/get-started/register/Screen%20Shot%202023-06-19%20at%204.58.37%20PM.png`,
+    title: 'STEP 1:',
+    content: 'Choose the BNS you want to register',
+    image: `${CDN_URL}/pages/bns/get-started/register/Screen%20Shot%202023-06-19%20at%205.20.07%20PM.png`,
   },
   {
-    title: 'STEP 2: Pay the TC network fee',
-    content: '',
+    title: 'STEP 2:',
+    content: 'Pay the TC network fee',
     image: `${CDN_URL}/pages/bns/get-started/register/Screen%20Shot%202023-06-19%20at%204.27.03%20PM.png`,
   },
   {
-    title: 'STEP 3: Pay the  BTC network fee',
-    content: '',
+    title: 'STEP 3:',
+    content: 'Pay the  BTC network fee',
     image: `${CDN_URL}/pages/bns/get-started/register/Screen%20Shot%202023-06-19%20at%204.27.41%20PM.png`,
   },
   {
-    title:
-      'STEP 4: When the registration process is completed, your BNS will appear on your wallet, under the “Names” tab',
-    content: '',
+    title: 'STEP 4:',
+    content:
+      'When the registration process is completed, your BNS will appear on your wallet, under the “Names” tab',
     image: `${CDN_URL}/pages/bns/get-started/register/Screen%20Shot%202023-06-19%20at%205.21.10%20PM.png`,
   },
 ];
