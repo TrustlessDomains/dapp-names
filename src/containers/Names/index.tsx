@@ -34,22 +34,35 @@ const Names: React.FC = () => {
           <div className="content" ref={registerInputRef}>
             <RegisterForm />
             <ToolTips
+              classWrapper="tooltip"
               name="Remember to have both TC and BTC as network fees to register a BNS"
               note={
-                <p>
-                  {
-                    <a
-                      className="textLink"
-                      href="https://trustlesswallet.io/"
-                      target="_blank"
-                    >
-                      Go to Wallet
-                    </a>
-                  }
-                  , tap the copy icon to copy and paste your BTC address to the
-                  address field on the platform you intend to withdraw BTC from. Make
-                  a transfer from there and BTC will be credited to your wallet.
-                </p>
+                <>
+                  <p>
+                    - Get TC at&nbsp;
+                    {
+                      <a
+                        className="textLink"
+                        href="https://tcgasstation.com"
+                        target="_blank"
+                      >
+                        https://tcgasstation.com
+                      </a>
+                    }
+                  </p>
+                  <p>
+                    - To top up BTC,&nbsp;
+                    {
+                      <a
+                        className="textLink"
+                        href="https://trustlesswallet.io/"
+                        target="_blank"
+                      >
+                        go to Wallet.
+                      </a>
+                    }
+                  </p>
+                </>
               }
             />
           </div>

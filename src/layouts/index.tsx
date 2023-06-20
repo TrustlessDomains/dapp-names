@@ -21,6 +21,7 @@ export const Container = styled.div`
 `;
 
 const ContentWrapper = styled.div`
+  padding-bottom: ${px2rem(98)};
   min-height: calc(100vh - 140px);
   display: flex;
   align-self: center;

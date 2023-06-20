@@ -25,6 +25,12 @@ export const MENU_HEADER = [
     route: ROUTE_PATH.SETTING,
     activePath: 'setting',
   },
+  {
+    id: 'menu-2',
+    name: 'Get Started',
+    route: ROUTE_PATH.GET_STARTED,
+    activePath: 'get-started',
+  },
 ];
 
 export const MENU_MOBILE = [...MENU_HEADER];

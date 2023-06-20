@@ -34,6 +34,10 @@ const Container = styled.div`
     margin-top: 32px;
   }
 
+  .tooltip {
+    max-width: inherit;
+  }
+
   .item {
     /* padding: 6px 12px !important; */
   }
