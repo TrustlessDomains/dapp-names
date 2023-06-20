@@ -33,17 +33,25 @@ const Header = ({ height }: { height: number }) => {
   return (
     <Wrapper style={{ height }}>
       <div className="indicator" />
-      <Link className="logo" href={ROUTE_PATH.HOME}>
-        {!mobileScreen && (
-          <img
-            src={`${CDN_URL}/images/logo-names-2.svg`}
-            alt="Trustless Market logo"
-            width={183}
-            height={40}
-          />
-        )}
-        {mobileScreen && <img alt="logo" src={`${CDN_URL}/images/names-logo.svg`} />}
-      </Link>
+      <div className="leftContainer">
+        <Link className="logo" href={ROUTE_PATH.HOME}>
+          {!mobileScreen && (
+            <img
+              src={`${CDN_URL}/images/logo-names-2.svg`}
+              alt="Trustless Market logo"
+              width={183}
+              height={40}
+            />
+          )}
+          {mobileScreen && (
+            <img alt="logo" src={`${CDN_URL}/images/names-logo.svg`} />
+          )}
+        </Link>
+        <Link className="navLink" href={ROUTE_PATH.GET_STARTED}>
+          Get Started
+        </Link>
+      </div>
+
       <MenuMobile ref={refMenu} onCloseMenu={() => setIsOpenMenu(false)} />
       <div className="rightContainer">
         <div className="external-link">

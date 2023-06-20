@@ -1,14 +1,22 @@
 import React, { ReactNode, useState } from 'react';
 import { OverlayTrigger } from 'react-bootstrap';
+import cn from 'classnames';
+
 import { Container, WrapTooltip } from './ToolTips.styled';
 
 interface IProps {
   name?: string;
   note?: ReactNode;
   className?: string;
+  classWrapper?: string;
 }
 
-export const ToolTip = ({ name, note, className }: IProps): JSX.Element => {
+export const ToolTip = ({
+  name,
+  note,
+  className,
+  classWrapper,
+}: IProps): JSX.Element => {
   const [show, setShow] = useState<boolean>(false);
 
   return (
@@ -30,6 +38,7 @@ export const ToolTip = ({ name, note, className }: IProps): JSX.Element => {
             delay={{ show: 0, hide: 200 }}
             overlay={
               <WrapTooltip
+                className={cn(classWrapper)}
                 id="tooltip"
                 onMouseEnter={() => {
                   setShow(true);
