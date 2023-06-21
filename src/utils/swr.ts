@@ -3,18 +3,38 @@ import axios from 'axios';
 import { BareFetcher, unstable_serialize } from 'swr';
 import { camelCaseKeys } from '@trustless-computer/dapp-core';
 
+export type ApiResponse<T> = {
+  data: T;
+  status: boolean;
+  error:
+    | string
+    | null
+    | {
+        message: string;
+        status: number;
+        data: unknown;
+        error_code: number;
+      };
+};
+
 export const reorderKeys = (obj = {} as any) => {
   const newObj = {} as any;
   Object.keys(obj)
     .sort()
-    .forEach(key => {
+    .forEach((key) => {
       newObj[key] = obj[key];
     });
   return newObj;
 };
 
-export const getApiKey = (fetcher: BareFetcher, params?: string | string[] | Record<string, unknown>): string => {
-  return unstable_serialize([fetcher.name, typeof params === 'string' ? params : reorderKeys(params)]);
+export const getApiKey = (
+  fetcher: BareFetcher,
+  params?: string | string[] | Record<string, unknown>,
+): string => {
+  return unstable_serialize([
+    fetcher.name,
+    typeof params === 'string' ? params : reorderKeys(params),
+  ]);
 };
 
 export const swrFetcher = async (url: string, options: any) => {
@@ -26,7 +46,8 @@ export const swrFetcher = async (url: string, options: any) => {
   } catch (error: any) {
     if (error.response) {
       const response = error?.response?.data || error;
-      const errorMessage = response?.error || error?.Message || JSON.stringify(error);
+      const errorMessage =
+        response?.error || error?.Message || JSON.stringify(error);
       throw errorMessage;
     }
     throw new Error(error.config?.error || 'Something went wrong');
