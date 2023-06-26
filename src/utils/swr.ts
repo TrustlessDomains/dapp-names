@@ -3,20 +3,6 @@ import axios from 'axios';
 import { BareFetcher, unstable_serialize } from 'swr';
 import { camelCaseKeys } from '@trustless-computer/dapp-core';
 
-export type ApiResponse<T> = {
-  data: T;
-  status: boolean;
-  error:
-    | string
-    | null
-    | {
-        message: string;
-        status: number;
-        data: unknown;
-        error_code: number;
-      };
-};
-
 export const reorderKeys = (obj = {} as any) => {
   const newObj = {} as any;
   Object.keys(obj)
