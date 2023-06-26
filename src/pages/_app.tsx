@@ -1,7 +1,6 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Provider } from 'react-redux';
-import { SWRConfig } from 'swr';
 import { Toaster } from 'react-hot-toast';
 
 import { SEO_TITLE, SEO_DESCRIPTION, SEO_IMAGE } from '@/constants/seo';
@@ -10,7 +9,6 @@ import { WalletProvider } from '@/contexts/wallet-context';
 import { AssetsProvider } from '@/contexts/assets-context';
 import ThemeProvider, { ThemedGlobalStyle } from '@/theme/theme';
 import store from '@/state';
-import { swrFetcher } from '@/utils/swr';
 import ClientOnly from '@/components/Utils/ClientOnly';
 import { CDN_URL } from '@/configs';
 
@@ -18,7 +16,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/styles/index.scss';
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { seoInfo = {}, fallback = {} } = pageProps;
+  const { seoInfo = {} } = pageProps;
   const { title, description, image } = seoInfo;
 
   return (
@@ -52,30 +50,21 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="msapplication-TileColor" content="#FFFFFF" />
       </Head>
 
-      <SWRConfig
-        value={{
-          revalidateOnFocus: false,
-          revalidateIfStale: false,
-          fetcher: swrFetcher,
-          fallback: fallback,
-        }}
-      >
-        <ClientOnly>
-          <Provider store={store}>
-            <ThemeProvider>
-              <ThemedGlobalStyle />
-              <Web3Provider>
-                <WalletProvider>
-                  <AssetsProvider>
-                    <Component {...pageProps} />
-                  </AssetsProvider>
-                  <Toaster position="top-center" reverseOrder={false} />
-                </WalletProvider>
-              </Web3Provider>
-            </ThemeProvider>
-          </Provider>
-        </ClientOnly>
-      </SWRConfig>
+      <ClientOnly>
+        <Provider store={store}>
+          <ThemeProvider>
+            <ThemedGlobalStyle />
+            <Web3Provider>
+              <WalletProvider>
+                <AssetsProvider>
+                  <Component {...pageProps} />
+                </AssetsProvider>
+                <Toaster position="top-center" reverseOrder={false} />
+              </WalletProvider>
+            </Web3Provider>
+          </ThemeProvider>
+        </Provider>
+      </ClientOnly>
     </>
   );
 }
