@@ -7,10 +7,10 @@ import { PAGE_SIZE } from '@/constants/config';
 export type ApiInfiniteHook<T> = {
   dataInfinite?: Array<T>;
   data?: T;
-  isLoadingMore: boolean | undefined;
+  isLoadingMore: boolean;
   isEmpty: boolean;
-  isReachingEnd: boolean | undefined;
-  isRefreshing: boolean | undefined;
+  isReachingEnd: boolean;
+  isRefreshing: boolean;
   isValidating: boolean;
   mutate: KeyedMutator<T>;
   page: number;
@@ -48,9 +48,12 @@ export const useApiInfinite = (
   const dataInfinite = data ? [].concat(...data) : [];
   const isEmpty = data?.[0]?.length === 0;
   const isLoadingMore =
-    isLoading || (size > 0 && data && typeof data[size - 1] === 'undefined');
-  const isRefreshing = isValidating && data && data.length === size;
-  const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < limit);
+    isLoading ||
+    (size > 0 && data && typeof data[size - 1] === 'undefined') ||
+    false;
+  const isRefreshing = (isValidating && data && data.length === size) || false;
+  const isReachingEnd =
+    isEmpty || (data && data[data.length - 1]?.length < limit) || false;
 
   return {
     dataInfinite,
