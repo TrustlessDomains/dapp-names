@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from 'react';
 import { BareFetcher, SWRConfiguration } from 'swr';
 import useSWRInfinite from 'swr/infinite';
 
@@ -28,7 +27,6 @@ export const useApiInfinite = (
   params?: Record<string, unknown>,
   config?: SWRConfiguration & { shouldFetch?: boolean },
 ): ApiInfiniteHook<Data> => {
-  const [hasFirstFetching, setHasFirstFetching] = useState<boolean>(false);
   const limit = params?.limit || PAGE_SIZE;
   const shouldFetch =
     typeof config?.shouldFetch === 'undefined' ? true : config?.shouldFetch; // Conditional fetching default is true
@@ -46,7 +44,6 @@ export const useApiInfinite = (
       },
       async (reParams) => {
         const result = await fetcher(reParams);
-        !hasFirstFetching && setHasFirstFetching(true); // To know fist fetch have called
         return result;
       },
       {
@@ -63,6 +60,7 @@ export const useApiInfinite = (
   const isRefreshing = (isValidating && data && data.length === size) || false;
   const isReachingEnd =
     isEmpty || (data && data[data.length - 1]?.length < limit) || false;
+  const hasFirstFetching = !!data;
 
   return {
     dataInfinite,

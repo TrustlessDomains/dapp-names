@@ -133,7 +133,6 @@ const Manage = () => {
                 next={loadMore}
                 hasMore={isReachingEnd === false}
                 height="80vh"
-                style={{ overflow: 'hidden auto' }}
                 loader={
                   isLoadingMore && (
                     <div className="loading">

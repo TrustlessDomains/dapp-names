@@ -17,18 +17,20 @@ type Data = any;
 export const useApi = (
   fetcher: BareFetcher,
   params?: Record<string, unknown>,
-  config?: SWRConfiguration,
+  config?: SWRConfiguration & { shouldFetch?: boolean },
 ): ApiHook<Data> => {
+  const shouldFetch =
+    typeof config?.shouldFetch === 'undefined' ? true : config?.shouldFetch; // Conditional fetching default is true
   const { data, error, isValidating, isLoading } = useSWR<Data>(
-    () => [fetcher.name, typeof params === 'string' ? params : reorderKeys(params)],
+    () =>
+      shouldFetch
+        ? [fetcher.name, typeof params === 'string' ? params : reorderKeys(params)]
+        : null,
     async () => {
       const result = await fetcher(params);
       return result;
     },
-    {
-      revalidateFirstPage: false, //  To validate first page before the call of every next page
-      ...config,
-    },
+    config,
   );
   const isEmpty = data?.[0]?.length === 0;
 
