@@ -31,12 +31,21 @@ export const getBnsDefault = (walletAddress: string): Promise<IOwnedBNS> =>
     method: 'GET',
   });
 
-export const getListResolversByWalletAddress = (
-  walletAddress: string,
-): Promise<IOwnedBNS[]> =>
-  swrFetcher(`${API_URL}${API_PATH}/names?resolver=${walletAddress}`, {
-    method: 'GET',
-  });
+export const getListResolversByWalletAddress = ({
+  limit,
+  page,
+  walletAddress,
+}: {
+  limit: number;
+  page: number;
+  walletAddress: string;
+}): Promise<IOwnedBNS[]> =>
+  swrFetcher(
+    `${API_URL}${API_PATH}/names?resolver=${walletAddress}&limit=${limit}&page=${page}`,
+    {
+      method: 'GET',
+    },
+  );
 
 export const updateBnsDefault = async (
   walletAddress: string,

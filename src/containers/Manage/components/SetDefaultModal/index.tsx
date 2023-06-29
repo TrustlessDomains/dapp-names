@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Spinner } from 'react-bootstrap';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { showToastError, showToastSuccess } from '@/utils/toast';
 import { getUserSelector } from '@/state/user/selector';
@@ -15,6 +16,7 @@ import Table from '@/components/Table';
 import Text from '@/components/Text';
 import { CDN_URL } from '@/configs';
 import { IOwnedBNS } from '@/interfaces/bns';
+import useApiInfinite from '@/hooks/useApiInfinite';
 
 import { StyledModal, Title } from './SetDefaultModal.styled';
 
@@ -33,32 +35,31 @@ const SetDefaultModal = ({
 }: IModal) => {
   const user = useSelector(getUserSelector);
 
-  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
-  const [listResolvers, setListResolvers] = useState<IOwnedBNS[]>([]);
   const [currentResolver, setCurrentResolver] = useState<IOwnedBNS | null>(
     bnsDefault,
   );
 
-  const fetchListResolvers = async () => {
-    if (user?.walletAddress && showModal) {
-      const result = await getListResolversByWalletAddress(user?.walletAddress);
-      if (result) {
-        setListResolvers(result);
-      }
-      setIsFetching(true);
-    }
-  };
+  const {
+    dataInfinite,
+    loadMore,
+    isLoadingMore,
+    isReachingEnd,
+    isEmpty,
+    hasFirstFetching,
+  } = useApiInfinite(
+    getListResolversByWalletAddress,
+    {
+      walletAddress: user?.walletAddress,
+    },
+    { shouldFetch: !!user?.walletAddress },
+  );
 
   useEffect(() => {
     if (bnsDefault && showModal) {
       setCurrentResolver(bnsDefault);
     }
   }, [bnsDefault, showModal]);
-
-  useEffect(() => {
-    fetchListResolvers();
-  }, [user?.walletAddress, showModal]);
 
   const handleClose = () => {
     setShowModal(false);
@@ -89,7 +90,7 @@ const SetDefaultModal = ({
   };
 
   const tableData = useMemo(() => {
-    return listResolvers?.map((item) => ({
+    return dataInfinite?.map((item) => ({
       id: item?.id,
       render: {
         id: <span>#{item?.tokenId}</span>,
@@ -123,7 +124,7 @@ const SetDefaultModal = ({
         ),
       },
     }));
-  }, [listResolvers, currentResolver]);
+  }, [dataInfinite, currentResolver]);
 
   return (
     <StyledModal show={showModal} onHide={handleClose} centered backdrop="static">
@@ -138,13 +139,41 @@ const SetDefaultModal = ({
       </Modal.Header>
       <Modal.Body>
         <Title>Set default BNS</Title>
-        {isFetching ? (
-          <Table tableHead={['#', 'BNS', 'AVATAR', 'DEFAULT']} data={tableData} />
-        ) : (
-          <div className="loading">
-            <Spinner variant="light" />
-          </div>
-        )}
+
+        <>
+          {hasFirstFetching === false ? (
+            <div className="loading">
+              <Spinner animation="border" variant="primary" />
+            </div>
+          ) : (
+            <>
+              {dataInfinite && dataInfinite?.length > 0 && isEmpty === false ? (
+                <InfiniteScroll
+                  className="disable-scrollbar"
+                  dataLength={dataInfinite.length}
+                  next={loadMore}
+                  hasMore={isReachingEnd === false}
+                  height="50vh"
+                  loader={
+                    isLoadingMore && (
+                      <div className="loading">
+                        <Spinner variant="light" />
+                      </div>
+                    )
+                  }
+                >
+                  <Table
+                    tableHead={['#', 'BNS', 'AVATAR', 'DEFAULT']}
+                    data={tableData}
+                  />
+                </InfiniteScroll>
+              ) : (
+                <div className="text-center">No data.</div>
+              )}
+            </>
+          )}
+        </>
+
         <Button
           onClick={updateDefaultBns}
           className="upload-btn"

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BareFetcher, KeyedMutator, SWRConfiguration } from 'swr';
+import { BareFetcher, SWRConfiguration } from 'swr';
 import useSWRInfinite from 'swr/infinite';
 
 import { PAGE_SIZE } from '@/constants/config';
@@ -12,8 +12,9 @@ export type ApiInfiniteHook<T> = {
   isReachingEnd: boolean;
   isRefreshing: boolean;
   isValidating: boolean;
-  mutate: KeyedMutator<T>;
+  hasFirstFetching: boolean;
   page: number;
+  error: string;
   loadMore: () => void;
   refresh: () => void;
   clear: () => void;
@@ -24,17 +25,22 @@ type Data = any;
 export const useApiInfinite = (
   fetcher: BareFetcher,
   params?: Record<string, unknown>,
-  config?: SWRConfiguration,
+  config?: SWRConfiguration & { shouldFetch?: boolean },
 ): ApiInfiniteHook<Data> => {
   const limit = params?.limit || PAGE_SIZE;
-  const { data, mutate, size, setSize, isValidating, isLoading } =
+  const shouldFetch =
+    typeof config?.shouldFetch === 'undefined' ? true : config?.shouldFetch; // Conditional fetching default is true
+
+  const { data, mutate, size, setSize, isValidating, isLoading, error } =
     useSWRInfinite<Data>(
       (currentPage) => {
-        return {
-          ...params,
-          limit,
-          page: currentPage + 1, // Incremented index
-        };
+        return shouldFetch
+          ? {
+              ...params,
+              limit,
+              page: currentPage + 1, // Incremented index
+            }
+          : null;
       },
       async (reParams) => {
         const result = await fetcher(reParams);
@@ -54,11 +60,11 @@ export const useApiInfinite = (
   const isRefreshing = (isValidating && data && data.length === size) || false;
   const isReachingEnd =
     isEmpty || (data && data[data.length - 1]?.length < limit) || false;
+  const hasFirstFetching = !!data;
 
   return {
     dataInfinite,
     data,
-    mutate,
     page: size,
     loadMore: () => {
       if (!isLoadingMore) {
@@ -70,6 +76,8 @@ export const useApiInfinite = (
     isEmpty,
     isRefreshing,
     isReachingEnd,
+    hasFirstFetching,
+    error,
     refresh: () => mutate(),
     clear: () => setSize(0),
   };
